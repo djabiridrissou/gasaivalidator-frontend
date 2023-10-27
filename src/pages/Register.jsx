@@ -45,7 +45,7 @@ const Register = () => {
   const membersList = useSelector((state) => state.register.membersList);
   const password = useSelector((state) => state.register.password);
   const confirmPassword = useSelector((state) => state.register.confirmPassword);
-  const users = useSelector((state) => state.users.users);
+  let users = useSelector((state) => state.users.users);
   let departmentChoose = useSelector((state) => state.register.departmentChoose);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [error, setError] = useState(false);
@@ -54,6 +54,21 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [displayedText, setDisplayedText] = useState("");
   const visible = { display: passwordVisible ? "block" : "none", };
+  users = [{ id: 1, lastname: "John" }, { id: 2, lastname: "Doe" }];
+  const [selectedUsers, setSelectedUsers] = useState([]);
+
+  const handleUserSelect = (id) => {
+    const selectedUserId = id;
+    if (!selectedUsers.includes(selectedUserId)) {
+      setSelectedUsers([...selectedUsers, selectedUserId]);
+    }
+  };
+
+  // Function to handle user removal
+  const handleRemoveUser = (userId) => {
+    const updatedUsers = selectedUsers.filter((id) => id !== userId);
+    setSelectedUsers(updatedUsers);
+  };
 
   useEffect(() => {
     const response = dispatch(getUsers()).unwrap().then((res) => {
@@ -85,7 +100,7 @@ const Register = () => {
 
   }, [department, departmentChoose, dispatch]);
 
-
+  console.log("dep", departmentChoose.id)
   const register = async (e) => {
     e.preventDefault();
 
@@ -102,17 +117,15 @@ const Register = () => {
         staffid: staffID,
         lastname: lastName,
         othernames: otherNames,
-        department,
         branch,
         isleader: isTeamLeader,
         ismember: true,
         organisations: organization,
-        members,
         password,
       };
 
       setError(false);
-      dispatch(addUser({ data: addUserDto })).unwrap().then((res) => {
+      dispatch(addUser({ data: addUserDto, departmentId: departmentChoose.id, membersId: selectedUsers  })).unwrap().then((res) => {
         console.log(res);
         if (res.status == 200) {
           setError(false);
@@ -140,7 +153,8 @@ const Register = () => {
     );
   }
 
-
+  console.log("users", users);
+  console.log("selectedUsers", selectedUsers);
   return (
     <>
       <div className="min-h-screen flex items-center justify-between lg:px-40 cover">
@@ -202,7 +216,7 @@ const Register = () => {
                   htmlFor="lastName"
                   className="block text-sm font-medium "
                 >
-                  Last Name
+                  Full Name
                 </label>
                 <div className="mt-1">
                   <input
@@ -338,10 +352,10 @@ const Register = () => {
                           className={`block w-full text-[0.9rem] px-[0.9rem] py-[0.45rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]`}
                         >
                           <option key="default" value="" className="">
-                                    -----------
-                                  </option>
+                            -----------
+                          </option>
                           {organizationList?.map((organization) => (
-                                    
+
                             <option
                               key={organization.id}
                               value={organization}
@@ -359,22 +373,36 @@ const Register = () => {
                       </label>
                       <div className="flex items-center gap-1">
                         {/* Liste des Members à choisir */}
-                        {/* <select
+                        <select
                           name=""
                           id=""
                           required
                           className={`block w-full text-[0.9rem] px-[0.9rem] py-[0.45rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]`}
-                          onChange={}
+                          /*  onChange={} */
                           multiple
                         >
-                          {?.map(() => (
-                            <option key={user.id} value={user.lastname}>
+                          {users?.map((user) => (
+                            <option key={user.id} value={user.id} onClick={(e) => handleUserSelect(user.id)}>
                               {user.lastname}
                             </option>
                           ))}
-                        </select> */}
+                        </select>
                       </div>
-
+                      <div className="selected-users-container">
+                        {selectedUsers.map((userId) => (
+                          <div key={userId} className="selected-user">
+                            <span className="user-name">
+                              {users.find((user) => user.id === userId).lastname}
+                            </span>
+                            <span
+                              className="remove-user"
+                              onClick={() => handleRemoveUser(userId)}
+                            >
+                              X
+                            </span>
+                          </div>
+                        ))}
+                      </div>
                       <div className="flex flex-wrap overflow-scroll">
                         {/* Les membres sélectionnés apparaissent ici  */}
                         {/*Une petite croix pour les suprrimer, onClick a ajuster <span className="text-black" onClick={() => }>X</span>  */}
