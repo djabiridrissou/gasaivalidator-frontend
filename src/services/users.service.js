@@ -21,18 +21,19 @@ export class UserService extends HttpBaseService {
         return this.classInstance;
     }
 
-    addUser(addUserDto) {
+    async addUser(addUserDto) {
         let apiResponse = new ApiResponse();
-        return this.instance.post('', addUserDto).then(res => {
+        try {
+            const res = await this.instance.post('/', addUserDto);
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
-        }).catch(err => {
+        } catch (err) {
             apiResponse = retriveAxiosErrorResponse(err);
             return apiResponse;
-        });
+        }
     }
 
-    getUsers() {
+    async getUsers() {
         let apiResponse = new ApiResponse();
         return this.instance.get('').then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);

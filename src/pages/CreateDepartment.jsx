@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setDepartmentName } from "../redux/features/branch_departmentSlice";
 import axios from "axios";
 import { server } from "../server/server";
+import { toast } from 'react-toastify';
 
 const CreateDepartment = () => {
   const dispatch = useDispatch();
@@ -41,9 +42,12 @@ const CreateDepartment = () => {
         dispatch(setDepartmentName(""));
       }
       console.log(response.data);
+      toast.success("Department created successfully");
       console.log("successfull");
+
     } catch (error) {
       console.log("not successfull");
+      toast.success("Something went wrong");
       console.log(error);
     }
   };

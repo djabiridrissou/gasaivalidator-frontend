@@ -171,6 +171,19 @@ const OrgTransactions = () => {
                     /> */}
                   </span>
                 </th>
+                <th className="border border-gray-200  ">
+                  <span className="inline-flex items-center">
+                    TOTAL OUTSTANDING{" "}
+                    {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === "description"
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("description", "desc")}
+                    /> */}
+                  </span>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -183,6 +196,12 @@ const OrgTransactions = () => {
                     </td>
                     <td className="border-y text-center ">
                       {(item.transactions)}
+                    </td>
+                    <td className="border-y text-center ">
+                      {(item.total_outstanding).toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
                     </td>
                   </tr>
                 ))
