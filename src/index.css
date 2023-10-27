@@ -1,0 +1,278 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Poppins&family=Young+Serif&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Inter, system-ui, -apple-system, Avenir, Helvetica, Arial,
+    sans-serif;
+  scroll-behavior: smooth;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.5;
+  background-color: white;
+  color: #222;
+  font-size-adjust: none;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+.select-container {
+  margin-bottom: 20px; /* Add space between the select and buttons */
+}
+
+.logo_heading {
+  font-family: "Playfair Display", serif;
+  font-weight: bold;
+}
+
+.poster p {
+  font-family: "Poppins", sans-serif;
+}
+.button-container {
+  display: flex;
+  justify-content: space-between; /* Position buttons next to each other */
+}
+
+@keyframes shake {
+  0% {
+    transform: rotate(-14deg) translateX(0);
+  }
+  25% {
+    transform: rotate(-10deg) translateX(-2px);
+  }
+  50% {
+    transform: rotate(-14deg) translateX(0);
+  }
+  75% {
+    transform: rotate(-10deg) translateX(2px);
+  }
+  100% {
+    transform: rotate(-14deg) translateX(0);
+  }
+}
+
+.animate-shake {
+  animation-name: shake; /* Nom de l'animation correspondant à @keyframes shake */
+  animation-duration: 0.9s; /* Durée de l'animation en secondes */
+  animation-timing-function: ease-in-out; /* Fonction de synchronisation d'animation */
+  animation-iteration-count: infinite; /* Répéter l'animation indéfiniment */
+}
+
+
+.card {
+  background-color: #fff; /* Couleur de fond de la carte */
+  border-radius: 7px; /* Coins arrondis de la carte */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Ombre de la carte */
+  padding: 40px; /* Espacement interne de la carte */
+   /* Espacement entre les cartes (ajustez selon vos besoins) */
+  margin-right: 8px;
+}
+
+.card1 {
+  background-color: #fff; /* Couleur de fond de la carte */
+  border-radius: 7px; /* Coins arrondis de la carte */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Ombre de la carte */
+}
+
+.highlight {
+  background-color: yellow;
+}
+
+.cover {
+/*   position: relative; 
+   background-image: url("./images/bg-image.jpg");
+  background-size: cover;
+  background-position: center; */
+}
+
+/* .cover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #00000080; /* Black with 50% opacity 
+  z-index: -1; 
+} */
+
+td,
+th {
+  padding-inline: 0.87rem;
+}
+
+.sidetitle {
+  font-size: 50px;
+}
+
+.cardT {
+  font-size: 25px;
+}
+
+.truncate-25 {
+  max-width: 25ch; /* Limite à 25 caractères */
+  white-space: nowrap; /* Empêche le texte de passer à la ligne */
+  overflow: hidden; /* Masque tout texte qui dépasse */
+  text-overflow: ellipsis; /* Ajoute les ... en cas de dépassement */
+  cursor: pointer; /* Curseur en pointeur pour indiquer l'interaction */
+}
+
+/* Ajoutez une classe pour le pop-up */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip:hover::before {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.5em;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 4px;
+  white-space: normal;
+  max-width: 300px; /* Ajustez la largeur du pop-up selon vos besoins */
+}
+
+.pagination-item {
+  display: inline-block;
+  padding: 0.25em 0.75em;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.pagination-item.active {
+  border-color: #a0aec0; /* Couleur de la bordure pour l'élément actif */
+  background-color: #a0aec0; /* Couleur de l'arrière-plan pour l'élément actif */
+  color: white; /* Couleur du texte pour l'élément actif */
+}
+
+.active-button {
+  background-color: #000000; /* Couleur du bouton actif */
+  color: #fff;
+  border-left: 3px solid #fff; /* Décalage vers la droite */
+  box-shadow: 0 1px 3px rgb(240, 233, 233); /* Effet d'ombre */
+  z-index: 1; /* Placez-le au-dessus des autres boutons */
+}
+
+.active-button:hover {
+  background-color: #0d0d0e; /* Couleur légèrement plus foncée au survol */
+  transform: translateX(8px); /* Légère augmentation du décalage au survol */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Effet d'ombre plus prononcé au survol */
+}
+
+/* .griddash > div:last-child {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1); /* Bordure inférieure grise pour le dernier élément
+  } */
+.griddash2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30rem; /* Espacement entre les éléments */
+  /*background-color: rgba(244, 250, 244, 0.822);  Fond vert */
+  padding: 1rem; /* Marge intérieure globale */
+  border-left: 1px;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.griddash2 > div {
+  /* Bordure gauche verte */
+  border-top: 0px solid rgba(0, 0, 0, 0.1); /* Bordure supérieure grise */
+  background-color: white; /* Fond blanc */
+  padding: 1rem; /* Marge intérieure par élément */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Espacement vertical entre les éléments internes */
+  width: 250px;
+  margin-right: 5px;
+}
+
+.chart-container {
+  display: flex; /* Utiliser un conteneur flexible */
+  gap: 1.5rem;
+  overflow: hidden;
+  margin-top: 50px;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.chart-container > div {
+  flex: 1; /* Les div enfants s'étendent pour occuper tout l'espace disponible */
+}
+.griddash {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20rem; /* Espacement entre les éléments */
+  padding-inline: 1rem; /* Marge intérieure globale */
+  border-left: 4px solid green;
+  width: 100%;
+  padding: 30px;
+  background-color: white;
+  margin-bottom: -30px; /* Espacement négatif pour créer l'effet visuel */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ajouter une ombre */
+}
+
+.griddash > div {
+  /* Bordure gauche verte */
+  border-top: 0px solid rgba(0, 0, 0, 0.1); /* Bordure supérieure grise */
+  background-color: white; /* Fond blanc */
+  padding-right: 1rem;
+  width: 250px; /* Marge intérieure par élément */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Espacement vertical entre les éléments internes */
+  margin-right: 5px;
+  height: 80px;
+}
+
+/* .griddash > div:last-child {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1); /* Bordure inférieure grise pour le dernier élément
+  } */
+
+.bg-login {
+  background-image: url("images/bg-image.jpg"); /* Remplacez par le chemin de votre image */
+  background-size: cover; /* Pour couvrir tout l'espace disponible */
+  background-position: center; /* Pour centrer l'image */
+  background-repeat: no-repeat; /* Pour éviter la répétition */
+}
+
+.table-auto tbody tr:hover {
+  background-color: #e2e8f0; /* Couleur de fond au survol */
+  transform: translateX(-6px); /* Légère mise en avant horizontale */
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out; /* Transition douce */
+}
+
+.cube-container {
+  perspective: 10000px;
+}
+
+.addbtn {
+  font-size: 16px;
+  box-shadow: 2px 4px 6px rgba(39, 37, 37, 0.658);
+  position: relative;
+  transition: transform 0.2s ease-in-out;
+}
+
+.addbtn:hover {
+  transform: translateY(-3px) translateX(-3px);
+}
+
+.active-button {
+  background-color: #3498db; /* Couleur d'arrière-plan pour le bouton actif */
+  color: #ffffff; /* Couleur du texte pour le bouton actif */
+}
+
+.divcalc {
+  box-shadow: 2px 4px 6px rgba(39, 37, 37, 0.658);
+}
