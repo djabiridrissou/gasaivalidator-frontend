@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setAvailableInStore,
-  setNotAvailableInStore,
+
   setFileLabelNumber,
   setQuantityInStore,
   setItemDistributedInStore,
@@ -29,13 +29,6 @@ const Form8 = () => {
   );
   const fileLabelNumber = useSelector((state) => state.form8.fileLabelNumber);
   const quantityInStore = useSelector((state) => state.form8.quantityInStore);
-
-  const itemDistributedInStore = useSelector(
-    (state) => state.form8.itemDistributedInStore
-  );
-  const itemDistributedNotInStore = useSelector(
-    (state) => state.form8.itemDistributedNotInStore
-  );
 
   const fileLabelNumber1 = useSelector((state) => state.form8.fileLabelNumber1);
   const quantityInStore1 = useSelector((state) => state.form8.quantityInStore1);

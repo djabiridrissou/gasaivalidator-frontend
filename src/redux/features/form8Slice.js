@@ -28,10 +28,10 @@ const form8Slice = createSlice({
       state.anyAvailableInStore = !state.anyAvailableInStore;
     },
 
-    setNotAvailableInStore: (state, action) => {
-      state.notAvailableInStore = action.payload;
+    setAnyAvailableInStore: (state, action) => {
+      state.anyAvailableInStore = action.payload;
     },
-    setFileLabelNumber: (state, action) => {
+    setStoreFileLabelNumber: (state, action) => {
       state.fileLabelNumber = action.payload;
     },
 
@@ -59,12 +59,13 @@ const form8Slice = createSlice({
 
 export const {
   setAvailableInStore,
-  setNotAvailableInStore,
-  setFileLabelNumber,
+  setAnyAvailableInStore,
+  setStoreFileLabelNumber,
   setQuantityInStore,
   setItemDistributedNotInStore,
   setItemDistributedInStore,
   setQuantityInStore1,
+  setFileLabelNumber,
   setFileLabelNumber1,
   toggleAvailableInStore,
   toggleAnyAvailableInStore,

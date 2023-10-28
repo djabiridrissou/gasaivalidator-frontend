@@ -175,13 +175,54 @@ const form4Slice = createSlice({
     setDescription: (state, action) => {
       state.description = action.payload;
     },
+
+    setAvailableContracts: (state, action) => {
+      state.availableContracts = action.payload;
+    },
+
+    setAvailableJudgement: (state, action) => {
+      state.availableJudgement = action.payload;
+    },
+
+    setJudgements: (state, action) => {
+      state.judgements = action.payload;
+    },
+
+    setGoodsContracts: (state, action) => {
+      state.goodsContracts = action.payload;
+    },
+
+    setServicesContracts: (state, action) => {
+      state.servicesContracts = action.payload;
+    },
+
+    setWorksContracts: (state, action) => {
+      state.worksContracts = action.payload;
+    },
+
+    setRoadsContracts: (state, action) => {
+      state.roadsContracts = action.payload;
+    },
+
   },
 });
 
 export const {
   setExpenditureType,
   setWorkType,
+  setBuildingType,
+  setNumberOfRooms,
+  setDescription,
+  setAvailableContracts,
   toggleAvailableContracts,
+  setAvailableJudgement,
+  toggleAvailableJudgement,
+  setCompensationType,
+  setJudgements,
+  setGoodsContracts,
+  setServicesContracts,
+  setWorksContracts,
+  setRoadsContracts,
   addContract,
   updateContract,
   removeContracts,
@@ -192,13 +233,8 @@ export const {
   updateWorksContract,
   removeWorksContract,
   updateRoadContract,
-  setBuildingType,
-  setNumberOfRooms,
   updateJudgement,
-  toggleAvailableJudgement,
-  setCompensationType,
   setAllowanceName,
-  setDescription,
 } = form4Slice.actions;
 
 export default form4Slice.reducer;

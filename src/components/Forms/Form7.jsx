@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import {
   toggleIsItemDistributed,
-  setFileLabelNumber,
+  setFileLabelNumberDistributed,
   setQuantityDistributed,
 } from "../../redux/features/form7Slice";
 
@@ -80,7 +80,7 @@ const Form7 = () => {
                 type="text"
                 id="fln"
                 value={fileLabelNumber}
-                onChange={(e) => dispatch(setFileLabelNumber(e.target.value))}
+                onChange={(e) => dispatch(setFileLabelNumberDistributed(e.target.value))}
                 placeholder="File Label No"
                 className="appearance-none block w-full text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
               />

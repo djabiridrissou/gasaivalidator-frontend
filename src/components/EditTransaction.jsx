@@ -6,265 +6,159 @@ import {useSelector, useDispatch } from "react-redux";
 import {
   setPaymentStatus,
   setTransactions,
-} from "../redux/editfeatures/form1EditSlice";
+  setIsJobDone,
+} from "../redux/features/form1Slice";
 import {
   setTransactions2,
   setAdvancedPayment,
-} from "../redux/editfeatures/form2EditSlice";
+} from "../redux/features/form2Slice";
 import {
   setFundingType,
+  setFinancialYear,
   setWarrantSupported,
+  setAvailableBudget,
   setWarrantDate,
   setWarrantNo,
-  setFileLabelNumber,
   setWarrantAmount,
-} from "../redux/editfeatures/Form3EditSlice";
+  setFileLabelNumber,
+  setBudgetFileLabelNumber,
+  setDonors,
+} from "../redux/features/Form3Slice";
 import {
   setExpenditureType,
-  setContracts,
-  setAvailabeContracts,
-} from "../redux/editfeatures/form4EditSlice";
+  setWorkType,
+  setBuildingType,
+  setNumberOfRooms,
+  setDescription,
+  setAvailableContracts,
+  setAvailableJudgement,
+  setCompensationType,
+  setJudgements,
+  setGoodsContracts,
+  setServicesContracts,
+  setWorksContracts,
+  setRoadsContracts,
+} from "../redux/features/form4Slice";
 import {
   setTransactionInGifmis,
   setPurchaseOrderNo,
   setInvoiceNo,
   setFileLabelNumberGifmis,
-} from "../redux/editfeatures/form5EditSlice";
+  setInvoiceDate,
+} from "../redux/features/form5Slice";
 import {
+  setIsItemSupplied,
+  setIsServiceCompleted,
+  setIsWorkCompleted,
+  setRegionalLocation,
+  setDistrictLocation,
   setSuppliances, 
   setServices, 
-  setIsItemSupplied, 
-  setIsServiceCompleted
-} from "../redux/editfeatures/form6EditSlice";
+  setWorks,
+} from "../redux/features/form6Slice";
 import {
-  setFileLabelNumberItem,
+  setFileLabelNumberDistributed,
   setIsItemDistributed,
   setQuantityDistributed,
-} from "../redux/editfeatures/form7EditSlice";
+} from "../redux/features/form7Slice";
+import {
+  setAvailableInStore,
+  setAnyAvailableInStore,
+  setStoreFileLabelNumber,
+  setQuantityInStore,
+  setFileLabelNumber1,
+  setQuantityInStore1,
+} from "../redux/features/form8Slice";
+import {
+  setIpcSupported,
+  setIpcDetails,
+} from "../redux/features/form9Slice";
 import { updateGifmisProcessed } from "../utils/saveGifmisProcessed";
+
 const EditTransaction = () => {
-  const { id } = useParams();
+    
   const dispatch = useDispatch();
-  const [transaction, setTransaction] = useState();
-  const [amountPaid, setAmountPaid] = useState();
-  const [balanceToBePaid, setBalancetobepaid] = useState();
-  const [data, setData] = useState();
-  //console.log(id);
-  const location = useLocation();
   const navigate = useNavigate();
+  const { id } = useParams();
+  const gifmisProcessed = useSelector((state) => state.gifmisProcessed.gifmisProcessed.find(e => e.id == id));
+
+
   const handleOnClose = (e) => {
     navigate("/dashboard/gifmisprocessed");
     window.location.reload();
   };
 
-  useEffect(() => {
-    const getData = async () => {
-      const response = await axios.get(`${server}gifmisprocessed/${id}`);
-      setData(response.data);
-    };
-    getData();
-  }, []);
+ 
+    if (gifmisProcessed?.expenditureType === "Goods") {
+      dispatch(setGoodsContracts(gifmisProcessed?.contracts));
+    }
 
-  useEffect(() => {
-    dispatch(setPaymentStatus(data?.transaction?.payment));
-    setTransaction(data?.transaction);
-    setAmountPaid(data?.transactionDetails?.amountpaid);
-    setBalancetobepaid(data?.transactionDetails?.balancetobepaid);
-    if (data?.transaction?.payment === "partial payment") {
-      dispatch(setTransactions2(data?.transactionDetails?.transactions));
-    } else if (data?.transaction?.payment === "fully paid") {
-      dispatch(setTransactions(data?.transactionDetails?.transactions));
+    if (gifmisProcessed?.expenditureType === "Services") {
+      dispatch(setServicesContracts(gifmisProcessed?.contracts));
     }
-    if (data?.transaction?.advancedpayment === "true") {
-      dispatch(setAdvancedPayment(true));
-    } else if (data?.transaction?.advancedpayment === "false") {
-      dispatch(setAdvancedPayment(false));
+    if (gifmisProcessed.expenditureType === "Works") {
+      dispatch(setWorksContracts(gifmisProcessed?.contracts));
     }
-    let warrantSupportedToUpdate = false;
-    if (data?.transaction?.warrantsupported === "true") {
-      warrantSupportedToUpdate = true;
-    } else if (data?.transaction?.warrantsupported === "false") {
-      warrantSupportedToUpdate = false;
+    if (gifmisProcessed.expenditureType === "Roads") {
+      dispatch(setRoadsContracts(gifmisProcessed?.contracts));
     }
-    let availableContractsToUpdate = false;
-    if (data?.transaction?.availablecontracts === "true") {
-      availableContractsToUpdate = true;
-    } else if (data?.transaction?.availablecontracts === "false") {
-      availableContractsToUpdate = false;
-    }
-    let transactionInGifmisToUpdate = false;
-    if (data?.transaction?.transactioningifmis === "true") {
-      transactionInGifmisToUpdate = true;
-    } else if (data?.transaction?.transactioningifmis === "false") {
-      transactionInGifmisToUpdate = false;
-    }
-    let isItemSuppliedToUpdate = false;
-    if (data?.transaction?.isitemsupplied === "true") {
-      isItemSuppliedToUpdate = true;
-    } else if (data?.transaction?.isitemsupplied === "false") {
-      isItemSuppliedToUpdate = false;
-    }
-    let isItemDistributedToUpdate = false;
-    if (data?.transaction?.isitemdistributed === "true") {
-      isItemDistributedToUpdate = true;
-    } else if (data?.transaction?.isitemdistributed === "false") {
-      isItemDistributedToUpdate = false;
-    };
-    let isServiceCompletedToUpdate = false;
-    if (data?.transaction?.isservicecompleted === "true") {
-      isServiceCompletedToUpdate = true;
-    } else if (data?.transaction?.isservicecompleted === "false") {
-      isServiceCompletedToUpdate = false;
-    };
 
-dispatch(setIsItemDistributed(isItemDistributedToUpdate));
-    dispatch(setFileLabelNumberItem(data?.transaction?.distributedfilelabelnumber));
-    dispatch(setQuantityDistributed(data?.transaction?.quantitydistributed));
-    dispatch(setIsItemSupplied(isItemSuppliedToUpdate));
-    dispatch(setIsServiceCompleted(isServiceCompletedToUpdate));
-    dispatch(setSuppliances(data?.transactionDetails?.suppliances));
-    dispatch(setServices(data?.transactionDetails?.services));
-    dispatch(setTransactionInGifmis(transactionInGifmisToUpdate));
-    dispatch(setPurchaseOrderNo(data?.transaction?.purchaseorderno));
-    dispatch(setInvoiceNo(data?.transaction?.invoiceno));
-    dispatch(setFileLabelNumberGifmis(data?.transaction?.gifmisfilelabelnumber));
-    dispatch(setContracts(data?.transactionDetails?.contracts));
-    dispatch(setExpenditureType(data?.transaction?.expendituretype));
-    dispatch(setAvailabeContracts(availableContractsToUpdate));
-    dispatch(setFundingType(data?.transaction?.fundingtype));
-    dispatch(setWarrantSupported(warrantSupportedToUpdate));
-    dispatch(setWarrantDate(data?.transaction?.warrantdate));
-    dispatch(setWarrantNo(data?.transaction?.warrantno));
-    dispatch(setWarrantAmount(data?.transaction?.warrantamount));
-    dispatch(setFileLabelNumber(data?.transaction?.warrantfilelabelnumber));
-  }, [data]);
+    if (gifmisProcessed?.payment === "fully paid") {
+      dispatch(setTransactions(gifmisProcessed?.transactions));
+    } else {
+      dispatch(setTransactions2(gifmisProcessed?.transactions));
+    }   
+    dispatch(setPaymentStatus(gifmisProcessed?.payment));
+    dispatch(setAdvancedPayment(gifmisProcessed?.advancedpayment));
+    dispatch(setIsJobDone(gifmisProcessed?.isjobdone));
+    dispatch(setFundingType(gifmisProcessed?.fundingtype));
+    dispatch(setFinancialYear(gifmisProcessed?.financialyear));
+    dispatch(setAvailableBudget(gifmisProcessed?.availablebudget));
+    dispatch(setBudgetFileLabelNumber(gifmisProcessed?.budgetfilelabelnumber));
+    dispatch(setWarrantSupported(gifmisProcessed?.warrantsupported));
+    dispatch(setWarrantAmount(gifmisProcessed?.warrantamount));
+    dispatch(setWarrantDate(gifmisProcessed?.warrantdate));
+    dispatch(setWarrantNo(gifmisProcessed?.warrantno));
+    dispatch(setFileLabelNumber(gifmisProcessed?.warrantfilelabelnumber));
+    dispatch(setDonors(gifmisProcessed?.donors));
+    dispatch(setExpenditureType(gifmisProcessed?.expendituretype));
+    dispatch(setWorkType(gifmisProcessed?.worktype));
+    dispatch(setBuildingType(gifmisProcessed?.buildingtype));
+    dispatch(setNumberOfRooms(gifmisProcessed?.numberofrooms));
+    dispatch(setDescription(gifmisProcessed?.description));
+    dispatch(setAvailableContracts(gifmisProcessed?.availablecontracts));
+    dispatch(setAvailableJudgement(gifmisProcessed?.availablejudgement));
+    dispatch(setCompensationType(gifmisProcessed?.compensationtype));
+    dispatch(setJudgements(gifmisProcessed?.judgements));
+    dispatch(setTransactionInGifmis(gifmisProcessed?.transactioningifmis));
+    dispatch(setPurchaseOrderNo(gifmisProcessed?.purchaseorderno));
+    dispatch(setInvoiceNo(gifmisProcessed?.invoiceno));
+    dispatch(setInvoiceDate(gifmisProcessed?.invoicedate));
+    dispatch(setFileLabelNumberGifmis(gifmisProcessed?.gifmisfilelabelnumber));
+    dispatch(setIsItemSupplied(gifmisProcessed?.isitemsupplied));
+    dispatch(setSuppliances(gifmisProcessed?.suppliances));
+    dispatch(setIsServiceCompleted(gifmisProcessed?.isservicecompleted));
+    dispatch(setIsWorkCompleted(gifmisProcessed?.isworkcompleted));
+    dispatch(setRegionalLocation(gifmisProcessed?.regionallocation));
+    dispatch(setDistrictLocation(gifmisProcessed?.districtlocation));
+    dispatch(setServices(gifmisProcessed?.services));
+    dispatch(setWorks(gifmisProcessed?.works));
+    dispatch(setIsItemDistributed(gifmisProcessed?.isitemdistributed));
+    dispatch(setFileLabelNumberDistributed(gifmisProcessed?.distributedfilelabelnumber));
+    dispatch(setQuantityDistributed(gifmisProcessed?.quantitydistributed));
+    dispatch(setAvailableInStore(gifmisProcessed?.availableinstore));
+    dispatch(setAnyAvailableInStore(gifmisProcessed?.anyavailableinstore));
+    dispatch(setQuantityInStore(gifmisProcessed?.quantitysendtostore));
+    dispatch(setStoreFileLabelNumber(gifmisProcessed?.qtysendfilelabelnumber));
+    dispatch(setQuantityInStore1(gifmisProcessed?.actualquantityinstore));
+    dispatch(setFileLabelNumber1(gifmisProcessed?.storefilelabelnumber));
+    dispatch(setIpcSupported(gifmisProcessed?.ipcsupported));
+    dispatch(setIpcDetails(gifmisProcessed?.ipcdetails));
 
-    let advancedPayment = useSelector((state) => state.form2Edit.advancedPayment);
-    let paymentStatus = useSelector((state) => state.form1Edit.paymentStatus);
-    let transactions1 = useSelector((state) => state.form1Edit.transactions);
-    let transactions2 = useSelector((state) => state.form2Edit.transactions);
-    let transactionsToSave = [];
-    let fundingType = useSelector((state) => state.form3Edit.fundingtype);
-    let warrantSupported = useSelector((state) => state.form3Edit.warrantsupported);
-    let warrantToSave = "";
-    let warrantAmount = useSelector((state) => state.form3Edit.warrantamount);
-    let warrantDate = useSelector((state) => state.form3Edit.warrantdate);
-    let warrantNo = useSelector((state) => state.form3Edit.warrantno);
-    let fileLabelNumber = useSelector((state) => state.form3Edit.filelabelnumber);
-    let expenditureType = useSelector((state) => state.form4Edit.expendituretype);
-    let availableContracts = useSelector((state) => state.form4Edit.availablecontracts);
-    let contracts = useSelector((state) => state.form4Edit.contracts);
-    let transactionInGIFMIS = useSelector((state) => state.form5Edit.transactioningifmis);
-    let purchaseOrderNo = useSelector((state) => state.form5Edit.purchaseorderno);
-    let invoiceNo = useSelector((state) => state.form5Edit.invoiceno);
-    let gifmisFileLabelNumber = useSelector((state) => state.form5Edit.filelabelnumber);
-    let purchaseOrderNoToSave = "";
-    let invoiceNoToSave = "";
-    let gifmisFileLabelNumberToSave = "";
-    let isItemSupplied = useSelector((state) => state.form6Edit.isItemSupplied);
-    let suppliances = useSelector((state) => state.form6Edit.suppliances);
-    let suppliancesToSave = [];
-    let isItemDistributed = useSelector((state) => state.form7Edit.isItemDistributed);
-    let distributedFileLabelNumber = useSelector((state) => state.form7Edit.filelabelnumber);
-    let quantityDistributed = useSelector((state) => state.form7Edit.quantitydistributed);
-    let distributedFileLabelNumberToSave = "";
-    let quantityDistributedToSave = "";
-    let isServiceCompleted = useSelector((state) => state.form6Edit.isServiceCompleted);
-    let services = useSelector((state) => state.form6Edit.services);
-    let servicesToSave = [];
-    
-    if (isItemDistributed && expenditureType === "Goods") {
-      distributedFileLabelNumberToSave = distributedFileLabelNumber;
-      quantityDistributedToSave = quantityDistributed;
-    }
-    if (isItemSupplied && expenditureType === "Goods") {
-      suppliancesToSave = suppliances;
-    }
-    if (isServiceCompleted && expenditureType === "Service") {
-      servicesToSave = services;
-    }
-    if (transactionInGIFMIS) {
-      purchaseOrderNoToSave = purchaseOrderNo;
-      invoiceNoToSave = invoiceNo;
-      gifmisFileLabelNumberToSave = gifmisFileLabelNumber;
-    }
-    if (paymentStatus === "fully paid") {
-      transactionsToSave = transactions1;
-      advancedPayment = false;
-    } else if (paymentStatus === "partial payment") {
-      transactionsToSave = transactions2;
-    }
-    if (fundingType === "Central government") {
-      warrantToSave = warrantSupported;
-    }
-   
   
 
   const handleEdit = () => {
-    console.log("paymentStatus", paymentStatus);
-    console.log("anyAdvancePayment", advancedPayment); // Yes or No
-    console.log("transactions", transactionsToSave);
-    console.log("fundingType", fundingType);
-    console.log("warrantToSave", warrantToSave); // Yes or No
-    console.log("warrantAmount", warrantAmount);
-    console.log("warrantDate", warrantDate);
-    console.log("warrantNo", warrantNo);
-    console.log("fileLabelNumber", fileLabelNumber);
-    console.log("expenditureType", expenditureType);
-    console.log("availableContracts", availableContracts); // Yes or No
-    console.log("contracts", contracts);
-    console.log("transactionInGifmis", transactionInGIFMIS); // Yes or No
-    console.log("purchaseOrderNoToSave", purchaseOrderNoToSave);
-    console.log("invoiceNoToSave", invoiceNoToSave);
-    console.log("gifmisFileLabelNumberToSave", gifmisFileLabelNumberToSave);
-    console.log("isItemSupplied", isItemSupplied); // Yes or No
-    console.log("suppliancesToSave", suppliancesToSave);
-    console.log("isItemDistributed", isItemDistributed); // Yes or No
-    console.log("distributedFileLabelNumberToSave", distributedFileLabelNumberToSave);
-    console.log("quantityDistributedToSave", quantityDistributedToSave);
-    console.log("isServiceCompleted", isServiceCompleted); // Yes or No
-    console.log("servicesToSave", servicesToSave);
-    console.log("orgname", transaction?.orgname);
-    console.log("invoicenum", transaction?.invoiceno);
-    console.log("description", transaction?.description);
-    console.log("vendorname", transaction?.vendorname);
-    console.log("invgrossamount", transaction?.invgrossamount);
 
-    const data = {
-      payment: paymentStatus,
-      transactions: transactionsToSave,
-      advancedpayment: advancedPayment,
-      fundingtype: fundingType,
-      warrantsupported: warrantToSave,
-      warrantamount: warrantAmount,
-      warrantdate: warrantDate,
-      warrantno: warrantNo,
-      warrantfilelabelnumber: fileLabelNumber,
-      expendituretype: expenditureType,
-      availablecontracts: availableContracts,
-      contracts: contracts,
-      transactioningifmis: transactionInGIFMIS,
-      purchaseorderno: purchaseOrderNoToSave,
-      invoiceno: invoiceNoToSave,
-      gifmisfilelabelnumber: gifmisFileLabelNumberToSave,
-      isitemsupplied: isItemSupplied,
-      suppliances: suppliancesToSave,
-      isitemdistributed: isItemDistributed,
-      distributedfilelabelnumber: distributedFileLabelNumberToSave,
-      quantitydistributed: quantityDistributedToSave,
-      isservicecompleted: isServiceCompleted,
-      services: servicesToSave,
-      orgname: transaction?.orgname,
-      description: transaction?.description,
-      vendorname: transaction?.vendorname,
-      invgrossamount: transaction?.invgrossamount,
-      idgifmis: transaction?.idgifmis,
-      idgifmisprocessed: transaction?.id
-    }
-    updateGifmisProcessed(data, transaction?.id);
-    //console.log("contracts", contracts);
-    navigate("/dashboard/gifmisprocessed");
-    window.location.reload();
   }
 
 

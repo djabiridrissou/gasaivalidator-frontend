@@ -49,6 +49,14 @@ const form2Slice = createSlice({
     removeTransactions: (state, action) => {
       state.transactions = action.payload;
     },
+
+    setAdvancedPayment: (state, action) => {
+      state.advancedPayment = action.payload;
+    },
+
+    setTransactions2: (state, action) => {
+      state.transactions = action.payload;
+    },
   },
 });
 
@@ -57,7 +65,7 @@ export const {
   addTransaction,
   updateTransaction,
   removeTransactions,
-  setTransactions,
+  setTransactions2,
   setAdvancedPayment,
 } = form2Slice.actions;
 export default form2Slice.reducer;

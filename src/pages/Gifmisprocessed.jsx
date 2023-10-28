@@ -92,7 +92,7 @@ const GifmisprocessedPage = () => {
     }
   }
   const handleTransactionDetail = (id) => {
-    navigate(`/dashboard/transactiondetails/${id}`);
+    navigate(`/dashboard/edittransaction/${id}`);
   }; 
 
 /*   const startIndex = (page - 1) * limit; */
