@@ -121,19 +121,25 @@ const Register = () => {
       setErrorMessage("The password and confirm password fields do not match.");
       setTimeout(() => setError(false), 3000);
     } else {
+      let branchId = branchList.find(e => e.name === branch).id;
+
       const addUserDto = {
-        staffid: staffID,
-        lastname: lastName,
-        othernames: otherNames,
-        branch,
-        isleader: isTeamLeader,
-        ismember: true,
-        organisations: organization,
-        password,
+        data: {
+          staffid: staffID,
+          lastname: lastName,
+          othernames: otherNames,
+          isleader: isTeamLeader,
+          ismember: true,
+          // organisations: organization,
+          password,
+        },
+        branchId,
+        membersId: selectedUsers
       };
 
+
       setError(false);
-      dispatch(addUser({ data: addUserDto, departmentId: departmentChoose.id, membersId: selectedUsers  })).unwrap().then((res) => {
+      dispatch(addUser(addUserDto)).unwrap().then((res) => {
         console.log(res);
         if (res.status == 200) {
           setError(false);
