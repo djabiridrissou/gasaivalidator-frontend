@@ -16,7 +16,7 @@ export const addGifmisProcessed = createAsyncThunk(
 );
 export const updateGifmisProcessed = createAsyncThunk(
     "gifmis-processed/updateGifmisProcessed",
-    async (updateGifmisProcessedDto, id) => await gifmisProcessed.updateGifmisProcessed(updateGifmisProcessedDto, id)
+    async ({ updateGifmisProcessedDto, id }) => await gifmisProcessed.updateGifmisProcessed(updateGifmisProcessedDto, id)
 );
 
 const initialState = {

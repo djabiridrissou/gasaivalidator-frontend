@@ -4,7 +4,7 @@ import axios from "axios";
 import { server } from "../server/server";
 import { useDispatch, useSelector } from "react-redux";
 import { saveGifmisProcessed } from "../utils/saveGifmisProcessed";
-/* import { updateGifmisProcessed } from "../redux/features/gifmis-processed"; */
+import { updateGifmisProcessed } from "../redux/features/gifmis-processed";
 
 const EditTransaction = () => {
   const { id } = useParams();
@@ -148,12 +148,10 @@ const EditTransaction = () => {
 
     const updateGifmisProcessedDto = {
       data,
-      
+
     };
 
-    console.log(updateGifmisProcessedDto);
-
-   dispatch(updateGifmisProcessed(updateGifmisProcessedDto, gifmisProcessed.id)).unwrap().then((res) => {
+    dispatch(updateGifmisProcessed({ updateGifmisProcessedDto, id: gifmisProcessed.id })).unwrap().then((res) => {
       if (res.status == 200) {
         console.log("Handle success");
       } else {
