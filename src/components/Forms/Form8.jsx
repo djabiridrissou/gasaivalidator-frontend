@@ -14,49 +14,35 @@ import {
 } from "../../redux/features/form8Slice";
 
 const Form8 = () => {
+  const currentPath = window.location.pathname;
+  console.log("Chemin actuel : " + currentPath);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const disabled = true;
   const { id } = useParams();
 
-  const isItemDistributed = useSelector(
-    (state) => state.form7.isItemDistributed
-  );
+  const isItemDistributed = useSelector((state) => state.form7.isItemDistributed);
 
   const availableInStore = useSelector((state) => state.form8.availableInStore);
-  const anyAvailableInStore = useSelector(
-    (state) => state.form8.anyAvailableInStore
-  );
+  const anyAvailableInStore = useSelector((state) => state.form8.anyAvailableInStore);
   const fileLabelNumber = useSelector((state) => state.form8.fileLabelNumber);
   const quantityInStore = useSelector((state) => state.form8.quantityInStore);
 
   const fileLabelNumber1 = useSelector((state) => state.form8.fileLabelNumber1);
   const quantityInStore1 = useSelector((state) => state.form8.quantityInStore1);
 
-  console.log(availableInStore, notAvailableInStore);
-  console.log("======", fileLabelNumber1, quantityInStore1);
 
-  const handleAvailableInStore = () => {
-    dispatch(setAvailableInStore(true));
-    dispatch(setNotAvailableInStore(false));
-  };
+
 
   // Handle the Team Member checkbox change
-  const handleNotAvailableInStock = () => {
-    dispatch(setAvailableInStore(false));
-    dispatch(setNotAvailableInStore(true));
-  };
+ 
+const handleAnyAvailableInStore = (e) => {
+  dispatch(toggleAnyAvailableInStore());
+}
 
-  const handleItemDistributedInStore = () => {
-    dispatch(setItemDistributedInStore(true));
-    dispatch(setItemDistributedNotInStore(false));
-  };
-
-  // Handle the Team Member checkbox change
-  const handleItemDistributedNoInStore = () => {
-    dispatch(setItemDistributedInStore(false));
-    dispatch(setItemDistributedNotInStore(true));
-  };
+const handleAvailableInStore = (e) => {
+  dispatch(toggleAvailableInStore());
+}
   return (
     <div>
       {isItemDistributed ? (
@@ -71,7 +57,7 @@ const Form8 = () => {
                 id="availbleInStore"
                 name="availbleInStore"
                 checked={anyAvailableInStore}
-                onChange={dispatch(toggleAnyAvailableInStore)}
+                onChange={handleAnyAvailableInStore}
                 className="form-checkbox h-4 w-4"
               />
               <span className="ml-1 text-[13px]">Yes</span>
@@ -82,7 +68,7 @@ const Form8 = () => {
                 id="notAvailbleInStore"
                 name="notAvailbleInStore"
                 checked={!anyAvailableInStore}
-                onChange={dispatch(toggleAnyAvailableInStore)}
+                onChange={handleAnyAvailableInStore}
                 className="form-checkbox h-4 w-4"
               />
               <span className="ml-1 text-[13px]">No</span>
@@ -130,7 +116,7 @@ const Form8 = () => {
                 id="itemDistributedInStore"
                 name="itemDistributedInStore"
                 checked={availableInStore}
-                onChange={dispatch(toggleAvailableInStore())}
+                onChange={handleAvailableInStore}
                 className="form-checkbox h-4 w-4"
               />
               <span className="ml-1 text-[13px]">Yes</span>
@@ -141,7 +127,7 @@ const Form8 = () => {
                 id="itemDistributedNotInStore"
                 name="itemDistributedNotInStore"
                 checked={!availableInStore}
-                onChange={dispatch(toggleAvailableInStore())}
+                onChange={handleAvailableInStore}
                 className="form-checkbox h-4 w-4"
               />
               <span className="ml-1 text-[13px]">No</span>
@@ -158,8 +144,8 @@ const Form8 = () => {
                   type="text"
                   id="qty"
                   value={quantityInStore1}
-                  onChange={(e) =>
-                    dispatch(setQuantityInStore1(e.target.value))
+                  onChange={(e) => {
+                    dispatch(setQuantityInStore1(e.target.value))}
                   }
                   placeholder="Quantity in Store"
                   className="appearance-none block w-full text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
@@ -171,8 +157,8 @@ const Form8 = () => {
                   type="text"
                   id="fln"
                   value={fileLabelNumber1}
-                  onChange={(e) =>
-                    dispatch(setFileLabelNumber1(e.target.value))
+                  onChange={(e) =>{
+                    dispatch(setFileLabelNumber1(e.target.value))}
                   }
                   placeholder="File Label No"
                   className="appearance-none block w-full text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
@@ -189,7 +175,9 @@ const Form8 = () => {
         >
           Back
         </button>
-        <button
+        {currentPath.startsWith("/dashboard/transactiondetails") && (
+          <div>
+             <button
           onClick={() => navigate(`/dashboard/transactiondetails/${id}/7`)}
           className={`bg-green-500 text-white px-4 py-2 border-full rounded ${
             disabled && "bg-green-800/50"
@@ -198,6 +186,26 @@ const Form8 = () => {
         >
           Next
         </button>
+          </div>
+
+        )}
+
+{currentPath.startsWith("/dashboard/edittransaction") && (
+          <div>
+             <button
+          onClick={() => navigate(`/dashboard/edittransaction/${id}/7`)}
+          className={`bg-green-500 text-white px-4 py-2 border-full rounded ${
+            disabled && "bg-green-800/50"
+          }`}
+          disabled={disabled}
+        >
+          Next
+        </button>
+          </div>
+
+        )}
+
+       
       </div>
     </div>
   );

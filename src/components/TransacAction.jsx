@@ -5,12 +5,13 @@ import { server } from "../server/server";
 import { useDispatch, useSelector } from "react-redux";
 import { saveGifmisProcessed } from "../utils/saveGifmisProcessed";
 import { addGifmisProcessed } from "../redux/features/gifmis-processed";
+
 const TransactionDetails = () => {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
   const transaction = useSelector((state) => state.gifmis.transactions.find(e => e.id == id));
-
+  
   const handleOnClose = (e) => {
     navigate("/dashboard/goods");
     window.location.reload();
@@ -35,7 +36,6 @@ const TransactionDetails = () => {
   let financialYear = useSelector((state) => state.form3.financialYear);
   let availableBudget = useSelector((state) => state.form3.availableBudget);
   let warrantSupported = useSelector((state) => state.form3.warrantSupported);
-  let warrantToSave = "";
   let warrantAmount = useSelector((state) => state.form3.warrantAmount);
   let warrantDate = useSelector((state) => state.form3.warrantDate);
   let warrantNo = useSelector((state) => state.form3.warrantNo);
@@ -105,9 +105,6 @@ const TransactionDetails = () => {
   } else if (paymentStatus === "partial payment" || paymentStatus === "unpaid") {
     transactions = transactions2;
   }
-  if (fundingType === "Central government") {
-    warrantToSave = warrantSupported;
-  }
 
   const handleSave = () => {
     const data = {
@@ -173,9 +170,11 @@ const TransactionDetails = () => {
         console.log("Handle success");
       } else {
         console.log("Handle error");
+        console.log("error", res);
       }
     }).catch(error => {
       console.log("Handle error");
+      console.log("catcherror", error);
     });
 
     // console.log("contracts", contracts);

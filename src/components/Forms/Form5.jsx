@@ -8,11 +8,13 @@ import {
   setFileLabelNumberGifmis,
   setInvoiceDate,
 } from "../../redux/features/form5Slice";
+import { current } from "@reduxjs/toolkit";
 const Form5 = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
-
+  const currentPath = window.location.pathname;
+  console.log("Chemin actuel : " + currentPath);
   const transactionInGIFMIS = useSelector(
     (state) => state.form5.transactionInGIFMIS
   );
@@ -133,14 +135,70 @@ const Form5 = () => {
           >
             Back
           </button>
-          {workType != "Road" && workType != "Bridge" && expenditureType != "Compensation" &&(
-            <button
-              onClick={() => navigate(`/dashboard/transactiondetails/${id}/5`)}
-              className="bg-blue-500 text-white px-4 py-2 border-full rounded"
-            >
-              Next
-            </button>
+          {currentPath.startsWith("/dashboard/transactiondetails") && (
+            <div>
+              {workType != "Road" && workType != "Bridge" && expenditureType != "Compensation" && (
+                <button
+                  onClick={() => navigate(`/dashboard/transactiondetails/${id}/5`)}
+                  className="bg-blue-500 text-white px-4 py-2 border-full rounded"
+                >
+                  Next
+                </button>
+              )}
+
+              {expenditureType === "Goods" && (
+                <button
+                  onClick={() => navigate(`/dashboard/transactiondetails/${id}/5`)}
+                  className="bg-blue-500 text-white px-4 py-2 border-full rounded"
+                >
+                  Next
+                </button>
+              )}
+
+{expenditureType === "Service" && (
+                <button
+                  onClick={() => navigate(`/dashboard/transactiondetails/${id}/5`)}
+                  className="bg-blue-500 text-white px-4 py-2 border-full rounded"
+                >
+                  Next
+                </button>
+              )}
+
+            </div>
+
           )}
+          {currentPath.startsWith("/dashboard/edittransaction") && (
+            <div>
+              {workType != "Road" && workType != "Bridge" && expenditureType != "Compensation" && (
+                <button
+                  onClick={() => navigate(`/dashboard/edittransaction/${id}/5`)}
+                  className="bg-blue-500 text-white px-4 py-2 border-full rounded"
+                >
+                  Next
+                </button>
+              )}
+
+              {expenditureType === "Goods" && (
+                <button
+                  onClick={() => navigate(`/dashboard/transactiondetails/${id}/5`)}
+                  className="bg-blue-500 text-white px-4 py-2 border-full rounded"
+                >
+                  Next
+                </button>
+              )}
+
+{expenditureType === "Service" && (
+                <button
+                  onClick={() => navigate(`/dashboard/edittransaction/${id}/5`)}
+                  className="bg-blue-500 text-white px-4 py-2 border-full rounded"
+                >
+                  Next
+                </button>
+              )}
+            </div>
+
+          )}
+
         </div>
       </div>
     </div>

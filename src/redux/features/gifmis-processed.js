@@ -14,7 +14,10 @@ export const addGifmisProcessed = createAsyncThunk(
     "gifmis-processed/addGifmisProcessed",
     async (addGifmisProcessedDto) => await gifmisProcessed.addGifmisProcessed(addGifmisProcessedDto)
 );
-
+export const updateGifmisProcessed = createAsyncThunk(
+    "gifmis-processed/updateGifmisProcessed",
+    async (updateGifmisProcessedDto, id) => await gifmisProcessed.updateGifmisProcessed(updateGifmisProcessedDto, id)
+);
 
 const initialState = {
     gifmisProcessed: [],
@@ -35,6 +38,11 @@ const gifmisProcessedSlice = createSlice({
             if (payload.data) {
                 state.gifmisProcessed.push(payload.data);
             }
+        });
+        builder.addCase(updateGifmisProcessed.fulfilled, (state, { payload }) => {
+            /* if (payload.data) {
+                state.gifmisProcessed.push(payload.data);
+            } */
         });
     },
 });

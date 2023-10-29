@@ -28,6 +28,7 @@ import axios from "axios";
 import { server } from "../server/server";
 import { addUser, getUsers } from "../redux/features/users";
 
+
 const Register = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const Register = () => {
   const membersList = useSelector((state) => state.register.membersList);
   const password = useSelector((state) => state.register.password);
   const confirmPassword = useSelector((state) => state.register.confirmPassword);
-  let users = useSelector((state) => state.users.users);
+
   let departmentChoose = useSelector((state) => state.register.departmentChoose);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [error, setError] = useState(false);
@@ -54,7 +55,7 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [displayedText, setDisplayedText] = useState("");
   const visible = { display: passwordVisible ? "block" : "none", };
-  users = [{ id: 1, lastname: "John" }, { id: 2, lastname: "Doe" }];
+  const [users, setUsers] = useState({});
   const [selectedUsers, setSelectedUsers] = useState([]);
 
   const handleUserSelect = (id) => {
@@ -97,6 +98,13 @@ const Register = () => {
       dispatch(setBranchList(BranchResponse.data));
     };
     getDepartments();
+
+    dispatch(getUsers()).unwrap().then(res => {
+      console.log("resUsers", res);
+      setUsers(res.data);
+    }).catch(error => {
+      console.log(error);
+    });
 
   }, [department, departmentChoose, dispatch]);
 

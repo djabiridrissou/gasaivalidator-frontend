@@ -19,6 +19,8 @@ import { formatNumber } from "../../functions/helperFunctions";
 
 const Form3 = () => {
   const { id } = useParams();
+  const currentPath = window.location.pathname;
+  console.log("Chemin actuel : " + currentPath)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const fundingType = useSelector((state) => state.form3.fundingType);
@@ -257,7 +259,7 @@ const Form3 = () => {
       {fundingType === "Donor" && (
         <div className="flex flex-col item-center">
           <div className="flex justify-center mt-3">
-            {donors.map((donor, index) => (
+            {donors?.map((donor, index) => (
               <Fragment key={index}>
                 <div>
                   <div className="flex gap-2 items-center">
@@ -542,15 +544,8 @@ const Form3 = () => {
         >
           Back
         </button>
-        {/* {fundingType != "IGF" && fundingType != "Statutory" && (
-          <button
-            onClick={() => navigate(`/dashboard/transactiondetails/${id}/3`)}
-            className="bg-blue-500 text-white px-4 py-2 border-full rounded"
-          >
-            Next
-          </button>
-        )} */}
-        <button
+        {currentPath.startsWith("/dashboard/transactiondetails") && (
+           <button
           onClick={() => navigate(`/dashboard/transactiondetails/${id}/3`)}
           className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${
             fundingType === "IGF" || fundingType === "Statutory"|| fundingType === "Donor"
@@ -561,6 +556,21 @@ const Form3 = () => {
         >
           Next
         </button>
+        )}
+        {currentPath.startsWith("/dashboard/edittransaction") && (
+           <button
+          onClick={() => navigate(`/dashboard/edittransaction/${id}/3`)}
+          className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${
+            fundingType === "IGF" || fundingType === "Statutory"|| fundingType === "Donor"
+              ? "bg-green-800/50"
+              : ""
+          }`}
+          disabled={fundingType === "IGF" || fundingType === "Statutory"|| fundingType === "Donor"}
+        >
+          Next
+        </button>
+        )}
+       
       </div>
     </div>
   );

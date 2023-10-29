@@ -48,6 +48,10 @@ const form1Slice = createSlice({
     removeTransactions: (state, action) => {
       state.transactions = action.payload;
     },
+
+    setTransactions: (state, action) => {
+      state.transactions = action.payload;
+    },
   },
 });
 

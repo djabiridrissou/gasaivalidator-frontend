@@ -26,11 +26,13 @@ import {
 } from "../../redux/features/form4Slice.js";
 
 import { formatNumber } from "../../functions/helperFunctions";
+import { current } from "@reduxjs/toolkit";
 const Form4 = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const currentPath = window.location.pathname;
+  console.log("Chemin actuel : " + currentPath)
   const expenditureType = useSelector((state) => state.form4.expenditureType);
   const compensationType = useSelector((state) => state.form4.compensationType);
   const workType = useSelector((state) => state.form4.workType);
@@ -164,7 +166,7 @@ const Form4 = () => {
           </div>
 
           {availableContracts &&
-            goodsContracts.map((contract, index) => (
+            goodsContracts?.map((contract, index) => (
               //console.log("contract", contracts),
               <Fragment key={index}>
                 <div className="flex justify-center mt-3 gap-4">
@@ -403,7 +405,7 @@ const Form4 = () => {
 
           {availableContracts &&
             //console.log("serviceContracts", servicesContracts),
-            servicesContracts.map((servicesContract, index) => (
+            servicesContracts?.map((servicesContract, index) => (
               <Fragment key={index}>
                 <div className="flex justify-center gap-4">
                   <div>
@@ -735,7 +737,7 @@ const Form4 = () => {
             (workType === "Structure Improvement" ||
               workType === "Bridge" ||
               workType === "Pavements") &&
-            worksContracts.map((worksContract, index) => (
+            worksContracts?.map((worksContract, index) => (
               <Fragment key={index}>
                 <div className="flex gap-4 justify-center">
                   <div>
@@ -896,7 +898,7 @@ const Form4 = () => {
           {availableContracts &&
             expenditureType === "Works" &&
             (workType === "Road" || workType === "Building") &&
-            roadsContracts.map((roadContract, index) => (
+            roadsContracts?.map((roadContract, index) => (
               <Fragment key={index}>
                 <div className="flex justify-center mt-1">
                   <div>
@@ -1076,150 +1078,149 @@ const Form4 = () => {
           </div>
           {compensationType === "judgementDebt" && (
             <div>
-             <div className="flex flex-col items-center">
-            <label htmlFor="availableContracts" className="font-semibold mt-2">
-              Available Judgement ?
-            </label>
-            <div className="mt-2">
-              <label className="inline-flex items-center">
-                <input
-                  type="checkbox"
-                  id="availableContractsYes"
-                  name="availableContracts"
-                  checked={availableJudgement}
-                  onChange={() => dispatch(toggleAvailableJudgement())}
-                  className="form-checkbox h-4 w-4"
-                />
-                <span className="ml-1 text-[13px]">Yes</span>
-              </label>
-              <label className="inline-flex items-center ml-6">
-                <input
-                  type="checkbox"
-                  id="availableContractsNo"
-                  name="availableContracts"
-                  checked={!availableJudgement}
-                  onChange={() => dispatch(toggleAvailableJudgement())}
-                  className="form-checkbox h-4 w-4"
-                />
-                <span className="ml-1 text-[13px]">No</span>
-              </label>
-            </div>
-          </div> {availableJudgement &&
-            judgements.map((judgement, index) => (
-              //console.log("index", index),
-              //console.log("contract", contracts),
-              <Fragment key={index}>
-                <div className="flex justify-center">
-                  <div>
-                    <label
-                      htmlFor="judgementDate"
-                      className="text-[13.5px] text-gray-700"
-                    >
-                      Judgement Date
-                    </label>
+              <div className="flex flex-col items-center">
+                <label htmlFor="availableContracts" className="font-semibold mt-2">
+                  Available Judgement ?
+                </label>
+                <div className="mt-2">
+                  <label className="inline-flex items-center">
                     <input
-                      type="date"
-                      id="judgementDate"
-                      name="judgementDate"
-                      value={judgement.judgementDate}
-                      onChange={(e) => {
-                        handleJudgementChange(
-                          index,
-                          "judgementDate",
-                          e.target.value
-                        );
-                      }}
-                      className="appearance-none block w-[90%] text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
+                      type="checkbox"
+                      id="availableJudgementYes"
+                      name="availableJudgement"
+                      checked={availableJudgement}
+                      onChange={() => dispatch(toggleAvailableJudgement())}
+                      className="form-checkbox h-4 w-4"
                     />
-                  </div>
-                  <div className=" flex flex-row">
-                    <div>
-                      <label
-                        htmlFor="awardedJudgementAmount"
-                        className="text-[13.5px] text-gray-700"
-                      >
-                        Awarded Judgement Amount
-                      </label>
-                      <input
-                        type="text"
-                        id="awardedJudgementAmount"
-                        name="awardedJudgementAmount"
-                        value={judgement.awardedJudgementAmount}
-                        onChange={(e) => {
-
-                          const formattedValue = formatNumber(e.target.value);
-
-                          handleJudgementChange(
-                            index,
-                            "awardedJudgementAmount",
-                            formattedValue
-                          );
-                        }}
-                        className="appearance-none block w-[90%] text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
-                        placeholder="Awarded Judgement Amount"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex flex-row">
-                    <div>
-                      <label
-                        htmlFor="fileLabelNumber"
-                        className="text-[13.5px] text-gray-700"
-                      >
-                        File Label Number
-                      </label>
-                      <input
-                        type="text"
-                        id="fileLabelNumber"
-                        name="fileLabelNumber"
-                        value={judgement.fileLabelNumber}
-                        onChange={(e) => {
-                          handleJudgementChange(
-                            index,
-                            "fileLabelNumber",
-                            e.target.value
-                          );
-                        }}
-                        className="appearance-none block w-[90%] text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
-                        placeholder="File Label Number"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex flex-row">
-                    <div>
-                      <label
-                        htmlFor="beneficiary"
-                        className="text-[13.5px] text-gray-700"
-                      >
-                        Beneficiary
-                      </label>
-                      <input
-                        type="text"
-                        id="beneficiary"
-                        name="beneficiary"
-                        value={judgement.beneficiary}
-                        onChange={(e) => {
-                          handleJudgementChange(
-                            index,
-                            "beneficiary",
-                            e.target.value
-                          );
-                        }}
-                        className="appearance-none block w-[90%] text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
-                        placeholder="Beneficiary"
-                      />
-                    </div>
-                  </div>
+                    <span className="ml-1 text-[13px]">Yes</span>
+                  </label>
+                  <label className="inline-flex items-center ml-6">
+                    <input
+                      type="checkbox"
+                      id="availableJudgementNo"
+                      name="availableJudgement"
+                      checked={!availableJudgement}
+                      onChange={() => dispatch(toggleAvailableJudgement())}
+                      className="form-checkbox h-4 w-4"
+                    />
+                    <span className="ml-1 text-[13px]">No</span>
+                  </label>
                 </div>
-              </Fragment>
-            ))
-          }
+              </div> 
+              {availableJudgement &&
+                judgements?.map((judgement, index) => (
+                  <Fragment key={index}>
+                    <div className="flex justify-center">
+                      <div>
+                        <label
+                          htmlFor="judgementDate"
+                          className="text-[13.5px] text-gray-700"
+                        >
+                          Judgement Date
+                        </label>
+                        <input
+                          type="date"
+                          id="judgementDate"
+                          name="judgementDate"
+                          value={judgement.judgementDate}
+                          onChange={(e) => {
+                            handleJudgementChange(
+                              index,
+                              "judgementDate",
+                              e.target.value
+                            );
+                          }}
+                          className="appearance-none block w-[90%] text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
+                        />
+                      </div>
+                      <div className=" flex flex-row">
+                        <div>
+                          <label
+                            htmlFor="awardedJudgementAmount"
+                            className="text-[13.5px] text-gray-700"
+                          >
+                            Awarded Judgement Amount
+                          </label>
+                          <input
+                            type="text"
+                            id="awardedJudgementAmount"
+                            name="awardedJudgementAmount"
+                            value={judgement.awardedJudgementAmount}
+                            onChange={(e) => {
+
+                              const formattedValue = formatNumber(e.target.value);
+
+                              handleJudgementChange(
+                                index,
+                                "awardedJudgementAmount",
+                                formattedValue
+                              );
+                            }}
+                            className="appearance-none block w-[90%] text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
+                            placeholder="Awarded Judgement Amount"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-row">
+                        <div>
+                          <label
+                            htmlFor="fileLabelNumber"
+                            className="text-[13.5px] text-gray-700"
+                          >
+                            File Label Number
+                          </label>
+                          <input
+                            type="text"
+                            id="fileLabelNumber"
+                            name="fileLabelNumber"
+                            value={judgement.fileLabelNumber}
+                            onChange={(e) => {
+                              handleJudgementChange(
+                                index,
+                                "fileLabelNumber",
+                                e.target.value
+                              );
+                            }}
+                            className="appearance-none block w-[90%] text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
+                            placeholder="File Label Number"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-row">
+                        <div>
+                          <label
+                            htmlFor="beneficiary"
+                            className="text-[13.5px] text-gray-700"
+                          >
+                            Beneficiary
+                          </label>
+                          <input
+                            type="text"
+                            id="beneficiary"
+                            name="beneficiary"
+                            value={judgement.beneficiary}
+                            onChange={(e) => {
+                              handleJudgementChange(
+                                index,
+                                "beneficiary",
+                                e.target.value
+                              );
+                            }}
+                            className="appearance-none block w-[90%] text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
+                            placeholder="Beneficiary"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </Fragment>
+                ))
+              }
             </div>
 
           )}
-         
 
-         
+
+
         </div>
       )}
 
@@ -1230,22 +1231,90 @@ const Form4 = () => {
         >
           Back
         </button>
-        {expenditureType==="Works" &&  (workType !== "Road" && workType !== "Bridge") && (
-          <button
-            onClick={() => navigate(`/dashboard/transactiondetails/${id}/4`)}
-            className="bg-blue-500 text-white px-4 py-2 border-full rounded"
-          >
-            Next
-          </button>
+        {currentPath.startsWith("/dashboard/transactiondetails") && (
+          <div>
+            {(expenditureType == "Works" && (workType != "Road" && workType != "Bridge")) && (
+              <button
+                onClick={() => navigate(`/dashboard/transactiondetails/${id}/4`)}
+                className="bg-blue-500 text-white px-4 py-2 border-full rounded"
+              >
+                Next
+              </button>
+            )}
+            {expenditureType == "Works" && (workType == "Road" || workType == "Bridge") && (
+              <button
+                onClick={() => navigate(`/dashboard/transactiondetails/${id}/8`)}
+                className="bg-blue-500 text-white px-4 py-2 border-full rounded"
+              >
+                Next
+              </button>
+            )}
+            {expenditureType == "Goods"  && (
+              
+                <button
+                onClick={() => navigate(`/dashboard/transactiondetails/${id}/4`)}
+                className="bg-blue-500 text-white px-4 py-2 border-full rounded"
+              >
+                Next
+              </button>
+         
+            )}
+
+{expenditureType == "Service"  && (
+              
+              <button
+              onClick={() => navigate(`/dashboard/transactiondetails/${id}/4`)}
+              className="bg-blue-500 text-white px-4 py-2 border-full rounded"
+            >
+              Next
+            </button>
+       
+          )}
+          </div>
         )}
-        {expenditureType==="Works" && (workType === "Road" || workType === "Bridge") && (
-          <button
-            onClick={() => navigate(`/dashboard/transactiondetails/${id}/8`)}
-            className="bg-blue-500 text-white px-4 py-2 border-full rounded"
-          >
-            Next
-          </button>
+
+{currentPath.startsWith("/dashboard/edittransaction") && (
+          <div>
+            {(expenditureType == "Works" && (workType != "Road" && workType != "Bridge")) && (
+              <button
+                onClick={() => navigate(`/dashboard/edittransaction/${id}/4`)}
+                className="bg-blue-500 text-white px-4 py-2 border-full rounded"
+              >
+                Next
+              </button>
+            )}
+            {expenditureType == "Works" && (workType == "Road" || workType == "Bridge") && (
+              <button
+                onClick={() => navigate(`/dashboard/edittransaction/${id}/8`)}
+                className="bg-blue-500 text-white px-4 py-2 border-full rounded"
+              >
+                Next
+              </button>
+            )}
+            {expenditureType == "Goods"  && (
+              
+                <button
+                onClick={() => navigate(`/dashboard/edittransaction/${id}/4`)}
+                className="bg-blue-500 text-white px-4 py-2 border-full rounded"
+              >
+                Next
+              </button>
+         
+            )}
+
+{expenditureType == "Service"  && (
+              
+              <button
+              onClick={() => navigate(`/dashboard/edittransaction/${id}/4`)}
+              className="bg-blue-500 text-white px-4 py-2 border-full rounded"
+            >
+              Next
+            </button>
+       
+          )}
+          </div>
         )}
+
       </div>
     </div>
   );

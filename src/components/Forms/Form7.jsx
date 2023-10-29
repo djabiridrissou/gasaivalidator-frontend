@@ -8,6 +8,8 @@ import {
 } from "../../redux/features/form7Slice";
 
 const Form7 = () => {
+  const currentPath = window.location.pathname;
+  console.log("Chemin actuel : " + currentPath);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const disabled = false;
@@ -96,7 +98,9 @@ const Form7 = () => {
         >
           Back
         </button>
-        <button
+        {currentPath.startsWith("/dashboard/transactiondetails") && (
+          <div>
+            <button
           onClick={() => navigate(`/dashboard/transactiondetails/${id}/7`)}
           className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${
             disabled && "bg-green-800/50"
@@ -105,6 +109,23 @@ const Form7 = () => {
         >
           Next
         </button>
+          </div>
+        )}
+
+{currentPath.startsWith("/dashboard/edittransaction") && (
+          <div>
+            <button
+          onClick={() => navigate(`/dashboard/edittransaction/${id}/7`)}
+          className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${
+            disabled && "bg-green-800/50"
+          }`}
+          disabled={disabled}
+        >
+          Next
+        </button>
+          </div>
+        )}
+        
       </div>
     </div>
   );

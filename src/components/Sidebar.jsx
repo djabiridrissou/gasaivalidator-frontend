@@ -116,7 +116,7 @@ const SidebarMenuItem = ({
 const Sidebar = ({ open, setOpen }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
-  const [reportSubmenuOpen, setReportSubmenuOpen] = useState(false);
+  const [ConditionsubmenuOpen, setConditionsubmenuOpen] = useState(false);
   const [cargoSubmenuOpen, setCargoSubmenuOpen] = useState(false);
   const [importSubmenuOpen, setImportSubmenuOpen] = useState(false);
   const [setupSubmenuOpen, setSetupSubmenuOpen] = useState(false);
@@ -132,7 +132,7 @@ const Sidebar = ({ open, setOpen }) => {
       route: "/dashboard/goods",
     },
     {
-      name: "Payable Processed",
+      name: "Update Entries",
       icon: Square3Stack3DIcon,
       route: "/dashboard/gifmisprocessed",
     },
@@ -154,14 +154,45 @@ const Sidebar = ({ open, setOpen }) => {
       ],
     }, */
     {
-      name: "Reports",
+      name: "Conditions",
       icon: Bars3Icon,
       subMenu: [
-        { name: "No-Work-Done", route: "#", icon: DocumentTextIcon },
+        { name: "No-Work-Done", route: "/dashboard/noworkdone", icon: DocumentTextIcon },
         { name: "No-Warrant", route: "#", icon: DocumentTextIcon },
         { name: "No-Contracts", route: "#", icon: DocumentTextIcon },
+
         {
-          name: "No-Commencememt Certificate",
+          name: "Missclassified Funding",
+          route: "/dashboard/misclassified",
+          icon: DocumentTextIcon,
+        },
+        {
+          name: "Not in Gifmis",
+          route: "#",
+          icon: DocumentTextIcon,
+        },
+        {
+          name: "Under supply",
+          route: "#",
+          icon: DocumentTextIcon,
+        },
+        {
+          name: "Store management",
+          route: "#",
+          icon: DocumentTextIcon,
+        },
+        {
+          name: "Contract management",
+          route: "#",
+          icon: DocumentTextIcon,
+        },
+        {
+          name: "No-IPC",
+          route: "#",
+          icon: DocumentTextIcon,
+        },
+        {
+          name: "No-Judgement",
           route: "#",
           icon: DocumentTextIcon,
         },
@@ -172,31 +203,6 @@ const Sidebar = ({ open, setOpen }) => {
         },
         {
           name: "Validated With Issues",
-          route: "#",
-          icon: DocumentTextIcon,
-        },
-        {
-          name: "Missing Store Items",
-          route: "#",
-          icon: DocumentTextIcon,
-        },
-        {
-          name: "Goods Under-Supplied",
-          route: "#",
-          icon: DocumentTextIcon,
-        },
-        {
-          name: "Work Without Certificate",
-          route: "#",
-          icon: DocumentTextIcon,
-        },
-        {
-          name: "Fully Paid",
-          route: "#",
-          icon: DocumentTextIcon,
-        },
-        {
-          name: "No-Judgement",
           route: "#",
           icon: DocumentTextIcon,
         },
@@ -301,14 +307,14 @@ const Sidebar = ({ open, setOpen }) => {
                 name={menu.name}
                 subMenu={menu.subMenu}
                 isParent={
-                  menu.name === "Reports" ||
+                  menu.name === "Conditions" ||
                   menu.name === "Cargo" ||
                   menu.name === "Imports" ||
                   menu.name === "Setup"
                 }
                 subMenuOpen={
-                  menu.name === "Reports"
-                    ? reportSubmenuOpen
+                  menu.name === "Conditions"
+                    ? ConditionsubmenuOpen
                     : menu.name === "Cargo"
                     ? cargoSubmenuOpen
                     : menu.name === "Imports"
@@ -318,8 +324,8 @@ const Sidebar = ({ open, setOpen }) => {
                     : false
                 }
                 setSubMenuOpen={
-                  menu.name === "Reports"
-                    ? setReportSubmenuOpen
+                  menu.name === "Conditions"
+                    ? setConditionsubmenuOpen
                     : menu.name === "Cargo"
                     ? setCargoSubmenuOpen
                     : menu.name === "Imports"
@@ -331,28 +337,28 @@ const Sidebar = ({ open, setOpen }) => {
                 open={open} // Prop open
                 setOpen={setOpen} // Prop setOpen
                 onClick={() => {
-                  if (menu.name === "Reports") {
-                    setReportSubmenuOpen(!reportSubmenuOpen);
+                  if (menu.name === "Conditions") {
+                    setConditionsubmenuOpen(!ConditionsubmenuOpen);
                     setCargoSubmenuOpen(false);
                     setImportSubmenuOpen(false);
                     setSetupSubmenuOpen(false);
                   } else if (menu.name === "Cargo") {
                     setCargoSubmenuOpen(!cargoSubmenuOpen);
-                    setReportSubmenuOpen(false);
+                    setConditionsubmenuOpen(false);
                     setImportSubmenuOpen(false);
                     setSetupSubmenuOpen(false);
                   } else if (menu.name === "Imports") {
                     setImportSubmenuOpen(!importSubmenuOpen);
                     setCargoSubmenuOpen(false);
-                    setReportSubmenuOpen(false);
+                    setConditionsubmenuOpen(false);
                     setSetupSubmenuOpen(false);
                   } else if (menu.name === "Setup") {
                     setSetupSubmenuOpen(!setupSubmenuOpen);
-                    setReportSubmenuOpen(false);
+                    setConditionsubmenuOpen(false);
                     setCargoSubmenuOpen(false);
                     setImportSubmenuOpen(false);
                   } else {
-                    setReportSubmenuOpen(false);
+                    setConditionsubmenuOpen(false);
                     setCargoSubmenuOpen(false);
                     setImportSubmenuOpen(false);
                     setSetupSubmenuOpen(false);

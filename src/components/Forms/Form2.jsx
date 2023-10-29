@@ -9,6 +9,8 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { formatNumber } from "../../functions/helperFunctions";
 const Form2 = () => {
+  const currentPath = window.location.pathname;
+  //console.log("Chemin actuel : " + currentPath);
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -32,7 +34,13 @@ const Form2 = () => {
   };
 
   const handleNext = (e) => {
-    navigate(`/dashboard/transactiondetails/${id}/2`);
+    console.log("crpath", currentPath);
+    if (currentPath.startsWith("/dashboard/edittransaction")) {
+      navigate(`/dashboard/edittransaction/${id}/2`);
+    } 
+    if (currentPath.startsWith("/dashboard/transactiondetails/")) {
+      navigate(`/dashboard/transactiondetails/${id}/2`);
+    }
   };
 
   const removeTransaction = (index) => {
@@ -84,7 +92,7 @@ const Form2 = () => {
             {advancedPayment && (
               <>
                 <div className="flex flex-col items-center mt-4">
-                  {transactions.map((transactions, index) => (
+                  {transactions?.map((transactions, index) => (
                     <Fragment key={index}>
                       <div>
                         <div className="flex gap-2 items-center">
@@ -210,7 +218,7 @@ const Form2 = () => {
               <label htmlFor="" className="font-bold mb-2">
                 Provide payment details
               </label>
-              {transactions.map((transactions, index) => (
+              {transactions?.map((transactions, index) => (
                 <Fragment key={index}>
                   <div>
                     <div className="flex gap-2 items-center">

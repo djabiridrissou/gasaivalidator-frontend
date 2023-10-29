@@ -2,166 +2,175 @@ import React, { useEffect, useState } from "react";
 import { useLocation, Outlet, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { server } from "../server/server";
-import {useSelector, useDispatch } from "react-redux";
-import {
-  setPaymentStatus,
-  setTransactions,
-  setIsJobDone,
-} from "../redux/features/form1Slice";
-import {
-  setTransactions2,
-  setAdvancedPayment,
-} from "../redux/features/form2Slice";
-import {
-  setFundingType,
-  setFinancialYear,
-  setWarrantSupported,
-  setAvailableBudget,
-  setWarrantDate,
-  setWarrantNo,
-  setWarrantAmount,
-  setFileLabelNumber,
-  setBudgetFileLabelNumber,
-  setDonors,
-} from "../redux/features/Form3Slice";
-import {
-  setExpenditureType,
-  setWorkType,
-  setBuildingType,
-  setNumberOfRooms,
-  setDescription,
-  setAvailableContracts,
-  setAvailableJudgement,
-  setCompensationType,
-  setJudgements,
-  setGoodsContracts,
-  setServicesContracts,
-  setWorksContracts,
-  setRoadsContracts,
-} from "../redux/features/form4Slice";
-import {
-  setTransactionInGifmis,
-  setPurchaseOrderNo,
-  setInvoiceNo,
-  setFileLabelNumberGifmis,
-  setInvoiceDate,
-} from "../redux/features/form5Slice";
-import {
-  setIsItemSupplied,
-  setIsServiceCompleted,
-  setIsWorkCompleted,
-  setRegionalLocation,
-  setDistrictLocation,
-  setSuppliances, 
-  setServices, 
-  setWorks,
-} from "../redux/features/form6Slice";
-import {
-  setFileLabelNumberDistributed,
-  setIsItemDistributed,
-  setQuantityDistributed,
-} from "../redux/features/form7Slice";
-import {
-  setAvailableInStore,
-  setAnyAvailableInStore,
-  setStoreFileLabelNumber,
-  setQuantityInStore,
-  setFileLabelNumber1,
-  setQuantityInStore1,
-} from "../redux/features/form8Slice";
-import {
-  setIpcSupported,
-  setIpcDetails,
-} from "../redux/features/form9Slice";
-import { updateGifmisProcessed } from "../utils/saveGifmisProcessed";
+import { useDispatch, useSelector } from "react-redux";
+import { saveGifmisProcessed } from "../utils/saveGifmisProcessed";
+/* import { updateGifmisProcessed } from "../redux/features/gifmis-processed"; */
 
 const EditTransaction = () => {
-    
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { id } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
   const gifmisProcessed = useSelector((state) => state.gifmisProcessed.gifmisProcessed.find(e => e.id == id));
 
+  const dispatch = useDispatch();
+  let advancedPayment = useSelector((state) => state.form2.advancedPayment);
+  let paymentStatus = useSelector((state) => state.form1.paymentStatus);
+  let transactions1 = useSelector((state) => state.form1.transactions);
+  let transactions2 = useSelector((state) => state.form2.transactions);
+  let isJobDone = useSelector((state) => state.form1.isJobDone);
+  let transactions = [
+    {
+      paymentDate: "",
+      pvNo: "",
+      amountPaid: "0",
+      fileLabelNumber: "",
+    },
+  ];
+  let fundingType = useSelector((state) => state.form3.fundingType);
+  let financialYear = useSelector((state) => state.form3.financialYear);
+  let availableBudget = useSelector((state) => state.form3.availableBudget);
+  let warrantSupported = useSelector((state) => state.form3.warrantSupported);
+  let warrantAmount = useSelector((state) => state.form3.warrantAmount);
+  let warrantDate = useSelector((state) => state.form3.warrantDate);
+  let warrantNo = useSelector((state) => state.form3.warrantNo);
+  let fileLabelNumber = useSelector((state) => state.form3.fileLabelNumber);
+  let budgetFileLabelNumber = useSelector((state) => state.form3.budgetFileLabelNumber);
+  let donors = useSelector((state) => state.form3.donors);
+  let expenditureType = useSelector((state) => state.form4.expenditureType);
+  let workType = useSelector((state) => state.form4.workType);
+  let buildingType = useSelector((state) => state.form4.buildingType);
+  let numberOfRooms = useSelector((state) => state.form4.numberOfRooms);
+  let description = useSelector((state) => state.form4.description);
+  let availableContracts = useSelector((state) => state.form4.availableContracts);
+  let availableJudgement = useSelector((state) => state.form4.availableJudgement);
+  let compensationType = useSelector((state) => state.form4.compensationType);
+  let judgements = useSelector((state) => state.form4.judgements);
+  let contracts;
+  let goodsContracts = useSelector((state) => state.form4.goodsContracts);
+  let servicesContracts = useSelector((state) => state.form4.servicesContracts);
+  let worksContracts = useSelector((state) => state.form4.worksContracts);
+  let roadsContracts = useSelector((state) => state.form4.roadsContracts);
+  if (expenditureType === "Goods") {
+    contracts = goodsContracts;
+  }
+  if (expenditureType === "Services") {
+    contracts = servicesContracts;
+  }
+  if (expenditureType === "Works") {
+    contracts = worksContracts;
+  }
+  if (expenditureType === "Roads") {
+    contracts = roadsContracts;
+  }
+
+  let transactionInGIFMIS = useSelector((state) => state.form5.transactionInGIFMIS);
+  let purchaseOrderNo = useSelector((state) => state.form5.purchaseOrderNo);
+  let invoiceNo = useSelector((state) => state.form5.invoiceNo);
+  let gifmisFileLabelNumber = useSelector((state) => state.form5.fileLabelNumber);
+  let isItemSupplied = useSelector((state) => state.form6.isItemSupplied);
+  let suppliances = useSelector((state) => state.form6.suppliances);
+  let isServiceCompleted = useSelector((state) => state.form6.isServiceCompleted);
+  let isWorkCompleted = useSelector((state) => state.form6.isWorkCompleted);
+  let regionalLocation = useSelector((state) => state.form6.regionalLocation);
+  let districtLocation = useSelector((state) => state.form6.districtLocation);
+  let services = useSelector((state) => state.form6.services);
+  let works = useSelector((state) => state.form6.works);
+  let isItemDistributed = useSelector((state) => state.form7.isItemDistributed);
+  let distributionFileLabelNumber = useSelector((state) => state.form7.fileLabelNumber);
+  let quantityDistributed = useSelector((state) => state.form7.quantityDistributed);
+  let availableInStore = useSelector((state) => state.form8.availableInStore);
+  let anyAvailableInStore = useSelector((state) => state.form8.anyAvailableInStore);
+  let quantitySendToStore = useSelector((state) => state.form8.quantityInStore1);
+  let sendQuantityFileLabelNumber = useSelector((state) => state.form8.fileLabelNumber1);
+  let actualQuantityInStore = useSelector((state) => state.form8.quantityInStore);
+  let storeFileLabelNumber = useSelector((state) => state.form8.fileLabelNumber);
+  let ipcSupported = useSelector((state) => state.form9.ipcSupported);
+  let ipcDetails = useSelector((state) => state.form9.ipcDetails);
+  if (paymentStatus === "fully paid") {
+    transactions = transactions1;
+    advancedPayment = false;
+  } else if (paymentStatus === "partial payment" || paymentStatus === "unpaid") {
+    transactions = transactions2;
+  }
+
+
+  const handleEdit = () => {
+    const data = {
+      payment: paymentStatus,
+      transactions: transactions,
+      advancedpayment: advancedPayment,
+      isjobdone: isJobDone,
+      fundingtype: fundingType,
+      financialyear: financialYear,
+      availablebudget: availableBudget,
+      budgetfilelabelnumber: budgetFileLabelNumber,
+      warrantsupported: warrantSupported,
+      warrantamount: warrantAmount,
+      warrantdate: warrantDate,
+      warrantno: warrantNo,
+      warrantfilelabelnumber: fileLabelNumber,
+      donors: donors,
+      expendituretype: expenditureType,
+      worktype: workType,
+      buildingtype: buildingType,
+      numberofrooms: numberOfRooms,
+      description: description,
+      availablecontracts: availableContracts,
+      availablejudgement: availableJudgement,
+      compensationtype: compensationType,
+      judgements: judgements,
+      contracts: contracts,
+      transactioningifmis: transactionInGIFMIS,
+      purchaseorderno: purchaseOrderNo,
+      invoiceno: invoiceNo,
+      gifmisfilelabelnumber: gifmisFileLabelNumber,
+      isitemsupplied: isItemSupplied,
+      suppliances: suppliances,
+      isservicecompleted: isServiceCompleted,
+      isworkcompleted: isWorkCompleted,
+      regionallocation: regionalLocation,
+      districtlocation: districtLocation,
+      services: services,
+      works: works,
+      isitemdistributed: isItemDistributed,
+      distributedfilelabelnumber: distributionFileLabelNumber,
+      quantitydistributed: quantityDistributed,
+      availableinstore: availableInStore,
+      anyavailableinstore: anyAvailableInStore,
+      quantitysendtostore: quantitySendToStore,
+      qtysendfilelabelnumber: sendQuantityFileLabelNumber,
+      actualquantityinstore: actualQuantityInStore,
+      storefilelabelnumber: storeFileLabelNumber,
+      ipcsupported: ipcSupported,
+      ipcdetails: ipcDetails,
+
+    };
+
+    const updateGifmisProcessedDto = {
+      data,
+      
+    };
+
+    console.log(updateGifmisProcessedDto);
+
+   dispatch(updateGifmisProcessed(updateGifmisProcessedDto, gifmisProcessed.id)).unwrap().then((res) => {
+      if (res.status == 200) {
+        console.log("Handle success");
+      } else {
+        console.log("Handle error");
+        console.log("error", res);
+      }
+    }).catch(error => {
+      console.log("Handle error");
+      console.log("catcherror", error);
+    });
+
+  }
 
   const handleOnClose = (e) => {
     navigate("/dashboard/gifmisprocessed");
     window.location.reload();
   };
-
- 
-    if (gifmisProcessed?.expenditureType === "Goods") {
-      dispatch(setGoodsContracts(gifmisProcessed?.contracts));
-    }
-
-    if (gifmisProcessed?.expenditureType === "Services") {
-      dispatch(setServicesContracts(gifmisProcessed?.contracts));
-    }
-    if (gifmisProcessed.expenditureType === "Works") {
-      dispatch(setWorksContracts(gifmisProcessed?.contracts));
-    }
-    if (gifmisProcessed.expenditureType === "Roads") {
-      dispatch(setRoadsContracts(gifmisProcessed?.contracts));
-    }
-
-    if (gifmisProcessed?.payment === "fully paid") {
-      dispatch(setTransactions(gifmisProcessed?.transactions));
-    } else {
-      dispatch(setTransactions2(gifmisProcessed?.transactions));
-    }   
-    dispatch(setPaymentStatus(gifmisProcessed?.payment));
-    dispatch(setAdvancedPayment(gifmisProcessed?.advancedpayment));
-    dispatch(setIsJobDone(gifmisProcessed?.isjobdone));
-    dispatch(setFundingType(gifmisProcessed?.fundingtype));
-    dispatch(setFinancialYear(gifmisProcessed?.financialyear));
-    dispatch(setAvailableBudget(gifmisProcessed?.availablebudget));
-    dispatch(setBudgetFileLabelNumber(gifmisProcessed?.budgetfilelabelnumber));
-    dispatch(setWarrantSupported(gifmisProcessed?.warrantsupported));
-    dispatch(setWarrantAmount(gifmisProcessed?.warrantamount));
-    dispatch(setWarrantDate(gifmisProcessed?.warrantdate));
-    dispatch(setWarrantNo(gifmisProcessed?.warrantno));
-    dispatch(setFileLabelNumber(gifmisProcessed?.warrantfilelabelnumber));
-    dispatch(setDonors(gifmisProcessed?.donors));
-    dispatch(setExpenditureType(gifmisProcessed?.expendituretype));
-    dispatch(setWorkType(gifmisProcessed?.worktype));
-    dispatch(setBuildingType(gifmisProcessed?.buildingtype));
-    dispatch(setNumberOfRooms(gifmisProcessed?.numberofrooms));
-    dispatch(setDescription(gifmisProcessed?.description));
-    dispatch(setAvailableContracts(gifmisProcessed?.availablecontracts));
-    dispatch(setAvailableJudgement(gifmisProcessed?.availablejudgement));
-    dispatch(setCompensationType(gifmisProcessed?.compensationtype));
-    dispatch(setJudgements(gifmisProcessed?.judgements));
-    dispatch(setTransactionInGifmis(gifmisProcessed?.transactioningifmis));
-    dispatch(setPurchaseOrderNo(gifmisProcessed?.purchaseorderno));
-    dispatch(setInvoiceNo(gifmisProcessed?.invoiceno));
-    dispatch(setInvoiceDate(gifmisProcessed?.invoicedate));
-    dispatch(setFileLabelNumberGifmis(gifmisProcessed?.gifmisfilelabelnumber));
-    dispatch(setIsItemSupplied(gifmisProcessed?.isitemsupplied));
-    dispatch(setSuppliances(gifmisProcessed?.suppliances));
-    dispatch(setIsServiceCompleted(gifmisProcessed?.isservicecompleted));
-    dispatch(setIsWorkCompleted(gifmisProcessed?.isworkcompleted));
-    dispatch(setRegionalLocation(gifmisProcessed?.regionallocation));
-    dispatch(setDistrictLocation(gifmisProcessed?.districtlocation));
-    dispatch(setServices(gifmisProcessed?.services));
-    dispatch(setWorks(gifmisProcessed?.works));
-    dispatch(setIsItemDistributed(gifmisProcessed?.isitemdistributed));
-    dispatch(setFileLabelNumberDistributed(gifmisProcessed?.distributedfilelabelnumber));
-    dispatch(setQuantityDistributed(gifmisProcessed?.quantitydistributed));
-    dispatch(setAvailableInStore(gifmisProcessed?.availableinstore));
-    dispatch(setAnyAvailableInStore(gifmisProcessed?.anyavailableinstore));
-    dispatch(setQuantityInStore(gifmisProcessed?.quantitysendtostore));
-    dispatch(setStoreFileLabelNumber(gifmisProcessed?.qtysendfilelabelnumber));
-    dispatch(setQuantityInStore1(gifmisProcessed?.actualquantityinstore));
-    dispatch(setFileLabelNumber1(gifmisProcessed?.storefilelabelnumber));
-    dispatch(setIpcSupported(gifmisProcessed?.ipcsupported));
-    dispatch(setIpcDetails(gifmisProcessed?.ipcdetails));
-
-  
-
-  const handleEdit = () => {
-
-  }
-
-
   //console.log("trans", useSelector((state) => state.form1Edit.transactions));
 
   return (
@@ -177,33 +186,33 @@ const EditTransaction = () => {
         </button>
 
         <h2 className="text-xl font-bold text-center mb-4">
-          {transaction?.vendorname}
+          {gifmisProcessed?.vendorname}
         </h2>
         <div className="flex justify-center">
           <div className="flex flex-col space-y-4 mr-4">
             <div className="">
               <p className="font-bold text-xs">
                 ORGNAME:
-                <span className="font-normal"> {transaction?.orgname}</span>
+                <span className="font-normal"> {gifmisProcessed?.orgname}</span>
               </p>
             </div>
             <div className="">
               <p className="font-bold text-xs">
                 INVOICE NUMBER:
-                <span className="font-normal"> {transaction?.invoiceno}</span>
+                <span className="font-normal"> {gifmisProcessed?.invoiceno}</span>
               </p>
             </div>
 
             <div className="">
               <p className="font-bold text-xs">
                 DESCRIPTION:
-                <span className="font-normal text-xs"> {transaction?.description}</span>
+                <span className="font-normal text-xs"> {gifmisProcessed?.description}</span>
               </p>
             </div>
             <div className="">
               <p className="font-bold text-xs">
                 EXP TYPE:
-                <span className="font-normal"> {transaction?.expendituretype}</span>
+                <span className="font-normal"> {gifmisProcessed?.expendituretype}</span>
               </p>
             </div>
           </div>
@@ -211,7 +220,7 @@ const EditTransaction = () => {
             <div className="">
               <p className="font-bold text-xs">
                 INV GROSS AMOUNT:
-                <span className=" text-xs font-normal"> {transaction?.invgrossamount?.toLocaleString(undefined, {
+                <span className=" text-xs font-normal"> {gifmisProcessed?.invgrossamount?.toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })}
@@ -221,26 +230,26 @@ const EditTransaction = () => {
 
             <div className="">
               <p className="font-bold text-xs">
-                AMOUNT PAID: <span className="text-xs font-normal"> {amountPaid?.toLocaleString(undefined, {
+                AMOUNT PAID: <span className="text-xs font-normal"> {/* {amountPaid?.toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
-                })}
+                })} */}
                 </span>
               </p>
             </div>
             <div className="">
               <p className="font-bold text-xs">
-                BALANCE TO BE PAID: <span className="text-xs font-normal"> {balanceToBePaid?.toLocaleString(undefined, {
+                BALANCE TO BE PAID: <span className="text-xs font-normal"> {/* {balanceToBePaid?.toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
-                })}
+                })} */}
                 </span>
               </p>
             </div>
             <div className="">
               <p className="font-bold text-xs">
                 PAYMENT STATUS:
-                <span className="font-normal"> {transaction?.payment}
+                <span className="font-normal"> {/* {transaction?.payment} */}
                 </span>
               </p>
             </div>
@@ -252,7 +261,7 @@ const EditTransaction = () => {
         </div>
         <div className="flex justify-center">
           <button
-            className="font-medium bg-red-400 text-black px-[4rem] py-[0.25rem] mt-12 -ml-[5%] justify-center rounded"
+            className="font-medium bg-yellow-600 text-white px-[4rem] py-[0.25rem] mt-12  justify-center rounded"
             onClick={handleEdit}
           >
             Update

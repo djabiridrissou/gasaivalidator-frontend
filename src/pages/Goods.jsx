@@ -11,12 +11,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { getAllGifmis } from "../redux/features/gifmis";
+import { getCurentUser } from "../redux/features/auth";
 
 // const limit = 25;
 
 const Goods = () => {
-
-
+  
+const [currentUser, setCurrentUser] = useState({});
   const dispatch = useDispatch();
   const transactions = useSelector((state) => state.gifmis.transactions);
   const navigate = useNavigate();
@@ -25,6 +26,12 @@ const Goods = () => {
    useEffect(() => {
       const response = dispatch(getAllGifmis()).unwrap().then((res) => {
           console.log("transac", res);
+      });
+      dispatch(getCurentUser()).unwrap().then(res => {
+        console.log("res", res.user.id);
+       setCurrentUser(res.user);
+      }).catch(error => {
+        console.log(error);
       });
      }, []);
   
@@ -146,19 +153,19 @@ const Goods = () => {
             <thead className="sticky -top-1 bg-gray-100">
               <tr className="bg-gray-100">
                 <th className="border border-gray-200 text-left ">ID</th>
-                <th className="border border-gray-200  ">
+                {/* <th className="border border-gray-200  ">
                   <span className="inline-flex items-center">
                     SN{" "}
-                    {/* <BiSort
+                    <BiSort
                       size={15}
                       className={`ml-2 cursor-pointer ${sortField === "sn"
                           ? "text-blue-500"
                           : "text-gray-500"
                         }`}
                       onClick={() => handleSort("sn", "desc")}
-                    /> */}
+                    /> 
                   </span>
-                </th>
+                </th> */}
                 <th className="border border-gray-200  ">
                   <span className="inline-flex items-center">
                     ORGANISATION NAME{" "}
@@ -286,9 +293,9 @@ const Goods = () => {
                     <td className="border-y text-left ">
                       {item.id}
                     </td>
-                    <td className="border-y text-left ">
+                   {/*  <td className="border-y text-left ">
                       {(item.sn)}
-                    </td>
+                    </td> */}
                     <td
                       className="border-y text-left truncate-25 "
                       title={item.orgname}
@@ -335,8 +342,8 @@ const Goods = () => {
                     <td className={`border-y text-center ${item.status === 'COMPLETED' ? 'text-green-600' : 'text-red-600'}`} style={{ placeItems: 'center' }}>
                       <FaCheckToSlot
                        style={{
-                        cursor: item.status !== 'COMPLETE' ? 'pointer' : 'not-allowed',
-                        pointerEvents: item.status !== 'COMPLETE' ? 'auto' : 'none',
+                        cursor: item.status !== 'COMPLETED' ? 'pointer' : 'not-allowed',
+                        pointerEvents: item.status !== 'COMPLETED' ? 'auto' : 'none',
                       }}
                         onClick={() => handleTransactionDetail(item?.id)}
                         size={20}
