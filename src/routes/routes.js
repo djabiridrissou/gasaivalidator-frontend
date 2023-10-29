@@ -21,7 +21,10 @@ import ViewDetails from "../pages/ViewDetails";
 import UserFileUpload from "../components/UserFileUpload";
 import OrgTransactions from "../pages/OrgTransactions";
 import Misclassified from "../pages/MisclassifiedFunding";
-
+import NoWarrant from "../pages/NoWarrant";
+import NotInGifmis from "../pages/NotInGifmis";
+import NoContract from "../pages/NoContract";
+import StoreManagement from "../pages/StoreManagement";
 export {
   Login,
   Register,
@@ -46,4 +49,8 @@ export {
   ViewDetails,
   UserFileUpload,
   OrgTransactions,
+  NoWarrant,
+  NotInGifmis,
+  NoContract,
+  StoreManagement,
 };

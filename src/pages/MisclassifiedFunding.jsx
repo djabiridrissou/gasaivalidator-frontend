@@ -21,7 +21,7 @@ const Misclassified = () => {
 
     return (
         <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
-            <h1 className="text-[16px] font-bold">Misclassifie Funding</h1>
+            <h1 className="text-[16px] font-bold">Misclassified Funding</h1>
             <div className="bg-white rounded-lg p-2 border shadow-md">
                 <div className="flex justify-between mb-2">
                 </div>
@@ -30,7 +30,7 @@ const Misclassified = () => {
                         <thead className="sticky -top-1 bg-gray-100">
                             <tr className="bg-gray-100">
                                 <th className="border border-gray-200  ">
-                                    <span className="inline-flex items-center">
+                                    <span className="inline-flex items-start">
                                         ID TRANSACTION{" "}
                                         {/* <BiSort
                       size={15}
@@ -43,7 +43,7 @@ const Misclassified = () => {
                                     </span>
                                 </th>
                                 <th className="border border-gray-200  ">
-                                    <span className="inline-flex items-center">
+                                    <span className="inline-flex items-start">
                                         ORGANISATION NAME{" "}
                                         {/* <BiSort
                       size={15}
@@ -56,7 +56,7 @@ const Misclassified = () => {
                                     </span>
                                 </th>
                                 <th className="border border-gray-200  ">
-                                    <span className="inline-flex items-center">
+                                    <span className="inline-flex items-start">
                                         DESCRIPTION{" "}
                                         {/* <BiSort
                       size={15}
@@ -114,22 +114,25 @@ const Misclassified = () => {
                                 misclassifiedList?.map((item, itemIndex) => (
                                     <tr key={itemIndex}>
                                         <td className="border-y text-left ">
-                                            {item?.idtransaction}
+                                            {item?.id}
                                         </td>
                                         <td className="border-y text-left ">
                                             {(item?.orgname)}
                                         </td>
-                                        <td className="border-y text-left ">
+                                        <td className="border-y text-left truncate-25" title={(item?.description)}>
                                             {(item?.description)}
                                         </td>
                                         <td className="border-y text-left ">
                                             {(item?.vendorname)}
                                         </td>
                                         <td className="border-y text-left ">
-                                            {(item?.outstandingclaim)}
+                                            {(item?.outstandingclaim).toLocaleString(undefined, {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                            })}
                                         </td>
                                         <td className="border-y text-left ">
-                                            {(item?.remarks)}
+                                            {(item?.gifmisProcesseds[0].fundingtype)}
                                         </td>
                                     </tr>
                                 ))

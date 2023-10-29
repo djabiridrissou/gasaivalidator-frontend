@@ -6,7 +6,7 @@ import { server } from "../server/server"
 export class NoWorkDoneService extends HttpBaseService {
 
     static classInstance;
-    static apiBaseUrl = `${server}/worknotdone`;
+    static apiBaseUrl = `${server}/gifmis/work-not-done`;
 
     constructor() {
         super("", NoWorkDoneService.apiBaseUrl);

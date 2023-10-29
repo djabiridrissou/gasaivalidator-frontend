@@ -37,6 +37,7 @@ const Form3 = () => {
   const donors = useSelector((state) => state.form3.donors);
   const statutoryFund = useSelector((state) => state.form3.statutoryFund);
   const handleFundingTypeChange = (e) => {
+    console.log("dans fund change", e.target.value);
     dispatch(setFundingType(e.target.value));
   };
 
@@ -54,7 +55,7 @@ const Form3 = () => {
     const formattedValue = formatNumber(e.target.value);
     dispatch(setWarrantAmount(formattedValue));
   };
-
+ console.log("le log", fundingType)
   return (
     <div>
       <div className="flex justify-center items-center">

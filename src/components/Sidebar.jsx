@@ -158,8 +158,8 @@ const Sidebar = ({ open, setOpen }) => {
       icon: Bars3Icon,
       subMenu: [
         { name: "No-Work-Done", route: "/dashboard/noworkdone", icon: DocumentTextIcon },
-        { name: "No-Warrant", route: "#", icon: DocumentTextIcon },
-        { name: "No-Contracts", route: "#", icon: DocumentTextIcon },
+        { name: "No-Warrant", route: "/dashboard/nowarrant", icon: DocumentTextIcon },
+        { name: "No-Contracts", route: "/dashboard/nocontract", icon: DocumentTextIcon },
 
         {
           name: "Missclassified Funding",
@@ -168,7 +168,7 @@ const Sidebar = ({ open, setOpen }) => {
         },
         {
           name: "Not in Gifmis",
-          route: "#",
+          route: "/dashboard/notingifmis",
           icon: DocumentTextIcon,
         },
         {
@@ -178,7 +178,7 @@ const Sidebar = ({ open, setOpen }) => {
         },
         {
           name: "Store management",
-          route: "#",
+          route: "/dashboard/storemanagement",
           icon: DocumentTextIcon,
         },
         {

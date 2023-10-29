@@ -7,10 +7,9 @@ const noWorkDone = NoWorkDoneService.getInstance();
 export const getAllNoWorkDone = createAsyncThunk(
     "noworkdone/getAll",
     async () => {
-        return await noWorkDone.getAllNoWorkDone();
+        return await noWorkDone.getAll();
     }
 );
-
 
 const initialState = {
     noWorkDoneList: [],

@@ -6,7 +6,7 @@ import { server } from "../server/server"
 export class MisclassifiedService extends HttpBaseService {
 
     static classInstance;
-    static apiBaseUrl = `${server}/misclassified`;
+    static apiBaseUrl = `${server}/gifmis/misclassified-funding`;
 
     constructor() {
         super("", MisclassifiedService.apiBaseUrl);

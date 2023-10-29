@@ -43,6 +43,7 @@ const TransactionDetails = () => {
   let budgetFileLabelNumber = useSelector((state) => state.form3.budgetFileLabelNumber);
   let donors = useSelector((state) => state.form3.donors);
   let expenditureType = useSelector((state) => state.form4.expenditureType);
+  console.log("expenstate", expenditureType);
   let workType = useSelector((state) => state.form4.workType);
   let buildingType = useSelector((state) => state.form4.buildingType);
   let numberOfRooms = useSelector((state) => state.form4.numberOfRooms);

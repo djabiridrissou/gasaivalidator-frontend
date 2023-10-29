@@ -7,21 +7,21 @@ import { FaCheckToSlot } from "react-icons/fa6";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { getAllNoWorkDone } from "../redux/features/noworkdoneSlice"
+import { getAllNoWarrant } from "../redux/features/gifmis";
 
-const NoWorkDone = () => {
+const NoWarrant = () => {
     const dispatch = useDispatch();
-    const noWorkDone = useSelector((state) => state.noworkdone.noWorkDoneList);
+    const nowarrantList = useSelector((state) => state.gifmis.noWarrant);
     const navigate = useNavigate();
     useEffect(() => {
-        const response = dispatch(getAllNoWorkDone()).unwrap().then((res) => {
-            console.log("noWorkDoneData", res.data);
+        const response = dispatch(getAllNoWarrant()).unwrap().then((res) => {
+            console.log("nowarrant", res.data);
         });
     }, []);
 
     return (
         <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
-            <h1 className="text-[16px] font-bold">No-Work-Done</h1>
+            <h1 className="text-[16px] font-bold">No warrant</h1>
             <div className="bg-white rounded-lg p-2 border shadow-md">
                 <div className="flex justify-between mb-2">
                 </div>
@@ -30,10 +30,10 @@ const NoWorkDone = () => {
                         <thead className="sticky -top-1 bg-gray-100">
                             <tr className="bg-gray-100">
                                 <th className="border border-gray-200  ">
-                                    <span className="inline-flex items-left">
+                                    <span className="inline-flex items-start">
                                         ID TRANSACTION{" "}
                                         {/* <BiSort
-                      size={15} 
+                      size={15}
                       className={`ml-2 cursor-pointer ${sortField === "orgname"
                           ? "text-blue-500"
                           : "text-gray-500"
@@ -43,7 +43,7 @@ const NoWorkDone = () => {
                                     </span>
                                 </th>
                                 <th className="border border-gray-200  ">
-                                    <span className="inline-flex items-center">
+                                    <span className="inline-flex items-start">
                                         ORGANISATION NAME{" "}
                                         {/* <BiSort
                       size={15}
@@ -56,7 +56,7 @@ const NoWorkDone = () => {
                                     </span>
                                 </th>
                                 <th className="border border-gray-200  ">
-                                    <span className="inline-flex items-center">
+                                    <span className="inline-flex items-start">
                                         DESCRIPTION{" "}
                                         {/* <BiSort
                       size={15}
@@ -110,9 +110,8 @@ const NoWorkDone = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {noWorkDone && noWorkDone.length > 0 ? (
-                                noWorkDone?.map((item, itemIndex) => (
-
+                            {nowarrantList && nowarrantList.length > 0 ? (
+                                nowarrantList?.map((item, itemIndex) => (
                                     <tr key={itemIndex}>
                                         <td className="border-y text-left ">
                                             {item?.id}
@@ -133,7 +132,7 @@ const NoWorkDone = () => {
                                             })}
                                         </td>
                                         <td className="border-y text-left ">
-                                            No-Work-Done
+                                           No warrant
                                         </td>
                                     </tr>
                                 ))
@@ -175,4 +174,4 @@ const NoWorkDone = () => {
     );
 };
 
-export default NoWorkDone;
+export default NoWarrant;

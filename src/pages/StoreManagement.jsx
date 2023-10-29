@@ -7,21 +7,21 @@ import { FaCheckToSlot } from "react-icons/fa6";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { getAllNoWorkDone } from "../redux/features/noworkdoneSlice"
+import { getStoreManagement } from "../redux/features/gifmis";
 
-const NoWorkDone = () => {
+const StoreManagement = () => {
     const dispatch = useDispatch();
-    const noWorkDone = useSelector((state) => state.noworkdone.noWorkDoneList);
+    const storeManagementList = useSelector((state) => state.gifmis.storeManagement);
     const navigate = useNavigate();
     useEffect(() => {
-        const response = dispatch(getAllNoWorkDone()).unwrap().then((res) => {
-            console.log("noWorkDoneData", res.data);
+        const response = dispatch(getStoreManagement()).unwrap().then((res) => {
+            console.log("storemanagement", res.data);
         });
     }, []);
 
     return (
         <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
-            <h1 className="text-[16px] font-bold">No-Work-Done</h1>
+            <h1 className="text-[16px] font-bold">Store Management</h1>
             <div className="bg-white rounded-lg p-2 border shadow-md">
                 <div className="flex justify-between mb-2">
                 </div>
@@ -30,10 +30,10 @@ const NoWorkDone = () => {
                         <thead className="sticky -top-1 bg-gray-100">
                             <tr className="bg-gray-100">
                                 <th className="border border-gray-200  ">
-                                    <span className="inline-flex items-left">
+                                    <span className="inline-flex items-start">
                                         ID TRANSACTION{" "}
                                         {/* <BiSort
-                      size={15} 
+                      size={15}
                       className={`ml-2 cursor-pointer ${sortField === "orgname"
                           ? "text-blue-500"
                           : "text-gray-500"
@@ -43,7 +43,7 @@ const NoWorkDone = () => {
                                     </span>
                                 </th>
                                 <th className="border border-gray-200  ">
-                                    <span className="inline-flex items-center">
+                                    <span className="inline-flex items-start">
                                         ORGANISATION NAME{" "}
                                         {/* <BiSort
                       size={15}
@@ -56,7 +56,7 @@ const NoWorkDone = () => {
                                     </span>
                                 </th>
                                 <th className="border border-gray-200  ">
-                                    <span className="inline-flex items-center">
+                                    <span className="inline-flex items-start">
                                         DESCRIPTION{" "}
                                         {/* <BiSort
                       size={15}
@@ -96,7 +96,46 @@ const NoWorkDone = () => {
                                 </th>
                                 <th className="border border-gray-200  ">
                                     <span className="inline-flex items-center">
-                                        REMARKS{" "}
+                                        CONTRACT QTY{" "}
+                                        {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === "description"
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("description", "desc")}
+                    /> */}
+                                    </span>
+                                </th>
+                                <th className="border border-gray-200  ">
+                                    <span className="inline-flex items-center">
+                                        SUPPLY QTY{" "}
+                                        {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === "description"
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("description", "desc")}
+                    /> */}
+                                    </span>
+                                </th>
+                                <th className="border border-gray-200  ">
+                                    <span className="inline-flex items-center">
+                                        QTY DISTRIBUTED{" "}
+                                        {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === "description"
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("description", "desc")}
+                    /> */}
+                                    </span>
+                                </th>
+                                <th className="border border-gray-200  ">
+                                    <span className="inline-flex items-center">
+                                        QTY STORE{" "}
                                         {/* <BiSort
                       size={15}
                       className={`ml-2 cursor-pointer ${sortField === "description"
@@ -110,9 +149,8 @@ const NoWorkDone = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {noWorkDone && noWorkDone.length > 0 ? (
-                                noWorkDone?.map((item, itemIndex) => (
-
+                            {storeManagementList && storeManagementList.length > 0 ? (
+                                storeManagementList?.map((item, itemIndex) => (
                                     <tr key={itemIndex}>
                                         <td className="border-y text-left ">
                                             {item?.id}
@@ -127,13 +165,34 @@ const NoWorkDone = () => {
                                             {(item?.vendorname)}
                                         </td>
                                         <td className="border-y text-left ">
-                                            {(item?.outstandingclaim).toLocaleString(undefined, {
+                                            {(item?.outstandingclaim)?.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
                                                 maximumFractionDigits: 2,
                                             })}
                                         </td>
                                         <td className="border-y text-left ">
-                                            No-Work-Done
+                                        {(item?.gifmisProcesseds[0].contracts[0].quantity)?.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                        })}
+                                        </td>
+                                        <td className="border-y text-left ">
+                                        {(item?.gifmisProcesseds[0].suppliances[0].quantity)?.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                        })}
+                                        </td>
+                                        <td className="border-y text-left ">
+                                        {(item?.gifmisProcesseds[0].distributedquantity)?.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                        })}
+                                        </td>
+                                        <td className="border-y text-left ">
+                                        {(item?.gifmisProcesseds[0].quantitysendtostore)?.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                        })}
                                         </td>
                                     </tr>
                                 ))
@@ -175,4 +234,4 @@ const NoWorkDone = () => {
     );
 };
 
-export default NoWorkDone;
+export default StoreManagement;
