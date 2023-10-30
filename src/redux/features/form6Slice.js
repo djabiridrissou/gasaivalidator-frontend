@@ -86,11 +86,42 @@ const form6Slice = createSlice({
     setDistrictLocation: (state, action) => {
       state.districtLocation = action.payload;
     },
+
+    setIsItemSupplied: (state, action) => {
+      state.isItemSupplied = action.payload;
+    },
+
+    setIsServiceCompleted: (state, action) => {
+      state.isServiceCompleted = action.payload;
+    },
     
+    setIsWorkCompleted: (state, action) => {
+      state.isWorkCompleted = action.payload;
+    },
+
+    setSuppliances: (state, action) => {
+      state.suppliances = action.payload;
+    },
+
+    setServices: (state, action) => {
+      state.services = action.payload;
+    },
+
+    setWorks: (state, action) => {
+      state.works = action.payload;
+    },
   },
 });
 
 export const { 
+  setIsItemSupplied,
+  setIsServiceCompleted,
+  setIsWorkCompleted,
+  setRegionalLocation,
+  setDistrictLocation,
+  setSuppliances,
+  setServices,
+  setWorks,
   toggleIsItemSupplied,
   toggleIsServiceCompleted,
   toggleIsWorkCompleted, 
@@ -99,8 +130,7 @@ export const {
   updateService,
   removeSuppliances,
   updateWork,
-  setRegionalLocation,
-  setDistrictLocation,
+
 } = form6Slice.actions;
 
 export default form6Slice.reducer;

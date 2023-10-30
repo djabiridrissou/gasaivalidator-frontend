@@ -3,11 +3,13 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import {
   toggleIsItemDistributed,
-  setFileLabelNumber,
+  setFileLabelNumberDistributed,
   setQuantityDistributed,
 } from "../../redux/features/form7Slice";
 
 const Form7 = () => {
+  const currentPath = window.location.pathname;
+  console.log("Chemin actuel : " + currentPath);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const disabled = false;
@@ -80,7 +82,7 @@ const Form7 = () => {
                 type="text"
                 id="fln"
                 value={fileLabelNumber}
-                onChange={(e) => dispatch(setFileLabelNumber(e.target.value))}
+                onChange={(e) => dispatch(setFileLabelNumberDistributed(e.target.value))}
                 placeholder="File Label No"
                 className="appearance-none block w-full text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
               />
@@ -96,7 +98,9 @@ const Form7 = () => {
         >
           Back
         </button>
-        <button
+        {currentPath.startsWith("/dashboard/transactiondetails") && (
+          <div>
+            <button
           onClick={() => navigate(`/dashboard/transactiondetails/${id}/7`)}
           className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${
             disabled && "bg-green-800/50"
@@ -105,6 +109,23 @@ const Form7 = () => {
         >
           Next
         </button>
+          </div>
+        )}
+
+{currentPath.startsWith("/dashboard/edittransaction") && (
+          <div>
+            <button
+          onClick={() => navigate(`/dashboard/edittransaction/${id}/7`)}
+          className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${
+            disabled && "bg-green-800/50"
+          }`}
+          disabled={disabled}
+        >
+          Next
+        </button>
+          </div>
+        )}
+        
       </div>
     </div>
   );

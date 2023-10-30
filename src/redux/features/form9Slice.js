@@ -23,16 +23,25 @@ const form9Slice = createSlice({
     },
 
     updateIpc: (state, action) => {
-        const { index, fieldName, value } = action.payload;
-        state.ipcDetails[index][fieldName] = value;  
-      },
+      const { index, fieldName, value } = action.payload;
+      state.ipcDetails[index][fieldName] = value;
+    },
 
+    setIpcSupported: (state, action) => {
+      state.ipcSupported = action.payload;
+    },
+
+    setIpcDetails: (state, action) => {
+      state.ipcDetails = action.payload;
+    },
   },
 });
 
 export const {
   toggleIpcSupported,
   updateIpc,
+  setIpcSupported,
+  setIpcDetails,
 } = form9Slice.actions;
 
 export default form9Slice.reducer;

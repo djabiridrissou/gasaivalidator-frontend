@@ -15,11 +15,7 @@ import {
   setDepartmentList,
   setBranchList,
   toggleIsTeamLeader,
-  setOrganization,
   setOrganizationList,
-  setMembers,
-  setMemberList,
-  setLoading,
   setPassword,
   setConfirmPassword,
   setDepartmentChoose,
@@ -27,6 +23,7 @@ import {
 import axios from "axios";
 import { server } from "../server/server";
 import { addUser, getUsers } from "../redux/features/users";
+
 
 const Register = () => {
   const navigate = useNavigate();
@@ -39,13 +36,10 @@ const Register = () => {
   const departmentList = useSelector((state) => state.register.departmentList);
   const branchList = useSelector((state) => state.register.branchList);
   const isTeamLeader = useSelector((state) => state.register.isTeamLeader);
-  const organization = useSelector((state) => state.register.organization);
   const organizationList = useSelector((state) => state.register.organizationList);
-  const members = useSelector((state) => state.register.members);
-  const membersList = useSelector((state) => state.register.membersList);
   const password = useSelector((state) => state.register.password);
   const confirmPassword = useSelector((state) => state.register.confirmPassword);
-  const users = useSelector((state) => state.users.users);
+
   let departmentChoose = useSelector((state) => state.register.departmentChoose);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [error, setError] = useState(false);
@@ -54,11 +48,31 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [displayedText, setDisplayedText] = useState("");
   const visible = { display: passwordVisible ? "block" : "none", };
+  const [users, setUsers] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [organisationsToSend, setOrganisationsToSend] = useState([]);
+  const [listOrganisation, setListOrganisation] = useState([]);
+
+  const handleUserSelect = (id) => {
+    const selectedUserId = id;
+    if (!selectedUsers.includes(selectedUserId)) {
+      setSelectedUsers([...selectedUsers, selectedUserId]);
+    }
+  };
+
+  const handleOrganisationChange = (organis) => {
+    console.log("choose", (organis))
+/*     organisationsToSend.push(organis)
+    dispatch(setOrganization(organis)) */
+  }
+
+  // Function to handle user removal
+  const handleRemoveUser = (userId) => {
+    const updatedUsers = selectedUsers.filter((id) => id !== userId);
+    setSelectedUsers(updatedUsers);
+  };
 
   useEffect(() => {
-    const response = dispatch(getUsers()).unwrap().then((res) => {
-      console.log("usersGetRequest:", res);
-    });
 
     departmentList.forEach((element) => {
       if (element.name === department) {
@@ -68,8 +82,8 @@ const Register = () => {
 
     const getOrganizations = async () => {
       const response = await axios.get(`${server}/organisations`);
-      console.log(response.data);
-      dispatch(setOrganizationList(response.data));
+      //console.log(response.data);
+      setListOrganisation(response.data);
     };
     getOrganizations();
 
@@ -78,10 +92,17 @@ const Register = () => {
       dispatch(setDepartmentList(response.data));
       let departmentData = { departmentid: departmentChoose.id, };
       const BranchResponse = await axios.post(`${server}/branches`, departmentData);
-      console.log("branches", BranchResponse.data);
+      //console.log("branches", BranchResponse.data);
       dispatch(setBranchList(BranchResponse.data));
     };
     getDepartments();
+
+    dispatch(getUsers()).unwrap().then(res => {
+      //console.log("resUsers", res);
+      setUsers(res.data);
+    }).catch(error => {
+      console.log(error);
+    });
 
   }, [department, departmentChoose, dispatch]);
 
@@ -98,22 +119,27 @@ const Register = () => {
       setErrorMessage("The password and confirm password fields do not match.");
       setTimeout(() => setError(false), 3000);
     } else {
+      let branchId = branchList.find(e => e.name === branch).id;
+
       const addUserDto = {
-        staffid: staffID,
-        lastname: lastName,
-        othernames: otherNames,
-        department,
-        branch,
-        isleader: isTeamLeader,
-        ismember: true,
-        organisations: organization,
-        members,
-        password,
+        data: {
+          staffid: staffID,
+          lastname: lastName,
+          othernames: otherNames,
+          isleader: isTeamLeader,
+          ismember: true,
+          
+          password,
+        },
+        branchId,
+        membersId: selectedUsers,
+        //organisationsId: organisationsToSend,
       };
+console.log("addUserDto", addUserDto)
 
       setError(false);
-      dispatch(addUser({ data: addUserDto })).unwrap().then((res) => {
-        console.log(res);
+      dispatch(addUser(addUserDto)).unwrap().then((res) => {
+   
         if (res.status == 200) {
           setError(false);
           navigate("/dashboard");
@@ -202,7 +228,7 @@ const Register = () => {
                   htmlFor="lastName"
                   className="block text-sm font-medium "
                 >
-                  Last Name
+                  Full Name
                 </label>
                 <div className="mt-1">
                   <input
@@ -316,37 +342,28 @@ const Register = () => {
                 </div>
               </div>
 
-              <div>
+              {/* <div>
                 {isTeamLeader && (
                   <div className="space-y-3">
                     <div>
                       <label
-                        htmlFor="organization"
+                       
                         className="block text-sm font-medium mb-1 "
                       >
-                        Organization(s)
+                        Organization
                       </label>
                       <div className="flex items-center gap-1">
                         <select
-                          name="organization"
-                          value={organization.name}
-                          onChange={(e) =>
-                            dispatch(setOrganization(e.target.value))
-                          }
-                          id="organization"
+                          name=""
+                          id="orglist"
+                          
+                          onChange={(e) => organisationsToSend.push(parseInt(e.target.value))}
                           required
                           className={`block w-full text-[0.9rem] px-[0.9rem] py-[0.45rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]`}
                         >
-                          <option key="default" value="" className="">
-                                    -----------
-                                  </option>
-                          {organizationList?.map((organization) => (
-                                    
-                            <option
-                              key={organization.id}
-                              value={organization}
-                            >
-                              {organization.name}
+                          {listOrganisation?.map((organis) => (
+                            <option key={organis.id} value={organis.id}>
+                              {organis.name}
                             </option>
                           ))}
                         </select>
@@ -358,31 +375,45 @@ const Register = () => {
                         Team Member(s)
                       </label>
                       <div className="flex items-center gap-1">
-                        {/* Liste des Members à choisir */}
-                        {/* <select
+                        {/* Liste des Members à choisir 
+                        <select
                           name=""
-                          id=""
+                          id="memberlist"
                           required
                           className={`block w-full text-[0.9rem] px-[0.9rem] py-[0.45rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]`}
-                          onChange={}
+                          onChange={} 
                           multiple
                         >
-                          {?.map(() => (
-                            <option key={user.id} value={user.lastname}>
+                          {users?.map((user) => (
+                            <option key={user.id} value={user.id} onClick={() => handleUserSelect(user.id)}>
                               {user.lastname}
                             </option>
                           ))}
-                        </select> */}
+                        </select>
                       </div>
-
+                      <div className="selected-users-container">
+                        {selectedUsers.map((userId) => (
+                          <div key={userId} className="selected-user">
+                            <span className="user-name">
+                              {users.find((user) => user.id === userId).lastname}
+                            </span>
+                            <span
+                              className="remove-user"
+                              onClick={() => handleRemoveUser(userId)}
+                            >
+                              X
+                            </span>
+                          </div>
+                        ))}
+                      </div>
                       <div className="flex flex-wrap overflow-scroll">
-                        {/* Les membres sélectionnés apparaissent ici  */}
-                        {/*Une petite croix pour les suprrimer, onClick a ajuster <span className="text-black" onClick={() => }>X</span>  */}
+                        {/* Les membres sélectionnés apparaissent ici 
+                        {/*Une petite croix pour les suprrimer, onClick a ajuster <span className="text-black" onClick={() => }>X</span> 
                       </div>
                     </div>
                   </div>
                 )}
-              </div>
+              </div> */}
 
               <div>
                 <label

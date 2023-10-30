@@ -104,7 +104,7 @@ const OrgTransactions = () => {
 
   return (
     <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
-      <h1 className="text-[16px] font-bold">ORGANISATIONS</h1>
+      <h1 className="text-[16px] font-bold"></h1>
       {/* Tableau */}
       <div className="bg-white rounded-lg p-2 border shadow-md">
         <div className="flex justify-between mb-2">
@@ -171,6 +171,19 @@ const OrgTransactions = () => {
                     /> */}
                   </span>
                 </th>
+                <th className="border border-gray-200  ">
+                  <span className="inline-flex items-center">
+                    TOTAL OUTSTANDING{" "}
+                    {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === "description"
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("description", "desc")}
+                    /> */}
+                  </span>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -178,11 +191,17 @@ const OrgTransactions = () => {
                 organisations?.map((item, itemIndex) => (
 
                   <tr key={itemIndex}>
-                    <td className="border-y text-center ">
+                    <td className="border-y text-left ">
                       {item.orgname}
                     </td>
-                    <td className="border-y text-center ">
+                    <td className="border-y text-left ">
                       {(item.transactions)}
+                    </td>
+                    <td className="border-y text-left ">
+                      {(item.total_outstanding).toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
                     </td>
                   </tr>
                 ))

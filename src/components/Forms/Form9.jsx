@@ -31,6 +31,8 @@ const regionsInGhana = [
 
 
 const Form9 = () => {
+  const currentPath = window.location.pathname;
+  console.log("Chemin actuel : " + currentPath);
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -87,7 +89,7 @@ const Form9 = () => {
       </div>
 
       {ipcSupported &&
-        ipcDetails.map((ipc, index) => (
+        ipcDetails?.map((ipc, index) => (
           <Fragment key={index}>
             <div className="flex justify-center mt-5">
               <div className="flex flex-col ">
@@ -199,20 +201,16 @@ const Form9 = () => {
             htmlFor="paymentStatus"
             className="block mt-2 text-[13.5px] text-gray-700 font-semibold"
           >
-            Select Work District Location
+            Enter Work District Location
           </label>
-          <select
+          <input
             name="districtLocation"
             id="districtLocation"
+            type="text"
             value={districtLocation}
             onChange={handleDistrictLocationChange}
             className={`mt-3 block text-[13.5px] px-[0.9rem] py-[0.45rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]`}
-          >
-            <option value="">------------------------</option>
-            <option value="Adenta">Adenta</option>
-            <option value="Abokobi">Abokobi</option>
-            <option value="Cantoments">Cantoments</option>
-          </select>
+            />
         </div>
       </div>
       <div className="flex space-x-2 mt-6 justify-center">
@@ -222,12 +220,28 @@ const Form9 = () => {
         >
           Back
         </button>
-        <button
+        {currentPath.startsWith("/dashboard/transactiondetails") && (
+          <div>
+             <button
           onClick={() => navigate(`/dashboard/transactiondetails/${id}/4`)}
           className="bg-blue-500 text-white px-4 py-2 border-full rounded "
         >
           Next
         </button>
+          </div>
+        )}
+
+{currentPath.startsWith("/dashboard/edittransaction") && (
+          <div>
+             <button
+          onClick={() => navigate(`/dashboard/edittransaction/${id}/4`)}
+          className="bg-blue-500 text-white px-4 py-2 border-full rounded "
+        >
+          Next
+        </button>
+          </div>
+        )}
+       
       </div>
     </div>
   );

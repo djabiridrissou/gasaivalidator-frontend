@@ -42,4 +42,15 @@ export class GifmisProcessedService extends HttpBaseService {
             return apiResponse;
         });
     }
+
+    async updateGifmisProcessed(updateGifmisProcessed, id) {
+        let apiResponse = new ApiResponse();
+        return this.instance.put(`/${id}`, updateGifmisProcessed).then(res => {
+            apiResponse = retriveAxiosSuccessResponse(res);
+            return apiResponse;
+        }).catch(err => {
+            apiResponse = retriveAxiosErrorResponse(err);
+            return apiResponse;
+        });
+    }
 }

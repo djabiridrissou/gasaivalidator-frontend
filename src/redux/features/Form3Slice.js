@@ -37,9 +37,6 @@ const form3Slice = createSlice({
       state.availableBudget = !state.availableBudget;
     },
 
-    setFinancialYear: (state, action) => {
-      state.financialYear = action.payload;
-    },
 
     setWarrantDate: (state, action) => {
       state.warrantDate = action.payload;
@@ -69,20 +66,39 @@ const form3Slice = createSlice({
     setStatutoryFund: (state, action) => {
       state.statutoryFund = action.payload;
     },
+
+    setFinancialYear: (state, action) => {
+      state.financialYear = action.payload;
+    },
+
+    setWarrantSupported: (state, action) => {
+      state.warrantSupported = action.payload;
+    },
+
+    setAvailableBudget: (state, action) => {
+      state.availableBudget = action.payload;
+    },
+
+    setDonors: (state, action) => {
+      state.donors = action.payload;
+    },
   },
 });
 
 export const {
   setFundingType,
+  setFinancialYear,
+  setWarrantSupported,
   toggleWarrantSupported,
+  setAvailableBudget,
   toggleAvailableBudget,
   setWarrantDate,
   setWarrantNo,
   setWarrantAmount,
   setFileLabelNumber,
-  setFinancialYear,
   setBudgetFileLabelNumber,
   updateDonor,
+  setDonors,
   setStatutoryFund,
 } = form3Slice.actions;
 

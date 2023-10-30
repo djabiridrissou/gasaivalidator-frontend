@@ -55,6 +55,7 @@ const registerSlice = createSlice({
     },
 
     setOrganization: (state, action) => {
+      console.log("dans dispatch organization");
       state.organization = action.payload;
     },
 

@@ -25,12 +25,16 @@ const form5Slice = createSlice({
       state.invoiceNo = action.payload;
     },
 
-    setFileLabelNumber: (state, action) => {
+    setFileLabelNumberGifmis: (state, action) => {
       state.fileLabelNumber = action.payload;
     },
 
     setInvoiceDate: (state, action) => {
       state.invoiceDate = action.payload;
+    },
+
+    setTransactionInGifmis: (state, action) => {
+      state.transactionInGIFMIS = action.payload;
     },
   },
 });
@@ -39,8 +43,9 @@ export const {
   toggleTransactionInGIFMIS,
   setPurchaseOrderNo,
   setInvoiceNo,
-  setFileLabelNumber,
+  setFileLabelNumberGifmis,
   setInvoiceDate,
+  setTransactionInGifmis,
 } = form5Slice.actions;
 
 export default form5Slice.reducer;

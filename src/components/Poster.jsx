@@ -4,7 +4,7 @@ const Poster = () => {
       <div className="border shadow-lg w-[440px] h-[450px] mx-auto px-2 poster">
         <div className="flex flex-col items-center ">
           <img
-            src="/public/images/logoAudit.jpg"
+            src="/images/logoAudit.jpg"
             alt="Ghana_Audit_Service_logo"
             className="w-[100px]"
           />

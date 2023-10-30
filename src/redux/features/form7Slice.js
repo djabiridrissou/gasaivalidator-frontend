@@ -15,17 +15,21 @@ const form7Slice = createSlice({
       state.isItemDistributed = !state.isItemDistributed;
     },
 
-    setFileLabelNumber: (state, action) => {
+    setFileLabelNumberDistributed: (state, action) => {
       state.fileLabelNumber = action.payload;
     },
 
     setQuantityDistributed: (state, action) => {
       state.quantityDistributed = action.payload;
-    }
+    },
+
+    setIsItemDistributed: (state, action) => {
+      state.isItemDistributed = action.payload;
+    },
   },
 });
 
-export const { toggleIsItemDistributed, setFileLabelNumber, setQuantityDistributed } =
+export const { toggleIsItemDistributed, setFileLabelNumberDistributed, setQuantityDistributed, setIsItemDistributed } =
   form7Slice.actions;
 
 export default form7Slice.reducer;

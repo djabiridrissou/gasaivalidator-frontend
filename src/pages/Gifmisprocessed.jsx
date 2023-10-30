@@ -3,11 +3,58 @@ import { useSelector, useDispatch } from "react-redux";
 import ReactPaginate from "react-paginate";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BiSort } from "react-icons/bi";
-import { FaCheckToSlot } from "react-icons/fa6";
+import { FaAccessibleIcon, FaArrowUpFromGroundWater, FaBellSlash, FaCheckToSlot } from "react-icons/fa6";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { getAllGifmisProcessed } from "../redux/features/gifmis-processed";
+import { FaEdit, FaTimes } from "react-icons/fa";
+import { getCurentUser } from "../redux/features/auth";
+
+function EditTransactionModal({ transaction, onConfirm, onClose }) {
+  const [id, setId] = useState("");
+  const [error, setError] = useState("");
+
+
+  const handleConfirm = () => {
+    console.log("la transac", transaction);
+    if (id == transaction.idgifmis) {
+
+      onConfirm();
+    } else {
+      setError("Incorrect ID. Try again.");
+    }
+  };
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal">
+        <div className="modal-header">
+          <h2>Edit Transaction</h2>
+          <FaTimes className="close-icon" onClick={onClose} />
+        </div>
+        <div className="modal-content">
+          {/*  <div className="transaction-details">
+            <p>ID: {transaction.id}</p>
+            <p>Autres détails: {transaction.autresChamps}</p>
+          </div> */}
+          {/* <h2>Enter the transaction ID:</h2> */}
+          <input
+            type="number"
+            value={id}
+            onChange={(e) => setId(e.target.value)}
+            className="border inputModal"
+            placeholder="Enter the transaction ID"
+          />
+          {error && <div className="error">{error}</div>}
+          <button className="confirm-button " onClick={handleConfirm}>
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // const limit = 25;
 
@@ -15,54 +62,62 @@ const GifmisprocessedPage = () => {
   const dispatch = useDispatch();
   const transactions = useSelector((state) => state.gifmisProcessed.gifmisProcessed);
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState({});
+  const [currentTransaction, setCurrentTransaction] = useState(null);
+  const [isModalOpen, setModalOpen] = useState(false);
+  useEffect(() => {
+    const response = dispatch(getAllGifmisProcessed()).unwrap().then((res) => {
+      console.log("gifprocessed", res);
+    });
 
-     
-   useEffect(() => {
-      const response = dispatch(getAllGifmisProcessed()).unwrap().then((res) => {
-          console.log("gifprocessed", res);
-      });
-     }, []);
+    dispatch(getCurentUser()).unwrap().then(res => {
+      console.log("res", res.user);
+      setCurrentUser(res.user);
+    }).catch(error => {
+      console.log(error);
+    });
+  }, []);
   
-   
-/* 
-  const handleLimitChange = (e) => {
-    dispatch(setLimit(parseInt(e.target.value)));
-  }; */
 
-/*   const handleSort = (field) => {
-    if (field === sortField) {
-      dispatch(setSortOrder(sortOrder === "asc" ? "desc" : "asc"));
-    } else {
-      dispatch(setSortField(field));
-      dispatch(setSortOrder("asc"));
-    }
-  }; */
+  /* 
+    const handleLimitChange = (e) => {
+      dispatch(setLimit(parseInt(e.target.value)));
+    }; */
 
-/*   const handlePageChange = ({ selected }) => {
-    dispatch(setPage(selected + 1));
-  };
+  /*   const handleSort = (field) => {
+      if (field === sortField) {
+        dispatch(setSortOrder(sortOrder === "asc" ? "desc" : "asc"));
+      } else {
+        dispatch(setSortField(field));
+        dispatch(setSortOrder("asc"));
+      }
+    }; */
 
-  */
-
-/*   const handleSearchInputChange = (e) => {
-    const newSearchTerm = e.target.value;
-    dispatch(setSearchTerm(e.target.value));
-    dispatch(setPage(1)); // Réinitialise la page à 1 lorsque la recherche est modifiée
-    //console.log('dans search');
-  }; */
-
-/*   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <FontAwesomeIcon
-          icon={faCircleNotch}
-          className="animate-spin text-gray-500 text-4xl"
-        />
-      </div>
-    );
-  } */
-
+  /*   const handlePageChange = ({ selected }) => {
+      dispatch(setPage(selected + 1));
+    };
   
+    */
+
+  /*   const handleSearchInputChange = (e) => {
+      const newSearchTerm = e.target.value;
+      dispatch(setSearchTerm(e.target.value));
+      dispatch(setPage(1)); // Réinitialise la page à 1 lorsque la recherche est modifiée
+      //console.log('dans search');
+    }; */
+
+  /*   if (loading) {
+      return (
+        <div className="flex items-center justify-center h-screen">
+          <FontAwesomeIcon
+            icon={faCircleNotch}
+            className="animate-spin text-gray-500 text-4xl"
+          />
+        </div>
+      );
+    } */
+
+
 
   // function formatDate(dateString) {
   //   if (dateString) {
@@ -81,21 +136,34 @@ const GifmisprocessedPage = () => {
     if (value) {
       return (
         <span
-          /* dangerouslySetInnerHTML={{
-            __html: value.replace(
-              /* new RegExp(searchTerm, "gi"),
-              (match) => `<span class="highlight">${match}</span>` 
-            ),
-          }} */
+        /* dangerouslySetInnerHTML={{
+          __html: value.replace(
+            /* new RegExp(searchTerm, "gi"),
+            (match) => `<span class="highlight">${match}</span>` 
+          ),
+        }} */
         />
       );
     }
   }
-  const handleTransactionDetail = (id) => {
-    navigate(`/dashboard/transactiondetails/${id}`);
-  }; 
+  const handleTransactionDetail = (transaction) => {
+    // Lorsque l'utilisateur clique sur l'icône "FaEdit", stockez les détails de la transaction
+    setCurrentTransaction(transaction);
+    // Affichez la fenêtre modale pour la saisie de l'ID
+    setModalOpen(true);
+  };
 
-/*   const startIndex = (page - 1) * limit; */
+  const handleConfirm = () => {
+    // Cette fonction sera appelée lorsque l'ID est confirmé dans la fenêtre modale
+    // Naviguez vers la page de "edittransaction" avec l'ID de la transaction actuelle
+    navigate(`/dashboard/edittransaction/${currentTransaction.id}`);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setCurrentTransaction(null);
+  };
+  /*   const startIndex = (page - 1) * limit; */
 
   return (
     <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
@@ -103,7 +171,7 @@ const GifmisprocessedPage = () => {
       {/* Tableau */}
       <div className="bg-white rounded-lg p-2 border shadow-md">
         <div className="flex justify-between mb-2">
-      {/*     <div className="flex gap-1 items-center">
+          {/*     <div className="flex gap-1 items-center">
             <span>Show</span>
             <select
               name="limit"
@@ -139,37 +207,24 @@ const GifmisprocessedPage = () => {
         <div className="max-h-[80vh] overflow-y-scroll">
           <table className="table-auto w-full bg-white text-[13px]">
             <thead className="sticky -top-1 bg-gray-100">
-              <tr className="bg-gray-100">
-                <th className="border border-gray-200 text-left ">ID</th>
-                <th className="border border-gray-200  ">
+            <tr className="bg-gray-100">
+                <th className="border border-gray-200 text-left ">PAYMENT STATUS</th>
+                {/* <th className="border border-gray-200  ">
                   <span className="inline-flex items-center">
-                    PAYMENT STATUS{" "}
-                    {/* <BiSort
+                    SN{" "}
+                    <BiSort
                       size={15}
                       className={`ml-2 cursor-pointer ${sortField === "sn"
                           ? "text-blue-500"
                           : "text-gray-500"
                         }`}
                       onClick={() => handleSort("sn", "desc")}
-                    /> */}
+                    /> 
                   </span>
-                </th>
+                </th> */}
                 <th className="border border-gray-200  ">
                   <span className="inline-flex items-center">
-                    FUNDING TYPE{" "}
-                    {/* <BiSort
-                      size={15}
-                      className={`ml-2 cursor-pointer ${sortField === "sn"
-                          ? "text-blue-500"
-                          : "text-gray-500"
-                        }`}
-                      onClick={() => handleSort("sn", "desc")}
-                    /> */}
-                  </span>
-                </th>
-                <th className="border border-gray-200  ">
-                  <span className="inline-flex items-center">
-                    EXPENDITURE TYPE{" "}
+                    ORGANISATION NAME{" "}
                     {/* <BiSort
                       size={15}
                       className={`ml-2 cursor-pointer ${sortField === "orgname"
@@ -182,7 +237,7 @@ const GifmisprocessedPage = () => {
                 </th>
                 <th className="border border-gray-200  ">
                   <span className="inline-flex items-center">
-                    INVOICE NO{" "}
+                    DESCRIPTION{" "}
                     {/* <BiSort
                       size={15}
                       className={`ml-2 cursor-pointer ${sortField === "description"
@@ -193,7 +248,71 @@ const GifmisprocessedPage = () => {
                     /> */}
                   </span>
                 </th>
-                
+                <th className="border border-gray-200  ">
+                  <span className="inline-flex items-center">
+                    VENDOR NAME{" "}
+                    {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === "vendorname"
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("vendorname", "desc")}
+                    /> */}
+                  </span>
+                </th>
+                <th className="border border-gray-200  ">
+                  <span className="inline-flex items-center">
+                    REVISED CONTRACT AMOUNT{" "}
+                    {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === "revisedcontractamount"
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("revisedcontractamount", "desc")}
+                    /> */}
+                  </span>
+                </th>
+                <th className="border border-gray-200  ">
+                  <span className="inline-flex items-center">
+                    AMOUNT PAID{" "}
+                    {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === "amountpaid"
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("amountpaid", "desc")}
+                    /> */}
+                  </span>
+                </th>
+                <th className="border border-gray-200  ">
+                  <span className="inline-flex items-center">
+                    OUTSTANDING CLAIM{" "}
+                    {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === "outstandingclaim"
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("outstandingclaim", "desc")}
+                    /> */}
+                  </span>
+                </th>
+                <th className="border border-gray-200  ">
+                  <span className="inline-flex items-center">
+                    ASSIGN TO{" "}
+                    {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === ""
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("", "desc")}
+                    /> */}
+                  </span>
+                </th>
                 <th className="border border-gray-200  ">
                   <span className="inline-flex items-center">
                     ACTION{" "}
@@ -207,44 +326,75 @@ const GifmisprocessedPage = () => {
                     /> */}
                   </span>
                 </th>
-                
               </tr>
             </thead>
             <tbody>
               {transactions && transactions.length > 0 ? (
-                transactions?.map((item, itemIndex) => (
-            
+                transactions?.map((item, itemIndex) =>
+                (
+
                   <tr key={itemIndex}>
-                    <td className="border-y text-left ">
+                    {/*  <td className="border-y text-left ">
                       {item.id}
-                    </td>
+                    </td> */}
                     <td className="border-y text-left ">
                       {(item.payment)}
                     </td>
                     <td
                       className="border-y text-left truncate-25 "
-                      title={item.fundingtype}
+                      title={item.gifmis.orgname}
                     >
-                      {(item.fundingtype)}
+                      {(item.gifmis.orgname)}
                     </td>
                     <td
                       className="border-y text-left truncate-25"
-                      title={item.expendituretype}
+                      title={item.gifmis.description}
                     >
-                      {(item.expendituretype)}
+                      {(item.gifmis.description)}
                     </td>
-                    <td className="border-y text-left ">
-                      {(item.invoiceno)}
+                    <td className="border-y text-left truncate-25" title={item.gifmis.vendorname}>
+                      {(item.gifmis.vendorname)}
                     </td>
-                    <td className={`border-y text-center ${item.status === 'COMPLETED' ? 'text-green-600' : 'text-red-600'}`} style={{ placeItems: 'center' }}>
-                      <FaCheckToSlot
-                       style={{
-                        cursor: item.status !== 'COMPLETE' ? 'pointer' : 'not-allowed',
-                        pointerEvents: item.status !== 'COMPLETE' ? 'auto' : 'none',
-                      }}
-                        onClick={() => handleTransactionDetail(item?.id)}
-                        size={20}
-                      />
+                    <td className="border-y text-left truncate-25">
+                      {(item.gifmis.revisedcontractamount).toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </td>
+                    <td className="border-y text-left truncate-25">
+                      {(item.gifmis.amountpaid).toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </td>
+                    <td className="border-y text-left truncate-25">
+                      {(item.gifmis.outstandingclaim).toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </td>
+                    <td className="border-y text-left truncate-25" title={item.user.lastname}>
+                      {(item.user.lastname)}
+                    </td>
+                    <td className={`border-y text-center text-yellow-500`} style={{ placeItems: 'center' }}>
+                      {item.userId == currentUser.id ? (
+                        <FaEdit
+                          onClick={() => handleTransactionDetail(item)}
+                          size={20}
+                          className="cursor-pointer"
+                        />
+                      ) : (
+                        <FaEdit
+                        style={{
+                          cursor: 'not-allowed',
+                          pointerEvents: 'none',
+                          color: 'gray',
+                        }}
+                          size={20}
+                          className="cursor-pointer"
+                        />
+                      )}
+
                     </td>
                   </tr>
                 ))
@@ -259,8 +409,17 @@ const GifmisprocessedPage = () => {
               )}
             </tbody>
           </table>
+
         </div>
+
       </div>
+      {isModalOpen && currentTransaction && (
+        <EditTransactionModal
+          transaction={currentTransaction}
+          onConfirm={handleConfirm}
+          onClose={closeModal}
+        />
+      )}
       {/* Pagination */}
       {/* <div className="flex tex-xs justify-end mr-3 mt-1">
         <ReactPaginate

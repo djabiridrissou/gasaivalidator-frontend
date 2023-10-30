@@ -13,6 +13,9 @@ import Form2 from "./Form2";
 import { formatNumber } from "../../functions/helperFunctions";
 
 const Form1 = () => {
+  const currentPath = window.location.pathname;
+console.log("Chemin actuel : " + currentPath);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const paymentStatus = useSelector((state) => state.form1.paymentStatus);
@@ -54,7 +57,7 @@ const Form1 = () => {
             className={`mt-3 block text-[13.5px] px-[0.9rem] py-[0.45rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]`}
           >
             <option value="">------------------------</option>
-            <option value="fully paid">Fully paid</option>
+            {/* <option value="fully paid">Fully paid</option> */}
             <option value="partial payment">Partial payment</option>
             <option value="unpaid">Unpaid</option>
           </select>
@@ -91,7 +94,7 @@ const Form1 = () => {
         </label>
       </div>
 
-        {transactions.map((transactions, index) => (
+        {transactions?.map((transactions, index) => (
           <Fragment key={index}>
             <div className="flex justify-center">
               <div className="flex gap-2 justify-center items-center">

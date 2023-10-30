@@ -28,6 +28,10 @@ const form1Slice = createSlice({
       state.isJobDone = !state.isJobDone
     },
 
+    setIsJobDone: (state, action) => {
+      state.isJobDone = action.payload;
+    },
+
     addTransaction: (state) => {
       state.transactions.push({
         // invoiceAmount: "",
@@ -44,6 +48,10 @@ const form1Slice = createSlice({
     removeTransactions: (state, action) => {
       state.transactions = action.payload;
     },
+
+    setTransactions: (state, action) => {
+      state.transactions = action.payload;
+    },
   },
 });
 
@@ -54,5 +62,6 @@ export const {
   removeTransactions,
   setTransactions,
   toggleIsJobDone,
+  setIsJobDone,
 } = form1Slice.actions;
 export default form1Slice.reducer;

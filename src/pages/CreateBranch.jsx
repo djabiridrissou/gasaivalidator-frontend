@@ -10,6 +10,7 @@ import {
 } from "../redux/features/branch_departmentSlice";
 import { server } from "../server/server";
 import axios from "axios";
+import { toast } from 'react-toastify';
 
 const CreateBranch = () => {
   const dispatch = useDispatch();
@@ -61,12 +62,13 @@ const CreateBranch = () => {
 
       console.log(response.data);
       if (response.data) {
-        alert("Successful");
+        toast.success("Branch created successfully");
         dispatch(setBranchName(""));
         dispatch(setBranchDepartment(""));
       }
     } catch (error) {
       console.log(error);
+      toast.success("Branch not created, provide valid details");
     }
   };
 

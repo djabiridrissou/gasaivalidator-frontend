@@ -3,12 +3,12 @@ import { Menu, Popover, Transition } from '@headlessui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { UserCircleIcon } from '@heroicons/react/20/solid';
+import { FaEdit, FaTimes } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getCurentUser } from "../redux/features/auth";
+import { current } from '@reduxjs/toolkit';
 
-const user = {
-  name: 'admin',
-  email: 'admin@gmail.com',
-  imageUrl: '',
-}
 const navigation = [
  /*  { name: 'Dashboard', href: '#', current: true },
   { name: 'Calendar', href: '#', current: false },
@@ -21,11 +21,23 @@ const userNavigation = [
   { name: 'Sign out', href: '/' },
 ]
 
+const user = [];
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+
 export default function NavB() {
+  const dispatch = useDispatch();
+  const [currentUser, setCurrentUser] = useState({});
+  useEffect(() => {
+    dispatch(getCurentUser()).unwrap().then(res => {
+      //console.log("res", res.user);
+      setCurrentUser(res.user);
+    }).catch(error => {
+      console.log(error);
+    });
+  }, []);
   return (
     <>
       {/* When the mobile menu is open, add `overflow-hidden` to the `body` element to prevent double scrollbars */}
@@ -98,15 +110,17 @@ export default function NavB() {
 
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative ml-5 flex-shrink-0">
-                    <div>
+                    <div className='flex flex-col items-center'>
                       <Menu.Button className="relative flex rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only">Open user menu</span>
                         <UserCircleIcon // Use the blank user icon from Heroicons here
-    className="h-8 w-8 rounded-full"
-    aria-hidden="true"
-  />
+                          className="h-8 w-8 rounded-full"
+                          aria-hidden="true"
+                        />
+                        
                       </Menu.Button>
+                      <span className=''>{currentUser.lastname}</span>
                     </div>
                     <Transition
                       as={Fragment}
@@ -137,7 +151,7 @@ export default function NavB() {
                     </Transition>
                   </Menu>
 
-                 {/*  <a
+                  {/*  <a
                     href="#"
                     className="ml-6 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
@@ -169,7 +183,7 @@ export default function NavB() {
                     <img className="h-10 w-10 rounded-full" src={user.imageUrl} alt="" />
                   </div>
                   <div className="ml-3">
-                    <div className="text-base font-medium text-gray-800">{user.name}</div>
+                    <div className="text-base font-medium text-gray-800"></div>
                     <div className="text-sm font-medium text-gray-500">{user.email}</div>
                   </div>
                   <button

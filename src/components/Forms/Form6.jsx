@@ -18,7 +18,8 @@ const Form6 = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
-
+  const currentPath = window.location.pathname;
+  console.log("Chemin actuel : " + currentPath);
   const suppliances = useSelector((state) => state.form6.suppliances);
   const isItemSupplied = useSelector((state) => state.form6.isItemSupplied);
   const isServiceCompleted = useSelector(
@@ -401,20 +402,7 @@ const Form6 = () => {
                         className="appearance-none block w-[90%] text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
                       />
                     </div>
-                    {/*  <button
-                     className="font-medium bg-green-700 px-[0.8rem] py-[0.15rem] mt-6"
-                     onClick={addNewSuppliance}
-                   >
-                     <span>+</span>
-                   </button>
-                   {index > 0 && (
-                     <button
-                       className="font-medium bg-red-700 px-[0.8rem] py-[0.15rem] mt-6 ml-2"
-                       onClick={() => removeSuppliance(index)}
-                     >
-                       <span>-</span>
-                     </button> */}
-                    {/* )} */}
+                    
                   </div>
                 </Fragment>
               ))}
@@ -428,7 +416,9 @@ const Form6 = () => {
             >
               Back
             </button>
-            <button
+            {currentPath.startsWith("/dashboard/transactiondetails") && (
+              <div>
+                <button
               onClick={() => navigate(`/dashboard/transactiondetails/${id}/6`)}
               className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${
                 expenditureType === "Service" && "bg-green-800/50"
@@ -437,10 +427,24 @@ const Form6 = () => {
             >
               Next
             </button>
+              </div>
+            )}
+            {currentPath.startsWith("/dashboard/edittransaction") && (
+              <div>
+                <button
+              onClick={() => navigate(`/dashboard/edittransaction/${id}/6`)}
+              className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${
+                expenditureType === "Service" && "bg-green-800/50"
+              }`}
+              disabled={expenditureType === "Service"} // Disable the button if isItemSupplied is false
+            >
+              Next
+            </button>
+              </div>
+            )}
           </div>
         </div>
       )}
-
       {expenditureType === "Works" &&
         (workType === "Building" ||
           workType === "Structure Improvement" ||
@@ -478,7 +482,7 @@ const Form6 = () => {
 
             {isWorkCompleted && (
               <div>
-                {works.map((work, index) => (
+                {works?.map((work, index) => (
                   <Fragment key={index}>
                     <div className="flex justify-center mt-3">
                       <div className="">
@@ -613,7 +617,7 @@ const Form6 = () => {
                         >
                           <option value="">------------------------</option>
 
-                          {regionsInGhana.map((region) => (
+                          {regionsInGhana?.map((region) => (
                             <option key={region.id} value={region.name}>
                               {region.name}
                             </option>
@@ -627,44 +631,43 @@ const Form6 = () => {
                           htmlFor="paymentStatus"
                           className="block mt-3 mb-2 text-sm text-[13.5px] text-gray-700 font-semibold"
                         >
-                          Select Work District Location
+                          Enter Work District Location
                         </label>
-                        <select
+                        <input
                           name="districtLocation"
                           id="districtLocation"
+                          type="text"
                           value={districtLocation}
                           onChange={handleDistrictLocationChange}
                           className={` block text-[13.5px] px-[0.9rem] py-[0.45rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]`}
-                        >
-                          <option value="">------------------------</option>
-                          <option value="Adenta">Adenta</option>
-                          <option value="Abokobi">Abokobi</option>
-                          <option value="Cantoments">Cantoments</option>
-                        </select>
+                          />
+                          
+                      
                       </div>
                     </div>
                   </Fragment>
                 ))}
               </div>
             )}
-          </div>
-        )}
-
-    <div className="flex space-x-2 mt-6 justify-center">
+            <div className="flex space-x-2 mt-6 justify-center">
         <button
           onClick={() => navigate(-1)}
           className="bg-black text-white px-4 py-2 border-full rounded"
         >
           Back
         </button>
-        {/*   <button
-          onClick={() => navigate(`/dashboard/transactiondetails/${id}/#`)}
-          className="bg-green-800/50 text-white px-4 py-2 border-full rounded "
-          disabled={true}
-        >
-          Next
-        </button>*/}
       </div> 
+          </div>
+        )}
+
+    {/* <div className="flex space-x-2 mt-6 justify-center">
+        <button
+          onClick={() => navigate(-1)}
+          className="bg-black text-white px-4 py-2 border-full rounded"
+        >
+          Back
+        </button>
+      </div>  */}
     </div>
   );
 };

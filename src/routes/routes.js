@@ -16,16 +16,21 @@ import Form6 from "../components/Forms/Form6";
 import Form7 from "../components/Forms/Form7";
 import Form8 from "../components/Forms/Form8";
 import Form9 from "../components/Forms/Form9";
-import Form1Edit from "../components/EditForms/Form1Edit";
+import NoWorkDone from "../pages/NoWorkDone";
 import ViewDetails from "../pages/ViewDetails";
-import Form2Edit from "../components/EditForms/Form2Edit";
-import Form3Edit from "../components/EditForms/Form3Edit";
-import Form4Edit from "../components/EditForms/Form4Edit";
-import Form5Edit from "../components/EditForms/Form5Edit";
-import Form6Edit from "../components/EditForms/Form6Edit";
-import Form7Edit from "../components/EditForms/Form7Edit";
 import UserFileUpload from "../components/UserFileUpload";
 import OrgTransactions from "../pages/OrgTransactions";
+import Misclassified from "../pages/MisclassifiedFunding";
+import NoWarrant from "../pages/NoWarrant";
+import NotInGifmis from "../pages/NotInGifmis";
+import NoContract from "../pages/NoContract";
+import StoreManagement from "../pages/StoreManagement";
+import ContractManagement from "../pages/ContractManagement";
+import NoIpc from "../pages/NoIpc";
+import NoJudgement from "../pages/NoJudgement";
+import TeamLeaders from "../pages/TeamLeaders";
+import TeamMembers from "../pages/TeamMembers";
+
 
 export {
   Login,
@@ -46,14 +51,18 @@ export {
   Form7,
   Form8,
   Form9,
-  Form1Edit,
+  NoWorkDone,
+  Misclassified,
   ViewDetails,
-  Form2Edit,
-  Form3Edit,
-  Form4Edit,
-  Form5Edit,
-  Form6Edit,
-  Form7Edit,
   UserFileUpload,
   OrgTransactions,
+  NoWarrant,
+  NotInGifmis,
+  NoContract,
+  StoreManagement,
+  ContractManagement,
+  NoIpc,
+  NoJudgement,
+  TeamLeaders,
+  TeamMembers,
 };
