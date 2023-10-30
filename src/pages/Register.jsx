@@ -342,10 +342,10 @@ console.log("addUserDto", addUserDto)
                 </div>
               </div>
 
-              {/* <div>
+              <div>
                 {isTeamLeader && (
                   <div className="space-y-3">
-                    <div>
+                 {/*    <div>
                       <label
                        
                         className="block text-sm font-medium mb-1 "
@@ -368,20 +368,20 @@ console.log("addUserDto", addUserDto)
                           ))}
                         </select>
                       </div>
-                    </div>
+                    </div>*/}
 
                     <div>
                       <label htmlFor="teamMembers" className="block text-sm font-medium mb-1">
                         Team Member(s)
                       </label>
                       <div className="flex items-center gap-1">
-                        {/* Liste des Members à choisir 
+                      
                         <select
                           name=""
                           id="memberlist"
                           required
                           className={`block w-full text-[0.9rem] px-[0.9rem] py-[0.45rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]`}
-                          onChange={} 
+                          
                           multiple
                         >
                           {users?.map((user) => (
@@ -407,13 +407,12 @@ console.log("addUserDto", addUserDto)
                         ))}
                       </div>
                       <div className="flex flex-wrap overflow-scroll">
-                        {/* Les membres sélectionnés apparaissent ici 
-                        {/*Une petite croix pour les suprrimer, onClick a ajuster <span className="text-black" onClick={() => }>X</span> 
+                        
                       </div>
                     </div>
                   </div>
                 )}
-              </div> */}
+              </div> 
 
               <div>
                 <label
