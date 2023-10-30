@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Poster from "../components/Poster";
@@ -14,9 +14,13 @@ import {
   FaWeibo,
   FaAlgolia,
 } from "react-icons/fa";
+import { getCurentUser } from "../redux/features/auth";
+
 const Dashboard = () => {
   const dispatch = useDispatch();
-
+  const [currentUser, setCurrentUser] = useState({});
+  const isAdmin = currentUser.role?.roleName == "admin";
+  console.log('isAdmin', isAdmin);
   function formatDate(dateString) {
     if (dateString) {
       const options = { day: "2-digit", month: "2-digit", year: "2-digit" };
@@ -29,41 +33,21 @@ const Dashboard = () => {
     }
     return "";
   }
+  useEffect(() => {
+    dispatch(getCurentUser()).unwrap().then(res => {
+      console.log("res", res.user);
+      setCurrentUser(res.user);
+    }).catch(error => {
+      console.log(error);
+    });
+  }, []);
 
-  const calculateDateRange = (dates) => {
-    if (!dates.min_date || !dates.max_date) {
-      return {
-        minD: "",
-        maxD: "",
-        isUpdated: false,
-      };
-    }
-
-    const minD = formatDate(dates.min_date);
-    const maxD = formatDate(dates.max_date);
-
-    let currentDate = new Date();
-    let currentMonth = currentDate.getMonth() + 1;
-    let currentYear = currentDate.getFullYear();
-
-    let maxDateParts = dates.max_date.split("-");
-    let maxYear = parseInt(maxDateParts[0]);
-    let maxMonth = parseInt(maxDateParts[1]);
-
-    let isUpdated = maxYear >= currentYear && maxMonth >= currentMonth;
-
-    return {
-      minD,
-      maxD,
-      isUpdated,
-    };
-  };
   const formatStringWithCommas = (numberString) => {
     const parts = numberString?.split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
   };
-
+  console.log("currentUser", currentUser);
   return (
     <>
       <div className="cube-container -ml-4 - z-40 flex -mt-2 h-10  items-center gap-x-1 px-4  sm:gap-x-2 sm:px-6 lg:px-4">
@@ -80,42 +64,11 @@ const Dashboard = () => {
         <h1 className="font-bold text-xl">AI Audit Solutions!</h1>
       </div>
 
-      {/* Dates row */}
-      <div className="flex justify-between items-start mt-4 mr-4">
-        {/* <div className="text-[10px]">
-          {cargoDateRange && (
-          <><span className="underline">Cargo</span><span className="font-bold"> {cargoDateRange?.minD} - {cargoDateRange?.maxD}</span><span
-              className={`${cargoDateRange?.isUpdated ? "bg-green-700" : "bg-red-700"} ml-2 px-2 py-0 inline-flex text-[10px] text-white font-bold`}
-            >
-              {cargoDateRange?.isUpdated ? "Updated" : "Not updated"}
-            </span></>
-         )}
-        </div>
+    {isAdmin ? (
+      <div>
+        <div className="flex justify-between items-start mt-4 mr-4">
         
-        <div className="text-[10px]">
-          {importDateRange && (
-          <><span className="underline">Import</span><span className="font-bold"> {importDateRange?.minD} - {importDateRange?.maxD}</span><span
-              className={`${importDateRange?.isUpdated ? "bg-green-700" : "bg-red-700"} ml-2 px-2 py-0 inline-flex text-[10px] text-white font-bold`}
-            >
-              {importDateRange?.isUpdated ? "Updated" : "Not updated"}
-            </span></>
-         )}
-        </div>
-
-        <div className="text-[10px]">
-          {uclDateRange && (
-          <><span className="underline">UCL</span><span className="font-bold"> {uclDateRange?.minD} - {uclDateRange?.maxD}</span><span
-              className={`${uclDateRange?.isUpdated ? "bg-green-700" : "bg-red-700"} ml-2 px-2 py-0 inline-flex text-[10px] text-white font-bold`}
-            >
-              {uclDateRange?.isUpdated ? "Updated" : "Not updated"}
-            </span></>
-         )}
-        </div> */}
       </div>
-      {/* <div className="-mt-2 w-[100px] h-[150px]">
-      <Poster />
-      </div> */}
-      {/*First row */}
       <div className="flex justify-end mt-2 mr-4 relative">
         <Link to="/dashboard/orgtransactions">
           <button className="font-medium bg-green-700 px-[0.8rem] py-[0.15rem] text-green-200">
@@ -320,6 +273,13 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      </div>
+    ) : (
+      <div className="flex justify-center items-center w-full">
+        <Poster />
+      </div>
+    )}
+      
     </>
   );
 };

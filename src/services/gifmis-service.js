@@ -87,4 +87,37 @@ export class GoodsService extends HttpBaseService {
             return apiResponse;
         });
     }
+
+    async getContractManagement() {
+        let apiResponse = new ApiResponse();
+        return this.instance.get('/contract-management').then(res => {
+            apiResponse = retriveAxiosSuccessResponse(res);
+            return apiResponse;
+        }).catch(err => {
+            apiResponse = retriveAxiosErrorResponse(err);
+            return apiResponse;
+        });
+    }
+
+    async getNoIpc() {
+        let apiResponse = new ApiResponse();
+        return this.instance.get('/no-ipc').then(res => {
+            apiResponse = retriveAxiosSuccessResponse(res);
+            return apiResponse;
+        }).catch(err => {
+            apiResponse = retriveAxiosErrorResponse(err);
+            return apiResponse;
+        });
+    }
+
+    async getNoJudgement() {
+        let apiResponse = new ApiResponse();
+        return this.instance.get('/no-judgement').then(res => {
+            apiResponse = retriveAxiosSuccessResponse(res);
+            return apiResponse;
+        }).catch(err => {
+            apiResponse = retriveAxiosErrorResponse(err);
+            return apiResponse;
+        });
+    }
 }

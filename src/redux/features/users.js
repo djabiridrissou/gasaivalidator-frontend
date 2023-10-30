@@ -25,12 +25,12 @@ const usersSlice = createSlice({
     reducers: {
     },
     extraReducers: (builder) => {
-        builder.addCase(addUser.fulfilled, (state, { payload }) => {
+        builder.addCase(getUsers.fulfilled, (state, { payload }) => {
             if (payload.data) {
                 state.users = payload.data;
             }
         });
-        builder.addCase(getUsers.fulfilled, (state, { payload }) => {
+        builder.addCase(addUser.fulfilled, (state, { payload }) => {
             if (payload.data) {
                 state.users.push(payload.data);
             }

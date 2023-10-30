@@ -207,37 +207,24 @@ const GifmisprocessedPage = () => {
         <div className="max-h-[80vh] overflow-y-scroll">
           <table className="table-auto w-full bg-white text-[13px]">
             <thead className="sticky -top-1 bg-gray-100">
-              <tr className="bg-gray-100">
-                {/*  <th className="border border-gray-200 text-left ">ID</th> */}
-                <th className="border border-gray-200  ">
+            <tr className="bg-gray-100">
+                <th className="border border-gray-200 text-left ">PAYMENT STATUS</th>
+                {/* <th className="border border-gray-200  ">
                   <span className="inline-flex items-center">
-                    PAYMENT STATUS{" "}
-                    {/* <BiSort
+                    SN{" "}
+                    <BiSort
                       size={15}
                       className={`ml-2 cursor-pointer ${sortField === "sn"
                           ? "text-blue-500"
                           : "text-gray-500"
                         }`}
                       onClick={() => handleSort("sn", "desc")}
-                    /> */}
+                    /> 
                   </span>
-                </th>
+                </th> */}
                 <th className="border border-gray-200  ">
                   <span className="inline-flex items-center">
-                    FUNDING TYPE{" "}
-                    {/* <BiSort
-                      size={15}
-                      className={`ml-2 cursor-pointer ${sortField === "sn"
-                          ? "text-blue-500"
-                          : "text-gray-500"
-                        }`}
-                      onClick={() => handleSort("sn", "desc")}
-                    /> */}
-                  </span>
-                </th>
-                <th className="border border-gray-200  ">
-                  <span className="inline-flex items-center">
-                    EXPENDITURE TYPE{" "}
+                    ORGANISATION NAME{" "}
                     {/* <BiSort
                       size={15}
                       className={`ml-2 cursor-pointer ${sortField === "orgname"
@@ -250,7 +237,7 @@ const GifmisprocessedPage = () => {
                 </th>
                 <th className="border border-gray-200  ">
                   <span className="inline-flex items-center">
-                    INVOICE NO{" "}
+                    DESCRIPTION{" "}
                     {/* <BiSort
                       size={15}
                       className={`ml-2 cursor-pointer ${sortField === "description"
@@ -261,7 +248,71 @@ const GifmisprocessedPage = () => {
                     /> */}
                   </span>
                 </th>
-
+                <th className="border border-gray-200  ">
+                  <span className="inline-flex items-center">
+                    VENDOR NAME{" "}
+                    {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === "vendorname"
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("vendorname", "desc")}
+                    /> */}
+                  </span>
+                </th>
+                <th className="border border-gray-200  ">
+                  <span className="inline-flex items-center">
+                    REVISED CONTRACT AMOUNT{" "}
+                    {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === "revisedcontractamount"
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("revisedcontractamount", "desc")}
+                    /> */}
+                  </span>
+                </th>
+                <th className="border border-gray-200  ">
+                  <span className="inline-flex items-center">
+                    AMOUNT PAID{" "}
+                    {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === "amountpaid"
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("amountpaid", "desc")}
+                    /> */}
+                  </span>
+                </th>
+                <th className="border border-gray-200  ">
+                  <span className="inline-flex items-center">
+                    OUTSTANDING CLAIM{" "}
+                    {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === "outstandingclaim"
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("outstandingclaim", "desc")}
+                    /> */}
+                  </span>
+                </th>
+                <th className="border border-gray-200  ">
+                  <span className="inline-flex items-center">
+                    ASSIGN TO{" "}
+                    {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === ""
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("", "desc")}
+                    /> */}
+                  </span>
+                </th>
                 <th className="border border-gray-200  ">
                   <span className="inline-flex items-center">
                     ACTION{" "}
@@ -275,14 +326,11 @@ const GifmisprocessedPage = () => {
                     /> */}
                   </span>
                 </th>
-
               </tr>
             </thead>
             <tbody>
               {transactions && transactions.length > 0 ? (
-
                 transactions?.map((item, itemIndex) =>
-
                 (
 
                   <tr key={itemIndex}>
@@ -294,18 +342,39 @@ const GifmisprocessedPage = () => {
                     </td>
                     <td
                       className="border-y text-left truncate-25 "
-                      title={item.fundingtype}
+                      title={item.gifmis.orgname}
                     >
-                      {(item.fundingtype)}
+                      {(item.gifmis.orgname)}
                     </td>
                     <td
                       className="border-y text-left truncate-25"
-                      title={item.expendituretype}
+                      title={item.gifmis.description}
                     >
-                      {(item.expendituretype)}
+                      {(item.gifmis.description)}
                     </td>
-                    <td className="border-y text-left ">
-                      {(item.invoiceno)}
+                    <td className="border-y text-left truncate-25" title={item.gifmis.vendorname}>
+                      {(item.gifmis.vendorname)}
+                    </td>
+                    <td className="border-y text-left truncate-25">
+                      {(item.gifmis.revisedcontractamount).toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </td>
+                    <td className="border-y text-left truncate-25">
+                      {(item.gifmis.amountpaid).toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </td>
+                    <td className="border-y text-left truncate-25">
+                      {(item.gifmis.outstandingclaim).toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </td>
+                    <td className="border-y text-left truncate-25" title={item.user.lastname}>
+                      {(item.user.lastname)}
                     </td>
                     <td className={`border-y text-center text-yellow-500`} style={{ placeItems: 'center' }}>
                       {item.userId == currentUser.id ? (

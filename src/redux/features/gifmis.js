@@ -36,6 +36,21 @@ export const getStoreManagement = createAsyncThunk(
     async () => await gifmis.getStoreManagement()
 );
 
+export const getContractManagement = createAsyncThunk(
+    "gifmis/contractmanagement",
+    async () => await gifmis.getContractManagement()
+);
+
+export const getNoIpc = createAsyncThunk(
+    "gifmis/noipc",
+    async () => await gifmis.getNoIpc()
+);
+
+export const getNoJudgement = createAsyncThunk(
+    "gifmis/nojudgement",
+    async () => await gifmis.getNoJudgement()
+);
+
 const initialState = {
     transactions: [],
     transactionsPerOrg: [],
@@ -43,6 +58,9 @@ const initialState = {
     notInGifmis: [],
     noContract: [],
     storeManagement: [],
+    contractManagement: [],
+    noIpc: [],
+    noJudgement: [],
 };
 
 const gifmisSlice = createSlice({
@@ -81,7 +99,21 @@ const gifmisSlice = createSlice({
                 state.storeManagement = payload.data;
             }
         });
-
+        builder.addCase(getContractManagement.fulfilled, (state, { payload }) => {
+            if (payload.data) {
+                state.contractManagement = payload.data;
+            }
+        });
+        builder.addCase(getNoIpc.fulfilled, (state, { payload }) => {
+            if (payload.data) {
+                state.noIpc = payload.data;
+            }
+        });
+        builder.addCase(getNoJudgement.fulfilled, (state, { payload }) => {
+            if (payload.data) {
+                state.noJudgement = payload.data;
+            }
+        });
     },
 });
 

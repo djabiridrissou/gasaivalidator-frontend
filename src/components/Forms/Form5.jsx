@@ -137,7 +137,7 @@ const Form5 = () => {
           </button>
           {currentPath.startsWith("/dashboard/transactiondetails") && (
             <div>
-              {workType != "Road" && workType != "Bridge" && expenditureType != "Compensation" && (
+              {(expenditureType === "Works" && (workType != "Road" || workType != "Bridge")) || (expenditureType != "Compensation") && (
                 <button
                   onClick={() => navigate(`/dashboard/transactiondetails/${id}/5`)}
                   className="bg-blue-500 text-white px-4 py-2 border-full rounded"
@@ -146,7 +146,7 @@ const Form5 = () => {
                 </button>
               )}
 
-              {expenditureType === "Goods" && (
+              {/* {expenditureType === "Goods" && (
                 <button
                   onClick={() => navigate(`/dashboard/transactiondetails/${id}/5`)}
                   className="bg-blue-500 text-white px-4 py-2 border-full rounded"
@@ -162,7 +162,7 @@ const Form5 = () => {
                 >
                   Next
                 </button>
-              )}
+              )} */}
 
             </div>
 

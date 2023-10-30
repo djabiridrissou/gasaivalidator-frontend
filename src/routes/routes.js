@@ -25,6 +25,13 @@ import NoWarrant from "../pages/NoWarrant";
 import NotInGifmis from "../pages/NotInGifmis";
 import NoContract from "../pages/NoContract";
 import StoreManagement from "../pages/StoreManagement";
+import ContractManagement from "../pages/ContractManagement";
+import NoIpc from "../pages/NoIpc";
+import NoJudgement from "../pages/NoJudgement";
+import TeamLeaders from "../pages/TeamLeaders";
+import TeamMembers from "../pages/TeamMembers";
+
+
 export {
   Login,
   Register,
@@ -53,4 +60,9 @@ export {
   NotInGifmis,
   NoContract,
   StoreManagement,
+  ContractManagement,
+  NoIpc,
+  NoJudgement,
+  TeamLeaders,
+  TeamMembers,
 };

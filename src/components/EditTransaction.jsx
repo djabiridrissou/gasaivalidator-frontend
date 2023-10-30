@@ -163,6 +163,8 @@ const EditTransaction = () => {
       console.log("catcherror", error);
     });
 
+    navigate("/dashboard/gifmisprocessed");
+    window.location.reload();
   }
 
   const handleOnClose = (e) => {

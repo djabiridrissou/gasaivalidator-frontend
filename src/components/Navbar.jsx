@@ -32,7 +32,7 @@ export default function NavB() {
   const [currentUser, setCurrentUser] = useState({});
   useEffect(() => {
     dispatch(getCurentUser()).unwrap().then(res => {
-      console.log("res", res.user);
+      //console.log("res", res.user);
       setCurrentUser(res.user);
     }).catch(error => {
       console.log(error);

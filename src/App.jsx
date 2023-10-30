@@ -26,8 +26,14 @@ import {
   NotInGifmis,
   NoContract,
   StoreManagement,
+  ContractManagement,
+  NoIpc,
+  NoJudgement,
+  TeamLeaders,
+  TeamMembers,
 } from "./routes/routes";
 import OrgTransactions from "./pages/OrgTransactions";
+
 
 
 const App = () => {
@@ -52,6 +58,11 @@ const App = () => {
           <Route path="/dashboard/notingifmis" element={<NotInGifmis />} />
           <Route path="/dashboard/nocontract" element={<NoContract />} />
           <Route path="/dashboard/storemanagement" element={<StoreManagement />} />
+          <Route path="/dashboard/contractmanagement" element={<ContractManagement />} />
+          <Route path="/dashboard/noipc" element={<NoIpc />} />
+          <Route path="/dashboard/nojudgement" element={<NoJudgement />} />
+          <Route path="/dashboard/teamleaders" element={<TeamLeaders />} />
+          <Route path="/dashboard/teammembers" element={<TeamMembers />} />
           <Route path="/dashboard/transactiondetails/:id" element={<TransactionDetails />}>
             <Route index element={<Form1 />} />
             <Route path="2" element={<Form3 />} />

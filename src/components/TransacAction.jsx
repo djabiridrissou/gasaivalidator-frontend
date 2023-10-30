@@ -179,8 +179,8 @@ const TransactionDetails = () => {
     });
 
     // console.log("contracts", contracts);
-    // navigate("/dashboard/goods");
-    // window.location.reload();
+    navigate("/dashboard/goods");
+    window.location.reload();
   };
 
   return (
