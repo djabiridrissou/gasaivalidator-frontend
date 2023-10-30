@@ -5,13 +5,19 @@ import { server } from "../server/server";
 import { useDispatch, useSelector } from "react-redux";
 import { saveGifmisProcessed } from "../utils/saveGifmisProcessed";
 import { updateGifmisProcessed } from "../redux/features/gifmis-processed";
-
+import { getAllGifmisProcessed } from "../redux/features/gifmis-processed";
 const EditTransaction = () => {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const gifmisProcessed = useSelector((state) => state.gifmisProcessed.gifmisProcessed.find(e => e.id == id));
+  useEffect(() => {
+    const response = dispatch(getAllGifmisProcessed()).unwrap().then((res) => {
+        console.log("gifpro", res.data);
+    });
+}, []);
 
+   const gifmisProcessed =  (useSelector((state) => state.gifmisProcessed.gifmisProcessed?.find(e => e.id == id)));
+  console.log("gifmisProcessed", gifmisProcessed);
   const dispatch = useDispatch();
   let advancedPayment = useSelector((state) => state.form2.advancedPayment);
   let paymentStatus = useSelector((state) => state.form1.paymentStatus);
@@ -186,70 +192,49 @@ const EditTransaction = () => {
         </button>
 
         <h2 className="text-xl font-bold text-center mb-4">
-          {gifmisProcessed?.vendorname}
+          {gifmisProcessed?.gifmis.vendorname}
         </h2>
         <div className="flex justify-center">
           <div className="flex flex-col space-y-4 mr-4">
+          <div className="">
+              <p className="font-bold text-xs">
+                REVISED CONTRACT AMOUNT:
+              <span className="font-normal"> {(gifmisProcessed?.gifmis?.revisedcontractamount)?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+              </p>
+            </div>
             <div className="">
               <p className="font-bold text-xs">
                 ORGNAME:
-                <span className="font-normal"> {gifmisProcessed?.orgname}</span>
+                <span className="font-normal"> {gifmisProcessed?.gifmis?.orgname}</span>
               </p>
             </div>
-            <div className="">
-              <p className="font-bold text-xs">
-                INVOICE NUMBER:
-                <span className="font-normal"> {gifmisProcessed?.invoiceno}</span>
-              </p>
-            </div>
+           
 
             <div className="">
               <p className="font-bold text-xs">
                 DESCRIPTION:
-                <span className="font-normal text-xs"> {gifmisProcessed?.description}</span>
+                <span className="font-normal text-[9px]">
+                  {" "}
+                  {gifmisProcessed?.gifmis?.description}
+                </span>
               </p>
             </div>
-            <div className="">
+           {/*  <div className="">
               <p className="font-bold text-xs">
-                EXP TYPE:
-                <span className="font-normal"> {gifmisProcessed?.expendituretype}</span>
+                AMOUNT PAID:
+                <span className="font-normal">{(transaction?.amountpaid).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} </span>
               </p>
-            </div>
+            </div> */}
           </div>
-          <div className="flex flex-col space-y-4 mr-4">
+          <div className="flex flex-col space-y-4 mr-8">
             <div className="">
               <p className="font-bold text-xs">
-                INV GROSS AMOUNT:
-                <span className=" text-xs font-normal"> {gifmisProcessed?.invgrossamount?.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-                </span>
-              </p>
-            </div>
-
-            <div className="">
-              <p className="font-bold text-xs">
-                AMOUNT PAID: <span className="text-xs font-normal"> {/* {amountPaid?.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })} */}
-                </span>
-              </p>
-            </div>
-            <div className="">
-              <p className="font-bold text-xs">
-                BALANCE TO BE PAID: <span className="text-xs font-normal"> {/* {balanceToBePaid?.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })} */}
-                </span>
-              </p>
-            </div>
-            <div className="">
-              <p className="font-bold text-xs">
-                PAYMENT STATUS:
-                <span className="font-normal"> {/* {transaction?.payment} */}
+                OUTSTANDING CLAIM:
+                <span className=" text-xs font-normal">
+                  {gifmisProcessed?.gifmis?.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
                 </span>
               </p>
             </div>
