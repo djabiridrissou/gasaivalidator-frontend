@@ -200,18 +200,19 @@ const TransactionDetails = () => {
         </h2>
         <div className="flex justify-center">
           <div className="flex flex-col space-y-4 mr-4">
+          <div className="">
+              <p className="font-bold text-xs">
+                REVISED CONTRACT AMOUNT:
+              <span className="font-normal"> {(transaction?.revisedcontractamount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+              </p>
+            </div>
             <div className="">
               <p className="font-bold text-xs">
                 ORGNAME:
                 <span className="font-normal"> {transaction?.orgname}</span>
               </p>
             </div>
-            <div className="">
-              <p className="font-bold text-xs">
-                INVOICE NUMBER:
-                <span className="font-normal"> {transaction?.invoicenum}</span>
-              </p>
-            </div>
+           
 
             <div className="">
               <p className="font-bold text-xs">
@@ -222,36 +223,23 @@ const TransactionDetails = () => {
                 </span>
               </p>
             </div>
-            <div className="">
+           {/*  <div className="">
               <p className="font-bold text-xs">
-                EXP TYPE:
-                <span className="font-normal"> </span>
+                AMOUNT PAID:
+                <span className="font-normal">{(transaction?.amountpaid).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} </span>
               </p>
-            </div>
+            </div> */}
           </div>
           <div className="flex flex-col space-y-4 mr-8">
             <div className="">
               <p className="font-bold text-xs">
-                INV GROSS AMOUNT:
+                OUTSTANDING CLAIM:
                 <span className=" text-xs font-normal">
-                  {transaction?.invgrossamount?.toLocaleString(undefined, {
+                  {transaction?.outstandingclaim?.toLocaleString(undefined, {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                   })}
                 </span>
-              </p>
-            </div>
-
-            <div className="">
-              <p className="font-bold text-xs">AMOUNT PAID:</p>
-            </div>
-            <div className="">
-              <p className="font-bold text-xs">BALANCE TO BE PAID:</p>
-            </div>
-            <div className="">
-              <p className="font-bold text-xs">
-                INV PAYMENT STATUS:
-                <span className="font-normal"></span>
               </p>
             </div>
           </div>
