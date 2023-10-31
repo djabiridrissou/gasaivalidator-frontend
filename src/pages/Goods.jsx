@@ -16,8 +16,8 @@ import { getCurentUser } from "../redux/features/auth";
 // const limit = 25;
 
 const Goods = () => {
-  
-const [currentUser, setCurrentUser] = useState({});
+
+  const [currentUser, setCurrentUser] = useState({});
   const dispatch = useDispatch();
   const transactions = useSelector((state) => state.gifmis.transactions);
   const navigate = useNavigate();
@@ -43,40 +43,40 @@ const [currentUser, setCurrentUser] = useState({});
     dispatch(setLimit(parseInt(e.target.value)));
   }; */
 
-/*   const handleSort = (field) => {
-    if (field === sortField) {
-      dispatch(setSortOrder(sortOrder === "asc" ? "desc" : "asc"));
-    } else {
-      dispatch(setSortField(field));
-      dispatch(setSortOrder("asc"));
-    }
-  }; */
+  /*   const handleSort = (field) => {
+      if (field === sortField) {
+        dispatch(setSortOrder(sortOrder === "asc" ? "desc" : "asc"));
+      } else {
+        dispatch(setSortField(field));
+        dispatch(setSortOrder("asc"));
+      }
+    }; */
 
-/*   const handlePageChange = ({ selected }) => {
-    dispatch(setPage(selected + 1));
-  };
-
-  */
-
-/*   const handleSearchInputChange = (e) => {
-    const newSearchTerm = e.target.value;
-    dispatch(setSearchTerm(e.target.value));
-    dispatch(setPage(1)); // Réinitialise la page à 1 lorsque la recherche est modifiée
-    //console.log('dans search');
-  }; */
-
-/*   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <FontAwesomeIcon
-          icon={faCircleNotch}
-          className="animate-spin text-gray-500 text-4xl"
-        />
-      </div>
-    );
-  } */
-
+  /*   const handlePageChange = ({ selected }) => {
+      dispatch(setPage(selected + 1));
+    };
   
+    */
+
+  /*   const handleSearchInputChange = (e) => {
+      const newSearchTerm = e.target.value;
+      dispatch(setSearchTerm(e.target.value));
+      dispatch(setPage(1)); // Réinitialise la page à 1 lorsque la recherche est modifiée
+      //console.log('dans search');
+    }; */
+
+  /*   if (loading) {
+      return (
+        <div className="flex items-center justify-center h-screen">
+          <FontAwesomeIcon
+            icon={faCircleNotch}
+            className="animate-spin text-gray-500 text-4xl"
+          />
+        </div>
+      );
+    } */
+
+
 
   // function formatDate(dateString) {
   //   if (dateString) {
@@ -95,21 +95,21 @@ const [currentUser, setCurrentUser] = useState({});
     if (value) {
       return (
         <span
-          /* dangerouslySetInnerHTML={{
-            __html: value.replace(
-              /* new RegExp(searchTerm, "gi"),
-              (match) => `<span class="highlight">${match}</span>` 
-            ),
-          }} */
+        /* dangerouslySetInnerHTML={{
+          __html: value.replace(
+            /* new RegExp(searchTerm, "gi"),
+            (match) => `<span class="highlight">${match}</span>` 
+          ),
+        }} */
         />
       );
     }
   }
   const handleTransactionDetail = (id) => {
     navigate(`/dashboard/transactiondetails/${id}`);
-  }; 
+  };
 
-/*   const startIndex = (page - 1) * limit; */
+  /*   const startIndex = (page - 1) * limit; */
 
   return (
     <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
@@ -117,7 +117,7 @@ const [currentUser, setCurrentUser] = useState({});
       {/* Tableau */}
       <div className="bg-white rounded-lg p-2 border shadow-md">
         <div className="flex justify-between mb-2">
-      {/*     <div className="flex gap-1 items-center">
+          {/*     <div className="flex gap-1 items-center">
             <span>Show</span>
             <select
               name="limit"
@@ -290,12 +290,12 @@ const [currentUser, setCurrentUser] = useState({});
             <tbody>
               {transactions && transactions.length > 0 ? (
                 transactions?.map((item, itemIndex) => (
-            
+
                   <tr key={itemIndex}>
                     <td className="border-y text-left ">
                       {item.id}
                     </td>
-                   {/*  <td className="border-y text-left ">
+                    {/*  <td className="border-y text-left ">
                       {(item.sn)}
                     </td> */}
                     <td
@@ -315,7 +315,7 @@ const [currentUser, setCurrentUser] = useState({});
                     </td>
                     <td
                       className="border-y text-left truncate-25"
-                      
+
                     >
                       {item?.revisedcontractamount?.toLocaleString(undefined, {
                         minimumFractionDigits: 2,
