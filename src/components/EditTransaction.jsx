@@ -63,10 +63,11 @@ const EditTransaction = () => {
     contracts = servicesContracts;
   }
   if (expenditureType === "Works") {
-    contracts = worksContracts;
-  }
-  if (expenditureType === "Roads") {
-    contracts = roadsContracts;
+    if (workType == "Road" || workType == "Building") {
+        contracts = roadsContracts;
+    } else {
+        contracts = worksContracts;
+    }
   }
 
   let transactionInGIFMIS = useSelector((state) => state.form5.transactionInGIFMIS);
@@ -86,10 +87,10 @@ const EditTransaction = () => {
   let quantityDistributed = useSelector((state) => state.form7.quantityDistributed);
   let availableInStore = useSelector((state) => state.form8.availableInStore);
   let anyAvailableInStore = useSelector((state) => state.form8.anyAvailableInStore);
-  let quantitySendToStore = useSelector((state) => state.form8.quantityInStore1);
-  let sendQuantityFileLabelNumber = useSelector((state) => state.form8.fileLabelNumber1);
+  let quantitySendToStore = useSelector((state) => state.form8.quantitySendToStore);
+  let sendQuantityFileLabelNumber = useSelector((state) => state.form8.fileLabelNumberSendToStore);
   let actualQuantityInStore = useSelector((state) => state.form8.quantityInStore);
-  let storeFileLabelNumber = useSelector((state) => state.form8.fileLabelNumber);
+  let storeFileLabelNumber = useSelector((state) => state.form8.fileLabelNumberInStore);
   let ipcSupported = useSelector((state) => state.form9.ipcSupported);
   let ipcDetails = useSelector((state) => state.form9.ipcDetails);
   if (paymentStatus === "fully paid") {
@@ -231,7 +232,7 @@ const EditTransaction = () => {
               <p className="font-bold text-xs">
                 OUTSTANDING CLAIM:
                 <span className=" text-xs font-normal">
-                  {gifmisProcessed?.gifmis?.toLocaleString(undefined, {
+                  {gifmisProcessed?.gifmis?.outstandingclaim?.toLocaleString(undefined, {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                   })}

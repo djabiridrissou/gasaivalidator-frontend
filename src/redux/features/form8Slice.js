@@ -4,12 +4,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   availableInStore: false,
   anyAvailableInStore: false,
-  fileLabelNumber: "",
+  fileLabelNumberInStore: "",
   quantityInStore: "",
   itemDistributedInStore: false,
   itemDistributedNotInStore: false,
-  fileLabelNumber1: "",
-  quantityInStore1: "",
+  setFileLabelNumberSendToStore: "",
+  quantitySendToStore: "",
 };
 
 const form8Slice = createSlice({
@@ -31,8 +31,8 @@ const form8Slice = createSlice({
     setAnyAvailableInStore: (state, action) => {
       state.anyAvailableInStore = action.payload;
     },
-    setStoreFileLabelNumber: (state, action) => {
-      state.fileLabelNumber = action.payload;
+    setFileLabelNumberInStore: (state, action) => {
+      state.fileLabelNumberInStore = action.payload;
     },
 
     setQuantityInStore: (state, action) => {
@@ -47,12 +47,12 @@ const form8Slice = createSlice({
       state.itemDistributedNotInStore = action.payload;
     },
 
-    setFileLabelNumber1: (state, action) => {
-      state.fileLabelNumber1 = action.payload;
+    setFileLabelNumberSendToStore: (state, action) => {
+      state.setFileLabelNumberSendToStore = action.payload;
     },
 
-    setQuantityInStore1: (state, action) => {
-      state.quantityInStore1 = action.payload;
+    setQuantitySendToStore: (state, action) => {
+      state.quantitySendToStore = action.payload;
     },
   },
 });
@@ -60,12 +60,12 @@ const form8Slice = createSlice({
 export const {
   setAvailableInStore,
   setAnyAvailableInStore,
-  setStoreFileLabelNumber,
   setQuantityInStore,
+  setFileLabelNumberInStore,
   setItemDistributedNotInStore,
   setItemDistributedInStore,
-  setQuantityInStore1,
-  setFileLabelNumber,
+  setQuantitySendToStore,
+  setFileLabelNumberSendToStore,
   setFileLabelNumber1,
   toggleAvailableInStore,
   toggleAnyAvailableInStore,

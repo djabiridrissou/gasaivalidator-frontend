@@ -7,21 +7,21 @@ import { FaCheckToSlot } from "react-icons/fa6";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { getStoreManagement } from "../redux/features/gifmis";
+import { getSoa } from "../redux/features/gifmis";
 
 const StoreManagement = () => {
     const dispatch = useDispatch();
-    const storeManagementList = useSelector((state) => state.gifmis.storeManagement);
+    const soaList = useSelector((state) => state.gifmis.soa);
     const navigate = useNavigate();
     useEffect(() => {
-        const response = dispatch(getStoreManagement()).unwrap().then((res) => {
-            console.log("storemanagement", res.data);
+        const response = dispatch(getSoa()).unwrap().then((res) => {
+            console.log("soa", res.data);
         });
     }, []);
 
     return (
         <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
-            <h1 className="text-[16px] font-bold">Store Management</h1>
+            <h1 className="text-[16px] font-bold">SOA</h1>
             <div className="bg-white rounded-lg p-2 border shadow-md">
                 <div className="flex justify-between mb-2">
                 </div>
@@ -96,7 +96,7 @@ const StoreManagement = () => {
                                 </th>
                                 <th className="border border-gray-200  ">
                                     <span className="inline-flex items-center">
-                                        CONTRACT QTY{" "}
+                                        CONTRACT AMOUNT{" "}
                                         {/* <BiSort
                       size={15}
                       className={`ml-2 cursor-pointer ${sortField === "description"
@@ -109,7 +109,7 @@ const StoreManagement = () => {
                                 </th>
                                 <th className="border border-gray-200  ">
                                     <span className="inline-flex items-center">
-                                        SUPPLY QTY{" "}
+                                        TOTAL PAYMENT{" "}
                                         {/* <BiSort
                       size={15}
                       className={`ml-2 cursor-pointer ${sortField === "description"
@@ -120,37 +120,12 @@ const StoreManagement = () => {
                     /> */}
                                     </span>
                                 </th>
-                                <th className="border border-gray-200  ">
-                                    <span className="inline-flex items-center">
-                                        QTY DISTRIBUTED{" "}
-                                        {/* <BiSort
-                      size={15}
-                      className={`ml-2 cursor-pointer ${sortField === "description"
-                          ? "text-blue-500"
-                          : "text-gray-500"
-                        }`}
-                      onClick={() => handleSort("description", "desc")}
-                    /> */}
-                                    </span>
-                                </th>
-                                <th className="border border-gray-200  ">
-                                    <span className="inline-flex items-center">
-                                        QTY STORE{" "}
-                                        {/* <BiSort
-                      size={15}
-                      className={`ml-2 cursor-pointer ${sortField === "description"
-                          ? "text-blue-500"
-                          : "text-gray-500"
-                        }`}
-                      onClick={() => handleSort("description", "desc")}
-                    /> */}
-                                    </span>
-                                </th>
+                               
                             </tr>
                         </thead>
                         <tbody>
-                            {storeManagementList && storeManagementList.length > 0 ? (
-                                storeManagementList?.map((item, itemIndex) => (
+                            {soaList && soaList.length > 0 ? (
+                                soaList?.map((item, itemIndex) => (
                                     <tr key={itemIndex}>
                                         <td className="border-y text-left ">
                                             {item?.id}
@@ -171,29 +146,18 @@ const StoreManagement = () => {
                                             })}
                                         </td>
                                         <td className="border-y text-left ">
-                                        {(item?.gifmisProcesseds[0].contracts[0].quantity)?.toLocaleString(undefined, {
+                                       {/*  {(item?.gifmisProcesseds[0].contracts[0].amountpaid)?.toLocaleString(undefined, {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,
-                                        })}
+                                        })} */}
                                         </td>
                                         <td className="border-y text-left ">
-                                        {(item?.gifmisProcesseds[0].suppliances[0].quantity)?.toLocaleString(undefined, {
+                                        {/* {(item?.gifmisProcesseds[0].suppliances[0].quantity)?.toLocaleString(undefined, {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,
-                                        })}
+                                        })} */}
                                         </td>
-                                        <td className="border-y text-left ">
-                                        {(item?.gifmisProcesseds[0].quantitydistributed)?.toLocaleString(undefined, {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                        })}
-                                        </td>
-                                        <td className="border-y text-left ">
-                                        {(item?.gifmisProcesseds[0].actualquantityinstore)?.toLocaleString(undefined, {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                        })}
-                                        </td>
+                                        
                                     </tr>
                                 ))
                             ) : (

@@ -51,6 +51,11 @@ export const getNoJudgement = createAsyncThunk(
     async () => await gifmis.getNoJudgement()
 );
 
+export const getSoa = createAsyncThunk(
+    "gifmis/soa",
+    async () => await gifmis.getSoa()
+);
+
 const initialState = {
     transactions: [],
     transactionsPerOrg: [],
@@ -61,6 +66,7 @@ const initialState = {
     contractManagement: [],
     noIpc: [],
     noJudgement: [],
+    soa: [],
 };
 
 const gifmisSlice = createSlice({
@@ -112,6 +118,11 @@ const gifmisSlice = createSlice({
         builder.addCase(getNoJudgement.fulfilled, (state, { payload }) => {
             if (payload.data) {
                 state.noJudgement = payload.data;
+            }
+        });
+        builder.addCase(getSoa.fulfilled, (state, { payload }) => {
+            if (payload.data) {
+                state.soa = payload.data;
             }
         });
     },

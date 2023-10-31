@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleAdvancedPayment } from "../../redux/features/form2Slice";
 import {
@@ -8,6 +8,7 @@ import {
 } from "../../redux/features/form2Slice";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatNumber } from "../../functions/helperFunctions";
+import { DetailsModal } from "../../utils/DetailsModal";
 const Form2 = () => {
   const currentPath = window.location.pathname;
   //console.log("Chemin actuel : " + currentPath);
@@ -17,6 +18,7 @@ const Form2 = () => {
   const advancedPayment = useSelector((state) => state.form2.advancedPayment);
   const transactions = useSelector((state) => state.form2.transactions);
   const paymentStatus = useSelector((state) => state.form1.paymentStatus);
+  const [isModalOpen, setModalOpen] = useState(false);
   //console.log("transaction", transactions);
 
   const addNewTransaction = () => {
@@ -33,7 +35,34 @@ const Form2 = () => {
     window.location.reload();
   };
 
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   const handleNext = (e) => {
+    if (advancedPayment) {
+      const arePaymentDetailsMissing = transactions.some(
+        (transaction) =>
+          !transaction.paymentDate || !transaction.pvNo || !transaction.amountPaid || !transaction.fileLabelNumber
+      );
+  
+      if (arePaymentDetailsMissing) {
+        setModalOpen(true);
+        return;
+      }
+    }
+
+    if (paymentStatus == "partial payment") {
+      const arePaymentDetailsMissing = transactions.some(
+        (transaction) =>
+          !transaction.paymentDate || !transaction.pvNo || !transaction.amountPaid || !transaction.fileLabelNumber
+      );
+  
+      if (arePaymentDetailsMissing) {
+        setModalOpen(true);
+        return;
+      }
+    }
     console.log("crpath", currentPath);
     if (currentPath.startsWith("/dashboard/edittransaction")) {
       navigate(`/dashboard/edittransaction/${id}/2`);
@@ -336,6 +365,11 @@ const Form2 = () => {
             </div>
           </>
         )}
+        {isModalOpen && (
+        <DetailsModal
+          onClose={closeModal}
+        />
+      )}
         <div className="flex justify-center space-x-2 mt-6">
           <button
             onClick={handleBack}

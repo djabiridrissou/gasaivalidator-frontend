@@ -25,7 +25,34 @@ const Form5 = () => {
   const invoiceDate = useSelector((state) => state.form5.invoiceDate);
   const expenditureType = useSelector((state) => state.form4.expenditureType);
   const workType = useSelector((state) => state.form4.workType);
-  console.log("expenditureType", expenditureType);
+  const formatNumber = (value) => {
+    // Remove non-numeric characters except the dot
+    const numericValue = value.replace(/[^0-9.]/g, "");
+  
+    // Split the value into integer and decimal parts
+    const [integerPart, decimalPart] = numericValue.split(".");
+  
+    // Format the integer part with thousands separators
+    const formattedIntegerPart = integerPart.replace(
+      /\B(?=(\d{3})+(?!\d))/g,
+      ","
+    );
+  
+    // Limit the decimal part to two decimal places
+    const formattedDecimalPart =
+      decimalPart && decimalPart.length > 2
+        ? decimalPart.slice(0, 2)
+        : decimalPart || "00";
+  
+    // Combine the integer and decimal parts
+    const formattedValue =
+      decimalPart === undefined
+        ? formattedIntegerPart
+        : `${formattedIntegerPart}.${formattedDecimalPart}`;
+  
+    return formattedValue;
+  };
+  
   return (
     <div>
       <div className="mt-6">
@@ -139,57 +166,34 @@ const Form5 = () => {
             <div>
               {(expenditureType === "Works" && (workType != "Road" || workType != "Bridge")) || (expenditureType != "Compensation") && (
                 <button
-                  onClick={() => navigate(`/dashboard/transactiondetails/${id}/5`)}
+                  onClick={() => {
+                    if (transactionInGIFMIS) {
+                      if (!purchaseOrderNo || !invoiceNo || !invoiceDate || !fileLabelNumber) {
+                        return;
+                      }
+                    }
+                    navigate(`/dashboard/transactiondetails/${id}/5`)}}
                   className="bg-blue-500 text-white px-4 py-2 border-full rounded"
                 >
                   Next
                 </button>
               )}
 
-              {/* {expenditureType === "Goods" && (
-                <button
-                  onClick={() => navigate(`/dashboard/transactiondetails/${id}/5`)}
-                  className="bg-blue-500 text-white px-4 py-2 border-full rounded"
-                >
-                  Next
-                </button>
-              )}
-
-{expenditureType === "Service" && (
-                <button
-                  onClick={() => navigate(`/dashboard/transactiondetails/${id}/5`)}
-                  className="bg-blue-500 text-white px-4 py-2 border-full rounded"
-                >
-                  Next
-                </button>
-              )} */}
-
+             
             </div>
 
           )}
           {currentPath.startsWith("/dashboard/edittransaction") && (
             <div>
-              {workType != "Road" && workType != "Bridge" && expenditureType != "Compensation" && (
+              {(expenditureType === "Works" && (workType != "Road" || workType != "Bridge")) || (expenditureType != "Compensation") && (
                 <button
-                  onClick={() => navigate(`/dashboard/edittransaction/${id}/5`)}
-                  className="bg-blue-500 text-white px-4 py-2 border-full rounded"
-                >
-                  Next
-                </button>
-              )}
-
-              {expenditureType === "Goods" && (
-                <button
-                  onClick={() => navigate(`/dashboard/transactiondetails/${id}/5`)}
-                  className="bg-blue-500 text-white px-4 py-2 border-full rounded"
-                >
-                  Next
-                </button>
-              )}
-
-{expenditureType === "Service" && (
-                <button
-                  onClick={() => navigate(`/dashboard/edittransaction/${id}/5`)}
+                  onClick={() => {
+                    if (transactionInGIFMIS) {
+                      if (!purchaseOrderNo || !invoiceNo || !invoiceDate || !fileLabelNumber) {
+                        return;
+                      }
+                    }
+                    navigate(`/dashboard/edittransaction/${id}/5`)}}
                   className="bg-blue-500 text-white px-4 py-2 border-full rounded"
                 >
                   Next

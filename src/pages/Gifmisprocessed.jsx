@@ -374,8 +374,9 @@ const GifmisprocessedPage = () => {
                       })}
                     </td>
                     <td className="border-y text-left truncate-25" title={item.user.lastname}>
-                      {(item.user.lastname)}
+                      {`${item.user?.lastname || ''} - ${item.user?.staffid || ''}`}
                     </td>
+                    
                     <td className={`border-y text-center text-yellow-500`} style={{ placeItems: 'center' }}>
                       {item.userId == currentUser.id ? (
                         <FaEdit

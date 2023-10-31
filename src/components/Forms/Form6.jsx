@@ -30,6 +30,34 @@ const Form6 = () => {
   const works = useSelector((state) => state.form6.works);
   const regionalLocation = useSelector((state) => state.form6.regionalLocation);
   const districtLocation = useSelector((state) => state.form6.districtLocation);
+
+  const formatNumber = (value) => {
+    // Remove non-numeric characters except the dot
+    const numericValue = value.replace(/[^0-9.]/g, "");
+  
+    // Split the value into integer and decimal parts
+    const [integerPart, decimalPart] = numericValue.split(".");
+  
+    // Format the integer part with thousands separators
+    const formattedIntegerPart = integerPart.replace(
+      /\B(?=(\d{3})+(?!\d))/g,
+      ","
+    );
+  
+    // Limit the decimal part to two decimal places
+    const formattedDecimalPart =
+      decimalPart && decimalPart.length > 2
+        ? decimalPart.slice(0, 2)
+        : decimalPart || "00";
+  
+    // Combine the integer and decimal parts
+    const formattedValue =
+      decimalPart === undefined
+        ? formattedIntegerPart
+        : `${formattedIntegerPart}.${formattedDecimalPart}`;
+  
+    return formattedValue;
+  };
   /*  const certificationOfCompletionDate = useSelector((state) => state.form6.certificationOfCompletionDate);
  
    const percentageOfCompletion = useSelector((state) => state.form6.percentageOfCompletion);
@@ -179,13 +207,14 @@ const Form6 = () => {
                         type="text"
                         id="quantity"
                         value={suppliance.quantity}
-                        onChange={(e) =>
+                        onChange={(e) => {
+                          const formattedValue = formatNumber(e.target.value);
                           handleSupplianceChange(
                             index,
                             "quantity",
-                            e.target.value
+                          formattedValue
                           )
-                        }
+                        }}
                         placeholder="Quantity"
                         className="appearance-none block w-[90%] text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
                       />
@@ -231,24 +260,65 @@ const Form6 = () => {
               ))}
             </div>
           )}
+          {currentPath.startsWith("/dashboard/transactiondetails") && (
+            <div className="flex justify-center space-x-2 mt-6">
+              <button
+                onClick={() => navigate(-1)}
+                className="bg-black text-white px-4 py-2 border-full rounded"
+              >
+                Back
+              </button>
+              <button
+                onClick={() => {
+                  if (isItemSupplied) {
+                    const supplianceAreMissing = suppliances.some(
+                      (suppliance) =>
+                        !suppliance.sraDate || !suppliance.receiptBy || !suppliance.quantity || !suppliance.fileLabelNumber
+                    );
+                    if (supplianceAreMissing) {
+                      return;
+                    }
+                  }
+                  navigate(`/dashboard/transactiondetails/${id}/6`)
+                }}
+                className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${!isItemSupplied && "bg-green-800/50"
+                  }`}
+                disabled={!isItemSupplied} // Disable the button if isItemSupplied is false
+              >
+                Next
+              </button>
+            </div>
+          )}
 
-          <div className="flex justify-center space-x-2 mt-6">
-            <button
-              onClick={() => navigate(-1)}
-              className="bg-black text-white px-4 py-2 border-full rounded"
-            >
-              Back
-            </button>
-            <button
-              onClick={() => navigate(`/dashboard/transactiondetails/${id}/6`)}
-              className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${
-                !isItemSupplied && "bg-green-800/50"
-              }`}
-              disabled={!isItemSupplied} // Disable the button if isItemSupplied is false
-            >
-              Next
-            </button>
-          </div>
+          {currentPath.startsWith("/dashboard/edittransaction") && (
+            <div className="flex justify-center space-x-2 mt-6">
+              <button
+                onClick={() => navigate(-1)}
+                className="bg-black text-white px-4 py-2 border-full rounded"
+              >
+                Back
+              </button>
+              <button
+                onClick={() => {
+                  if (isItemSupplied) {
+                    const supplianceAreMissing = suppliances.some(
+                      (suppliance) =>
+                        !suppliance.sraDate || !suppliance.receiptBy || !suppliance.quantity || !suppliance.fileLabelNumber
+                    );
+                    if (supplianceAreMissing) {
+                      return;
+                    }
+                  }
+                  navigate(`/dashboard/edittransaction/${id}/6`)
+                }}
+                className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${!isItemSupplied && "bg-green-800/50"
+                  }`}
+                disabled={!isItemSupplied} // Disable the button if isItemSupplied is false
+              >
+                Next
+              </button>
+            </div>
+          )}
         </div>
       )}
       {expenditureType === "Service" && (
@@ -402,7 +472,7 @@ const Form6 = () => {
                         className="appearance-none block w-[90%] text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
                       />
                     </div>
-                    
+
                   </div>
                 </Fragment>
               ))}
@@ -419,27 +489,36 @@ const Form6 = () => {
             {currentPath.startsWith("/dashboard/transactiondetails") && (
               <div>
                 <button
-              onClick={() => navigate(`/dashboard/transactiondetails/${id}/6`)}
-              className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${
-                expenditureType === "Service" && "bg-green-800/50"
-              }`}
-              disabled={expenditureType === "Service"} // Disable the button if isItemSupplied is false
-            >
-              Next
-            </button>
+                  onClick={() => {
+                    if (isServiceCompleted) {
+                      const serviceAreMissing = services.some(
+                        (service) =>
+                          !service.certificationOfCompletionDate || !service.percentageOfCompletion || !service.certificationIssuedBy || !service.designation || !service.fileLabelNumber
+                      );
+                      if (serviceAreMissing) {
+                        return;
+                      }
+                    }
+                    navigate(`/dashboard/transactiondetails/${id}/6`)
+                  }}
+                  className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${expenditureType === "Service" && "bg-green-800/50"
+                    }`}
+                  disabled={expenditureType === "Service"}
+                >
+                  Next
+                </button>
               </div>
             )}
             {currentPath.startsWith("/dashboard/edittransaction") && (
               <div>
                 <button
-              onClick={() => navigate(`/dashboard/edittransaction/${id}/6`)}
-              className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${
-                expenditureType === "Service" && "bg-green-800/50"
-              }`}
-              disabled={expenditureType === "Service"} // Disable the button if isItemSupplied is false
-            >
-              Next
-            </button>
+                  onClick={() => navigate(`/dashboard/edittransaction/${id}/6`)}
+                  className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${expenditureType === "Service" && "bg-green-800/50"
+                    }`}
+                  disabled={expenditureType === "Service"}
+                >
+                  Next
+                </button>
               </div>
             )}
           </div>
@@ -640,9 +719,9 @@ const Form6 = () => {
                           value={districtLocation}
                           onChange={handleDistrictLocationChange}
                           className={` block text-[13.5px] px-[0.9rem] py-[0.45rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]`}
-                          />
-                          
-                      
+                        />
+
+
                       </div>
                     </div>
                   </Fragment>
@@ -650,24 +729,15 @@ const Form6 = () => {
               </div>
             )}
             <div className="flex space-x-2 mt-6 justify-center">
-        <button
-          onClick={() => navigate(-1)}
-          className="bg-black text-white px-4 py-2 border-full rounded"
-        >
-          Back
-        </button>
-      </div> 
+              <button
+                onClick={() => navigate(-1)}
+                className="bg-black text-white px-4 py-2 border-full rounded"
+              >
+                Back
+              </button>
+            </div>
           </div>
         )}
-
-    {/* <div className="flex space-x-2 mt-6 justify-center">
-        <button
-          onClick={() => navigate(-1)}
-          className="bg-black text-white px-4 py-2 border-full rounded"
-        >
-          Back
-        </button>
-      </div>  */}
     </div>
   );
 };

@@ -64,7 +64,7 @@ console.log("Chemin actuel : " + currentPath);
         </div>
       </div>
 
-      {paymentStatus === "fully paid" &&
+      {/* {paymentStatus === "fully paid" &&
 <div className="flex flex-col justifiy-center justify-between items-center">
 <label htmlFor="availableContracts" className="font-semibold">
        Is the Job Done ?
@@ -199,7 +199,7 @@ console.log("Chemin actuel : " + currentPath);
           </Fragment>
         ))}
 </div>
-     }
+     } */}
 
       {paymentStatus === "unpaid" && (
         <>

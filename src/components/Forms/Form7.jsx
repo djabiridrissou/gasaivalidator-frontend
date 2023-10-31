@@ -22,7 +22,34 @@ const Form7 = () => {
   const quantityDistributed = useSelector(
     (state) => state.form7.quantityDistributed
   );
-  console.log(quantityDistributed, fileLabelNumber);
+
+  const formatNumber = (value) => {
+    // Remove non-numeric characters except the dot
+    const numericValue = value.replace(/[^0-9.]/g, "");
+  
+    // Split the value into integer and decimal parts
+    const [integerPart, decimalPart] = numericValue.split(".");
+  
+    // Format the integer part with thousands separators
+    const formattedIntegerPart = integerPart.replace(
+      /\B(?=(\d{3})+(?!\d))/g,
+      ","
+    );
+  
+    // Limit the decimal part to two decimal places
+    const formattedDecimalPart =
+      decimalPart && decimalPart.length > 2
+        ? decimalPart.slice(0, 2)
+        : decimalPart || "00";
+  
+    // Combine the integer and decimal parts
+    const formattedValue =
+      decimalPart === undefined
+        ? formattedIntegerPart
+        : `${formattedIntegerPart}.${formattedDecimalPart}`;
+  
+    return formattedValue;
+  };
 
   return (
     <div className="mt-6">
@@ -67,8 +94,10 @@ const Form7 = () => {
                 type="text"
                 id="qtty"
                 value={quantityDistributed}
-                onChange={(e) =>
-                  dispatch(setQuantityDistributed(e.target.value))
+                onChange={(e) => {
+                  const formattedValue = formatNumber(e.target.value);
+                  dispatch(setQuantityDistributed(formattedValue));
+                }
                 }
                 placeholder="Quantity Distributed"
                 className="appearance-none block w-full text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
@@ -101,7 +130,14 @@ const Form7 = () => {
         {currentPath.startsWith("/dashboard/transactiondetails") && (
           <div>
             <button
-          onClick={() => navigate(`/dashboard/transactiondetails/${id}/7`)}
+          onClick={() => {
+            if (isItemDistributed) {
+              if (!fileLabelNumber || !quantityDistributed) {
+               return;
+                
+              }
+            }
+            navigate(`/dashboard/transactiondetails/${id}/7`)}}
           className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${
             disabled && "bg-green-800/50"
           }`}
@@ -115,7 +151,14 @@ const Form7 = () => {
 {currentPath.startsWith("/dashboard/edittransaction") && (
           <div>
             <button
-          onClick={() => navigate(`/dashboard/edittransaction/${id}/7`)}
+          onClick={() =>  {
+            if (isItemDistributed) {
+              if (!fileLabelNumber || !quantityDistributed) {
+               return;
+                
+              }
+            }
+            navigate(`/dashboard/edittransaction/${id}/7`)}}
           className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${
             disabled && "bg-green-800/50"
           }`}

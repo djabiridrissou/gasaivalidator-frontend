@@ -22,7 +22,9 @@ const [currentUser, setCurrentUser] = useState({});
   const transactions = useSelector((state) => state.gifmis.transactions);
   const navigate = useNavigate();
 
-     
+
+  const isAdmin = currentUser.role?.roleName == "admin";
+  console.log('isAdmin', isAdmin);
    useEffect(() => {
       const response = dispatch(getAllGifmis()).unwrap().then((res) => {
           console.log("transac", res);
@@ -308,7 +310,7 @@ const [currentUser, setCurrentUser] = useState({});
                     >
                       {(item.description)}
                     </td>
-                    <td className="border-y text-left ">
+                    <td className="border-y text-left truncate-25" title={item?.vendorname}>
                       {(item.vendorname)}
                     </td>
                     <td
@@ -336,14 +338,14 @@ const [currentUser, setCurrentUser] = useState({});
                         })
                         .replace(/\.?0+$/, "")}
                     </td>
-                    <td>
-                      {item.gifmisUser[0].user.lastname ?? ""}
+                    <td className="border-y text-left truncate-25">
+                 {`${item.gifmisUser[0]?.user?.staffid || ''} - ${item.gifmisUser[0]?.user?.lastname || ''}`  }
                     </td>
                     <td className={`border-y text-center ${item.status === 'COMPLETED' ? 'text-green-600' : 'text-red-600'}`} style={{ placeItems: 'center' }}>
                       <FaCheckToSlot
                        style={{
                         cursor: item.status !== 'COMPLETED' ? 'pointer' : 'not-allowed',
-                        pointerEvents: item.status !== 'COMPLETED' ? 'auto' : 'none',
+                        pointerEvents: isAdmin ? 'none' : item.status !== 'COMPLETED' ? 'auto' : 'none',
                       }}
                         onClick={() => handleTransactionDetail(item?.id)}
                         size={20}

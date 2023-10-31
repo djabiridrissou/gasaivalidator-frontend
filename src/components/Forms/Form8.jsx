@@ -2,15 +2,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setAvailableInStore,
-
-  setFileLabelNumber,
   setQuantityInStore,
-  setItemDistributedInStore,
-  setItemDistributedNotInStore,
-  setQuantityInStore1,
-  setFileLabelNumber1,
+  setFileLabelNumberInStore,
   toggleAvailableInStore,
   toggleAnyAvailableInStore,
+  setQuantitySendToStore,
+  setFileLabelNumberSendToStore,
 } from "../../redux/features/form8Slice";
 
 const Form8 = () => {
@@ -25,14 +22,40 @@ const Form8 = () => {
 
   const availableInStore = useSelector((state) => state.form8.availableInStore);
   const anyAvailableInStore = useSelector((state) => state.form8.anyAvailableInStore);
-  const fileLabelNumber = useSelector((state) => state.form8.fileLabelNumber);
+
+ 
   const quantityInStore = useSelector((state) => state.form8.quantityInStore);
+  const fileLabelNumberInStore = useSelector((state) => state.form8.fileLabelNumberInStore);
+  const quantitySendToStore = useSelector((state) => state.form8.quantitySendToStore);
+  const fileLabelNumberSendToStore = useSelector((state) => state.form8.fileLabelNumberSendToStore);
 
-  const fileLabelNumber1 = useSelector((state) => state.form8.fileLabelNumber1);
-  const quantityInStore1 = useSelector((state) => state.form8.quantityInStore1);
-
-
-
+  const formatNumber = (value) => {
+    // Remove non-numeric characters except the dot
+    const numericValue = value.replace(/[^0-9.]/g, "");
+  
+    // Split the value into integer and decimal parts
+    const [integerPart, decimalPart] = numericValue.split(".");
+  
+    // Format the integer part with thousands separators
+    const formattedIntegerPart = integerPart.replace(
+      /\B(?=(\d{3})+(?!\d))/g,
+      ","
+    );
+  
+    // Limit the decimal part to two decimal places
+    const formattedDecimalPart =
+      decimalPart && decimalPart.length > 2
+        ? decimalPart.slice(0, 2)
+        : decimalPart || "00";
+  
+    // Combine the integer and decimal parts
+    const formattedValue =
+      decimalPart === undefined
+        ? formattedIntegerPart
+        : `${formattedIntegerPart}.${formattedDecimalPart}`;
+  
+    return formattedValue;
+  };
 
   // Handle the Team Member checkbox change
  
@@ -84,8 +107,10 @@ const handleAvailableInStore = (e) => {
                 <input
                   type="text"
                   id="qtty"
-                  value={quantityInStore}
-                  onChange={(e) => dispatch(setQuantityInStore(e.target.value))}
+                  value={quantitySendToStore}
+                  onChange={(e) => {
+                    const formattedValue = formatNumber(e.target.value);
+                    dispatch(setQuantitySendToStore(formattedValue))}}
                   placeholder="Quantity in Store"
                   className="appearance-none block w-full text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
                 />
@@ -95,8 +120,8 @@ const handleAvailableInStore = (e) => {
                 <input
                   type="text"
                   id="fln"
-                  value={fileLabelNumber}
-                  onChange={(e) => dispatch(setFileLabelNumber(e.target.value))}
+                  value={fileLabelNumberSendToStore}
+                  onChange={(e) => dispatch(setFileLabelNumberSendToStore(e.target.value))}
                   placeholder="File Label No"
                   className="appearance-none block w-full text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
                 />
@@ -143,9 +168,10 @@ const handleAvailableInStore = (e) => {
                 <input
                   type="text"
                   id="qty"
-                  value={quantityInStore1}
+                  value={quantityInStore}
                   onChange={(e) => {
-                    dispatch(setQuantityInStore1(e.target.value))}
+                    const formattedValue = formatNumber(e.target.value);
+                    dispatch(setQuantityInStore(formattedValue))}
                   }
                   placeholder="Quantity in Store"
                   className="appearance-none block w-full text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
@@ -156,9 +182,9 @@ const handleAvailableInStore = (e) => {
                 <input
                   type="text"
                   id="fln"
-                  value={fileLabelNumber1}
+                  value={fileLabelNumberInStore}
                   onChange={(e) =>{
-                    dispatch(setFileLabelNumber1(e.target.value))}
+                    dispatch(setFileLabelNumberInStore(e.target.value))}
                   }
                   placeholder="File Label No"
                   className="appearance-none block w-full text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
