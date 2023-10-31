@@ -23,23 +23,25 @@ const Goods = () => {
   const navigate = useNavigate();
 
 
-  useEffect(() => {
-    const response = dispatch(getAllGifmis()).unwrap().then((res) => {
-      console.log("transac", res);
-    });
-    dispatch(getCurentUser()).unwrap().then(res => {
-      console.log("res", res.user.id);
-      setCurrentUser(res.user);
-    }).catch(error => {
-      console.log(error);
-    });
-  }, []);
-
-
-  /* 
-    const handleLimitChange = (e) => {
-      dispatch(setLimit(parseInt(e.target.value)));
-    }; */
+  const isAdmin = currentUser.role?.roleName == "admin";
+  console.log('isAdmin', isAdmin);
+   useEffect(() => {
+      const response = dispatch(getAllGifmis()).unwrap().then((res) => {
+          console.log("transac", res);
+      });
+      dispatch(getCurentUser()).unwrap().then(res => {
+        console.log("res", res.user.id);
+       setCurrentUser(res.user);
+      }).catch(error => {
+        console.log(error);
+      });
+     }, []);
+  
+   
+/* 
+  const handleLimitChange = (e) => {
+    dispatch(setLimit(parseInt(e.target.value)));
+  }; */
 
   /*   const handleSort = (field) => {
       if (field === sortField) {
@@ -308,7 +310,7 @@ const Goods = () => {
                     >
                       {(item.description)}
                     </td>
-                    <td className="border-y text-left ">
+                    <td className="border-y text-left truncate-25" title={item?.vendorname}>
                       {(item.vendorname)}
                     </td>
                     <td
@@ -336,15 +338,15 @@ const Goods = () => {
                         })
                         .replace(/\.?0+$/, "")}
                     </td>
-                    <td>
-                      {item.gifmisUser[0]?.user?.lastname ?? ""}
+                    <td className="border-y text-left truncate-25">
+                 {`${item.gifmisUser[0]?.user?.staffid || ''} - ${item.gifmisUser[0]?.user?.lastname || ''}`  }
                     </td>
                     <td className={`border-y text-center ${item.status === 'COMPLETED' ? 'text-green-600' : 'text-red-600'}`} style={{ placeItems: 'center' }}>
                       <FaCheckToSlot
-                        style={{
-                          cursor: item.status !== 'COMPLETED' ? 'pointer' : 'not-allowed',
-                          pointerEvents: item.status !== 'COMPLETED' ? 'auto' : 'none',
-                        }}
+                       style={{
+                        cursor: item.status !== 'COMPLETED' ? 'pointer' : 'not-allowed',
+                        pointerEvents: isAdmin ? 'none' : item.status !== 'COMPLETED' ? 'auto' : 'none',
+                      }}
                         onClick={() => handleTransactionDetail(item?.id)}
                         size={20}
                       />

@@ -29,6 +29,7 @@ import {
   ContractManagement,
   NoIpc,
   NoJudgement,
+  Soa,
   TeamLeaders,
   TeamMembers,
 } from "./routes/routes";
@@ -61,6 +62,7 @@ const App = () => {
           <Route path="/dashboard/contractmanagement" element={<ContractManagement />} />
           <Route path="/dashboard/noipc" element={<NoIpc />} />
           <Route path="/dashboard/nojudgement" element={<NoJudgement />} />
+          <Route path="/dashboard/soa" element={<Soa />} />
           <Route path="/dashboard/teamleaders" element={<TeamLeaders />} />
           <Route path="/dashboard/teammembers" element={<TeamMembers />} />
           <Route path="/dashboard/transactiondetails/:id" element={<TransactionDetails />}>

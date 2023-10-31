@@ -43,6 +43,7 @@ const TransactionDetails = () => {
   let budgetFileLabelNumber = useSelector((state) => state.form3.budgetFileLabelNumber);
   let donors = useSelector((state) => state.form3.donors);
   let expenditureType = useSelector((state) => state.form4.expenditureType);
+
   console.log("expenstate", expenditureType);
   let workType = useSelector((state) => state.form4.workType);
   let buildingType = useSelector((state) => state.form4.buildingType);
@@ -64,11 +65,13 @@ const TransactionDetails = () => {
     contracts = servicesContracts;
   }
   if (expenditureType === "Works") {
-    contracts = worksContracts;
+    if (workType == "Road" || workType == "Building") {
+        contracts = roadsContracts;
+    } else {
+        contracts = worksContracts;
+    }
   }
-  if (expenditureType === "Roads") {
-    contracts = roadsContracts;
-  }
+
 
   let transactionInGIFMIS = useSelector((state) => state.form5.transactionInGIFMIS);
   let purchaseOrderNo = useSelector((state) => state.form5.purchaseOrderNo);
@@ -94,10 +97,10 @@ const TransactionDetails = () => {
   let availableInStore = useSelector((state) => state.form8.availableInStore);
   let anyAvailableInStore = useSelector((state) => state.form8.anyAvailableInStore);
 
-  let quantitySendToStore = useSelector((state) => state.form8.quantityInStore1);
-  let sendQuantityFileLabelNumber = useSelector((state) => state.form8.fileLabelNumber1);
+  let quantitySendToStore = useSelector((state) => state.form8.quantitySendToStore);
+  let sendQuantityFileLabelNumber = useSelector((state) => state.form8.fileLabelNumberSendToStore);
   let actualQuantityInStore = useSelector((state) => state.form8.quantityInStore);
-  let storeFileLabelNumber = useSelector((state) => state.form8.fileLabelNumber);
+  let storeFileLabelNumber = useSelector((state) => state.form8.fileLabelNumberInStore);
   let ipcSupported = useSelector((state) => state.form9.ipcSupported);
   let ipcDetails = useSelector((state) => state.form9.ipcDetails);
   if (paymentStatus === "fully paid") {
@@ -161,7 +164,7 @@ const TransactionDetails = () => {
 
     const addGifmisProcessedDto = {
       data,
-      id: transaction.id
+      id: transaction?.id
     };
 
     console.log(addGifmisProcessedDto);
@@ -203,7 +206,7 @@ const TransactionDetails = () => {
           <div className="">
               <p className="font-bold text-xs">
                 REVISED CONTRACT AMOUNT:
-              <span className="font-normal"> {(transaction?.revisedcontractamount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+              <span className="font-normal"> {(transaction?.revisedcontractamount)?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
               </p>
             </div>
             <div className="">

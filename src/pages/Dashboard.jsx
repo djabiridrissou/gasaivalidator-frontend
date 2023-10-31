@@ -117,7 +117,7 @@ const Dashboard = () => {
           </Link>
         </div>
 
-        <div className="flex flex-col justify-center items-center">
+        {/* <div className="flex flex-col justify-center items-center">
           <p className="text-[10px] font-bold ml-2">
             STATUTORY
             <sup className="text-[8px] text-red-600">[0]</sup>
@@ -128,7 +128,7 @@ const Dashboard = () => {
           <Link to="" className="text-[10px] text-blue-400">
             view details
           </Link>
-        </div>
+        </div> */}
       </div>
 
       {/*Second row */}

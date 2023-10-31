@@ -295,11 +295,10 @@ const Form4 = () => {
                       name="supplyBeforeDate"
                       value={contract.supplyBeforeDate}
                       onChange={(e) => {
-                        const formattedValue = formatNumber(e.target.value);
                         handleContractChange(
                           index,
                           "supplyBeforeDate",
-                          formattedValue
+                          e.target.value
                         );
                       }}
                       className="appearance-none block w-[90%] text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
@@ -580,7 +579,7 @@ const Form4 = () => {
               onChange={(e) => dispatch(setWorkType(e.target.value))}
               className={`block  text-[13.5px] px-[0.9rem] py-[0.45rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]`}
             >
-              <option value="">-----------------</option>
+              <option value="default">-----------------</option>
               <option value="Road">Road</option>
               <option value="Bridge">Bridge</option>
               <option value="Structure Improvement">
@@ -961,7 +960,7 @@ const Form4 = () => {
                       onChange={(e) => {
                         handleRoadContractChange(
                           index,
-                          "contractSing",
+                          "contractSign",
                           e.target.value
                         );
                       }}
@@ -1004,16 +1003,16 @@ const Form4 = () => {
                     </label>
                     <input
                       type="text"
-                      id="contractNo"
-                      name="contractNo"
-                      // value={roadContract.contractNo}
-                      // onChange={(e) => {
-                      //   handleRoadContractChange(
-                      //     index,
-                      //     "contractNo",
-                      //     e.target.value
-                      //   );
-                      // }}
+                      id="fileLabelNumber"
+                      name="fileLabelNumber"
+                      value={roadContract.fileLabelNumber}
+                      onChange={(e) => {
+                        handleRoadContractChange(
+                          index,
+                          "fileLabelNumber",
+                          e.target.value
+                        );
+                      }}
                       placeholder="File Label Number"
                       className="appearance-none block w-[90%] text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
                     />
@@ -1106,7 +1105,7 @@ const Form4 = () => {
                     <span className="ml-1 text-[13px]">No</span>
                   </label>
                 </div>
-              </div> 
+              </div>
               {availableJudgement &&
                 judgements?.map((judgement, index) => (
                   <Fragment key={index}>
@@ -1235,7 +1234,36 @@ const Form4 = () => {
           <div>
             {(expenditureType == "Works" && (workType != "Road" && workType != "Bridge")) && (
               <button
-                onClick={() => navigate(`/dashboard/transactiondetails/${id}/4`)}
+                onClick={() => {
+                  if (workType == "default") {
+                    return;
+                  }
+                  if (workType == "Building") {
+                    if (availableContracts) {
+                      const contractDetailsAreMissing = roadsContracts.some(
+                        (contract) =>
+                          !contract.contractDate || !contract.contractNo || !contract.contractSign || !contract.fileLabelNumber
+                      );
+                      if (contractDetailsAreMissing) {
+                        return;
+                      }
+                    }
+                  }
+
+                  if (workType == "Structure Improvement" || workType == "Pavements") {
+                    if (availableContracts) {
+                      const contractDetailsAreMissing = worksContracts.some(
+                        (contract) =>
+                          !contract.contractDate || !contract.contractNo || !contract.workDescription || !contract.workToBeDeliveredBeforeDate || !contract.contractSign || !contract.fileLabelNumber
+                      );
+                      if (contractDetailsAreMissing) {
+                        return;
+                      }
+                    }
+                  }
+                  navigate(`/dashboard/transactiondetails/${id}/4`)
+                }
+                }
                 className="bg-blue-500 text-white px-4 py-2 border-full rounded"
               >
                 Next
@@ -1243,41 +1271,119 @@ const Form4 = () => {
             )}
             {expenditureType == "Works" && (workType == "Road" || workType == "Bridge") && (
               <button
-                onClick={() => navigate(`/dashboard/transactiondetails/${id}/8`)}
+                onClick={() => {
+                  if (workType == "default") {
+                    return;
+                  }
+                  if (workType == "Road") {
+                    if (availableContracts) {
+                      const contractDetailsAreMissing = roadsContracts.some(
+                        (contract) =>
+                          !contract.contractDate || !contract.contractNo || !contract.contractSign || !contract.fileLabelNumber || !contract.totalKilometers
+                      );
+                      if (contractDetailsAreMissing) {
+                        return;
+                      }
+                    }
+                  }
+                  if (workType == "Bridge") {
+                    if (availableContracts) {
+                      const contractDetailsAreMissing = worksContracts.some(
+                        (contract) =>
+                          !contract.contractDate || !contract.contractNo || !contract.workDescription || !contract.workToBeDeliveredBeforeDate || !contract.contractSign || !contract.fileLabelNumber
+                      );
+                      if (contractDetailsAreMissing) {
+                        return;
+                      }
+                    }
+                  }
+                  navigate(`/dashboard/transactiondetails/${id}/8`)
+                }}
                 className="bg-blue-500 text-white px-4 py-2 border-full rounded"
               >
                 Next
               </button>
             )}
-            {expenditureType == "Goods"  && (
-              
-                <button
-                onClick={() => navigate(`/dashboard/transactiondetails/${id}/4`)}
+            {expenditureType == "Goods" && (
+
+              <button
+                onClick={() => {
+                  if (availableContracts) {
+                    const contractDetailsAreMissing = goodsContracts.some(
+                      (contract) =>
+                        !contract.contractDate || !contract.contractNo || !contract.itemToBeSupplied || !contract.quantity || !contract.unitPrice || !contract.supplyBeforeDate || !contract.contractSign || !contract.fileLabelNumber
+                    );
+                    if (contractDetailsAreMissing) {
+                      return;
+                    }
+
+                  }
+                  navigate(`/dashboard/transactiondetails/${id}/4`)
+                }
+                }
                 className="bg-blue-500 text-white px-4 py-2 border-full rounded"
               >
                 Next
               </button>
-         
+
             )}
 
-{expenditureType == "Service"  && (
-              
+            {expenditureType == "Service" && (
+
               <button
-              onClick={() => navigate(`/dashboard/transactiondetails/${id}/4`)}
-              className="bg-blue-500 text-white px-4 py-2 border-full rounded"
-            >
-              Next
-            </button>
-       
-          )}
+                onClick={() => {
+                  if (availableContracts) {
+                    const contractDetailsAreMissing = servicesContracts.some(
+                      (contract) =>
+                        !contract.contractDate || !contract.contractNo || !contract.serviceDescription || !contract.serviceToBeDeliveredBeforeDate || !contract.contractSign || !contract.fileLabelNumber
+                    );
+                    if (contractDetailsAreMissing) {
+                      return;
+                    }
+                  }
+                  navigate(`/dashboard/transactiondetails/${id}/4`)
+                }}
+                className="bg-blue-500 text-white px-4 py-2 border-full rounded"
+              >
+                Next
+              </button>
+
+            )}
           </div>
         )}
 
-{currentPath.startsWith("/dashboard/edittransaction") && (
+        {currentPath.startsWith("/dashboard/edittransaction") && (
           <div>
             {(expenditureType == "Works" && (workType != "Road" && workType != "Bridge")) && (
               <button
-                onClick={() => navigate(`/dashboard/edittransaction/${id}/4`)}
+                onClick={() => {
+                  if (workType == "default") {
+                    return;
+                  }
+                  if (workType == "Building") {
+                    if (availableContracts) {
+                      const contractDetailsAreMissing = roadsContracts.some(
+                        (contract) =>
+                          !contract.contractDate || !contract.contractNo || !contract.contractSign || !contract.fileLabelNumber
+                      );
+                      if (contractDetailsAreMissing) {
+                        return;
+                      }
+                    }
+                  }
+                  if (workType == "Structure Improvement" || workType == "Pavements") {
+                    if (availableContracts) {
+                      const contractDetailsAreMissing = worksContracts.some(
+                        (contract) =>
+                          !contract.contractDate || !contract.contractNo || !contract.workDescription || !contract.workToBeDeliveredBeforeDate || !contract.contractSign || !contract.fileLabelNumber
+                      );
+                      if (contractDetailsAreMissing) {
+                        return;
+                      }
+                    }
+                  }
+                  navigate(`/dashboard/edittransaction/${id}/4`)
+                }}
                 className="bg-blue-500 text-white px-4 py-2 border-full rounded"
               >
                 Next
@@ -1285,33 +1391,83 @@ const Form4 = () => {
             )}
             {expenditureType == "Works" && (workType == "Road" || workType == "Bridge") && (
               <button
-                onClick={() => navigate(`/dashboard/edittransaction/${id}/8`)}
+                onClick={() => {
+                  if (workType == "default") {
+                    return;
+                  }
+                  if (workType == "Road") {
+                    if (availableContracts) {
+                      const contractDetailsAreMissing = roadsContracts.some(
+                        (contract) =>
+                          !contract.contractDate || !contract.contractNo || !contract.contractSign || !contract.fileLabelNumber || !contract.totalKilometers
+                      );
+                      if (contractDetailsAreMissing) {
+                        return;
+                      }
+                    }
+                  }
+                  if (workType == "Bridge") {
+                    if (availableContracts) {
+                      const contractDetailsAreMissing = worksContracts.some(
+                        (contract) =>
+                          !contract.contractDate || !contract.contractNo || !contract.workDescription || !contract.workToBeDeliveredBeforeDate || !contract.contractSign || !contract.fileLabelNumber
+                      );
+                      if (contractDetailsAreMissing) {
+                        return;
+                      }
+                    }
+                  }
+                  navigate(`/dashboard/edittransaction/${id}/8`)}}
                 className="bg-blue-500 text-white px-4 py-2 border-full rounded"
               >
                 Next
               </button>
             )}
-            {expenditureType == "Goods"  && (
-              
-                <button
-                onClick={() => navigate(`/dashboard/edittransaction/${id}/4`)}
+            {expenditureType == "Goods" && (
+
+              <button
+                onClick={() => {
+                  if (availableContracts) {
+                    const contractDetailsAreMissing = goodsContracts.some(
+                      (contract) =>
+                        !contract.contractDate || !contract.contractNo || !contract.itemToBeSupplied || !contract.quantity || !contract.unitPrice || !contract.supplyBeforeDate || !contract.contractSign || !contract.fileLabelNumber
+                    );
+                    if (contractDetailsAreMissing) {
+                      return;
+                    }
+
+                  }
+                  navigate(`/dashboard/edittransaction/${id}/4`)
+                }
+                }
                 className="bg-blue-500 text-white px-4 py-2 border-full rounded"
               >
                 Next
               </button>
-         
+
             )}
 
-{expenditureType == "Service"  && (
-              
+            {expenditureType == "Service" && (
+
               <button
-              onClick={() => navigate(`/dashboard/edittransaction/${id}/4`)}
-              className="bg-blue-500 text-white px-4 py-2 border-full rounded"
-            >
-              Next
-            </button>
-       
-          )}
+                onClick={() => {
+                  if (availableContracts) {
+                    const contractDetailsAreMissing = servicesContracts.some(
+                      (contract) =>
+                        !contract.contractDate || !contract.contractNo || !contract.serviceDescription || !contract.serviceToBeDeliveredBeforeDate || !contract.contractSign || !contract.fileLabelNumber
+                    );
+                    if (contractDetailsAreMissing) {
+                      return;
+                    }
+                  }
+                  navigate(`/dashboard/edittransaction/${id}/4`)
+                }}
+                className="bg-blue-500 text-white px-4 py-2 border-full rounded"
+              >
+                Next
+              </button>
+
+            )}
           </div>
         )}
 

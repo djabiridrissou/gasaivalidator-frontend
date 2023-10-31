@@ -30,6 +30,7 @@ import NoIpc from "../pages/NoIpc";
 import NoJudgement from "../pages/NoJudgement";
 import TeamLeaders from "../pages/TeamLeaders";
 import TeamMembers from "../pages/TeamMembers";
+import Soa from "../pages/Soa";
 
 
 export {
@@ -63,6 +64,7 @@ export {
   ContractManagement,
   NoIpc,
   NoJudgement,
+  Soa,
   TeamLeaders,
   TeamMembers,
 };

@@ -210,7 +210,7 @@ const Form9 = () => {
             value={districtLocation}
             onChange={handleDistrictLocationChange}
             className={`mt-3 block text-[13.5px] px-[0.9rem] py-[0.45rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]`}
-            />
+          />
         </div>
       </div>
       <div className="flex space-x-2 mt-6 justify-center">
@@ -222,26 +222,48 @@ const Form9 = () => {
         </button>
         {currentPath.startsWith("/dashboard/transactiondetails") && (
           <div>
-             <button
-          onClick={() => navigate(`/dashboard/transactiondetails/${id}/4`)}
-          className="bg-blue-500 text-white px-4 py-2 border-full rounded "
-        >
-          Next
-        </button>
+            <button
+              onClick={() => {
+                if (ipcSupported) {
+                  const ipcAreMissing = ipcDetails.some(
+                    (ipc) =>
+                      !ipc.ipcDate || !ipc.ipcNumber || !ipc.ipcAmount || !ipc.fileLabelNumber
+                  );
+                  if (ipcAreMissing) {
+                    return;
+                  }
+                }
+                navigate(`/dashboard/transactiondetails/${id}/4`)
+              }}
+              className="bg-blue-500 text-white px-4 py-2 border-full rounded "
+            >
+              Next
+            </button>
           </div>
         )}
 
-{currentPath.startsWith("/dashboard/edittransaction") && (
+        {currentPath.startsWith("/dashboard/edittransaction") && (
           <div>
-             <button
-          onClick={() => navigate(`/dashboard/edittransaction/${id}/4`)}
-          className="bg-blue-500 text-white px-4 py-2 border-full rounded "
-        >
-          Next
-        </button>
+            <button
+              onClick={() => {
+                if (ipcSupported) {
+                  const ipcAreMissing = ipcDetails.some(
+                    (ipc) =>
+                      !ipc.ipcDate || !ipc.ipcNumber || !ipc.ipcAmount || !ipc.fileLabelNumber
+                  );
+                  if (ipcAreMissing) {
+                    return;
+                  }
+                }
+                navigate(`/dashboard/edittransaction/${id}/4`)
+              }}
+              className="bg-blue-500 text-white px-4 py-2 border-full rounded "
+            >
+              Next
+            </button>
           </div>
         )}
-       
+
       </div>
     </div>
   );

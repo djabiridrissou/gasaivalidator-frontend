@@ -194,7 +194,7 @@ const response8 = dispatch(getNoIpc()).unwrap().then((res) => {
       route: "/dashboard/gifmisprocessed",
     },
     {
-      name: "Conditions",
+      name: "Audit Issues",
       icon: Bars3Icon,
       subMenu: [
         {
@@ -274,6 +274,15 @@ const response8 = dispatch(getNoIpc()).unwrap().then((res) => {
           ),
           route: "/dashboard/nojudgement",
           icon: DocumentTextIcon,
+        },
+        {
+          name: (
+            <span>
+              SOA <sup className="text-red-500">{/* {(noWorkDoneList?.length)} */}</sup>
+            </span>
+          ),
+          route: "/dashboard/soa",
+          icon: DocumentTextIcon
         },
         /* {
           name: "Validated",
@@ -385,13 +394,13 @@ const response8 = dispatch(getNoIpc()).unwrap().then((res) => {
                   name={menu.name}
                   subMenu={menu.subMenu}
                   isParent={
-                    menu.name === "Conditions" ||
+                    menu.name === "Audit Issues" ||
                     menu.name === "Cargo" ||
                     menu.name === "Imports" ||
                     menu.name === "Setup"
                   }
                   subMenuOpen={
-                    menu.name === "Conditions"
+                    menu.name === "Audit Issues"
                       ? ConditionsubmenuOpen
                       : menu.name === "Cargo"
                         ? cargoSubmenuOpen
@@ -402,7 +411,7 @@ const response8 = dispatch(getNoIpc()).unwrap().then((res) => {
                             : false
                   }
                   setSubMenuOpen={
-                    menu.name === "Conditions"
+                    menu.name === "Audit Issues"
                       ? setConditionsubmenuOpen
                       : menu.name === "Cargo"
                         ? setCargoSubmenuOpen
@@ -415,7 +424,7 @@ const response8 = dispatch(getNoIpc()).unwrap().then((res) => {
                   open={open} // Prop open
                   setOpen={setOpen} // Prop setOpen
                   onClick={() => {
-                    if (menu.name === "Conditions") {
+                    if (menu.name === "Audit Issues") {
                       setConditionsubmenuOpen(!ConditionsubmenuOpen);
                       setCargoSubmenuOpen(false);
                       setImportSubmenuOpen(false);

@@ -120,4 +120,15 @@ export class GoodsService extends HttpBaseService {
             return apiResponse;
         });
     }
+
+    async getSoa() {
+        let apiResponse = new ApiResponse();
+        return this.instance.get('/soa').then(res => {
+            apiResponse = retriveAxiosSuccessResponse(res);
+            return apiResponse;
+        }).catch(err => {
+            apiResponse = retriveAxiosErrorResponse(err);
+            return apiResponse;
+        });
+    }
 }
