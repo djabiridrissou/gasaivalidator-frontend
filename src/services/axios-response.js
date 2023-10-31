@@ -1,9 +1,13 @@
-export const retriveAxiosSuccessResponse = (res, data) => {
+export const retriveAxiosSuccessResponse = (res) => {
     return {
         status: res.status,
         message: res.data.message,
         success: res.data.success,
-        data: data ? res.data.data[data] : res.data.data,
+        data: res.data.data,
+        pages: res.data.pages,
+        total: res.data.total,
+        page: res.data.page,
+        per_page: res.data.per_page,
     }
 };
 

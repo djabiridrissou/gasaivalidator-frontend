@@ -19,6 +19,23 @@ const StoreManagement = () => {
         });
     }, []);
 
+    const calculateTransactionAmount = (transactions) => {
+        let total = 0;
+        const totalTransactions = transactions.map((item) => {
+            const amount = parseFloat(item.amountPaid);
+            console.log("dans calc", item, amount);
+            if (!isNaN(amount)) {
+               
+                total+= amount;
+            } else {
+                total+= 0;
+            }
+            
+        });
+        console.log("total", total);
+        return total;
+    }
+
     return (
         <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
             <h1 className="text-[16px] font-bold">SOA</h1>
@@ -146,18 +163,17 @@ const StoreManagement = () => {
                                             })}
                                         </td>
                                         <td className="border-y text-left ">
-                                       {/*  {(item?.gifmisProcesseds[0].contracts[0].amountpaid)?.toLocaleString(undefined, {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                        })} */}
-                                        </td>
-                                        <td className="border-y text-left ">
                                         {/* {(item?.gifmisProcesseds[0].suppliances[0].quantity)?.toLocaleString(undefined, {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,
                                         })} */}
                                         </td>
-                                        
+                                         <td className="border-y text-left ">
+                                         {(calculateTransactionAmount(item?.gifmisProcesseds[0].transactions))?.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                        })}
+                                        </td>
                                     </tr>
                                 ))
                             ) : (

@@ -6,8 +6,9 @@ const gifmis = GoodsService.getInstance();
 // Thunks
 export const getAllGifmis = createAsyncThunk(
     "gifmis/getAllGifmis",
-    async () => {
-        return await gifmis.getAllTransactions();
+    async (page, limitR) => {
+        console.log("page", page, "limit dans service", (limitR));
+        return await gifmis.getAllTransactions(page, limitR);
     }
 );
 export const countPerOrganisation = createAsyncThunk(
