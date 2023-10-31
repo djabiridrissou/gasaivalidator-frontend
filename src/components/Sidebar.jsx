@@ -38,6 +38,7 @@ import { getAllNotInGifmis } from "../redux/features/gifmis";
 import { getStoreManagement } from "../redux/features/gifmis";
 import { getNoIpc } from "../redux/features/gifmis";
 import { getNoJudgement } from "../redux/features/gifmis";
+import { getSoa } from "../redux/features/gifmis";
 
 const SidebarMenuItem = ({
   route,
@@ -140,6 +141,7 @@ const Sidebar = ({ open, setOpen }) => {
   const storeManagementList = useSelector((state) => state.gifmis.storeManagement);
   const noipcList = useSelector((state) => state.gifmis.noIpc);
   const nojudgementList = useSelector((state) => state.gifmis.noJudgement);
+  const soaList = useSelector((state) => state.gifmis.soa);
 
   useEffect(() => {
     const response = dispatch(getContractManagement()).unwrap().then((res) => {
@@ -163,13 +165,16 @@ const Sidebar = ({ open, setOpen }) => {
 
     const response7 = dispatch(getStoreManagement()).unwrap().then((res) => {
       console.log("storemanagement", res.data);
-  });
-const response8 = dispatch(getNoIpc()).unwrap().then((res) => {
-            console.log("noipc", res.data);
-        });
-        const response9 = dispatch(getNoJudgement()).unwrap().then((res) => {
-          console.log("nojudgement", res.data);
-      });
+    });
+    const response8 = dispatch(getNoIpc()).unwrap().then((res) => {
+      console.log("noipc", res.data);
+    });
+    const response9 = dispatch(getNoJudgement()).unwrap().then((res) => {
+      console.log("nojudgement", res.data);
+    });
+    const response10 = dispatch(getSoa()).unwrap().then((res) => {
+      console.log("soa", res.data);
+    })
     dispatch(getCurentUser()).unwrap().then(res => {
       //console.log("res", res.user);
       setCurrentUser(res.user);
@@ -278,7 +283,7 @@ const response8 = dispatch(getNoIpc()).unwrap().then((res) => {
         {
           name: (
             <span>
-              SOA <sup className="text-red-500">{/* {(noWorkDoneList?.length)} */}</sup>
+              SOA <sup className="text-red-500">{(soaList?.length)}</sup>
             </span>
           ),
           route: "/dashboard/soa",
@@ -380,7 +385,7 @@ const response8 = dispatch(getNoIpc()).unwrap().then((res) => {
               </span>
             </div>
             {Menu.map((menu, index) => {
-              if ((menu.name === "Setup"  || menu.name === "Team Leaders" || menu.name === "Team Members") && !isAdmin) {
+              if ((menu.name === "Setup" || menu.name === "Team Leaders" || menu.name === "Team Members") && !isAdmin) {
                 return null; // Ne pas afficher le menu Setup pour les non-administrateurs
               }
 

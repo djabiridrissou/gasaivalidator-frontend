@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import ReactPaginate from "react-paginate";
 import { AiOutlineSearch } from "react-icons/ai";
-import { BiSort } from "react-icons/bi";
+import { BiListMinus, BiSort } from "react-icons/bi";
 import { FaCheckToSlot } from "react-icons/fa6";
 import TransactionDetails from "../components/TransacAction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,27 +21,37 @@ const Goods = () => {
   const dispatch = useDispatch();
   const transactions = useSelector((state) => state.gifmis.transactions);
   const navigate = useNavigate();
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [limitR, setLimit] = useState(25);
 
 
   const isAdmin = currentUser.role?.roleName == "admin";
   console.log('isAdmin', isAdmin);
-   useEffect(() => {
-      const response = dispatch(getAllGifmis()).unwrap().then((res) => {
-          console.log("transac", res);
-      });
-      dispatch(getCurentUser()).unwrap().then(res => {
-        console.log("res", res.user.id);
-       setCurrentUser(res.user);
-      }).catch(error => {
-        console.log(error);
-      });
-     }, []);
-  
-   
-/* 
-  const handleLimitChange = (e) => {
-    dispatch(setLimit(parseInt(e.target.value)));
-  }; */
+  useEffect(() => {
+    console.log("page", page, "limit", limitR);
+    //setLimit(limit);
+    const response = dispatch(getAllGifmis(page, limitR)).unwrap().then((res) => {
+      console.log("transac", res.pages);
+      setTotalPages(res.pages);
+    });
+    dispatch(getCurentUser()).unwrap().then(res => {
+      console.log("res", res.user.id);
+      setCurrentUser(res.user);
+    }).catch(error => {
+      console.log(error);
+    });
+  }, [page]);
+
+
+
+  const handleLimitChange = (limitToSet) => {
+    console.log("dans setLimit", limitToSet);
+    if (limitToSet > 0) {
+      setLimit(limitToSet);
+    }
+
+  };
 
   /*   const handleSort = (field) => {
       if (field === sortField) {
@@ -52,11 +62,11 @@ const Goods = () => {
       }
     }; */
 
-  /*   const handlePageChange = ({ selected }) => {
-      dispatch(setPage(selected + 1));
+ const handlePageChange = ({ selected }) => {
+      (setPage(selected + 1));
     };
   
-    */
+   
 
   /*   const handleSearchInputChange = (e) => {
       const newSearchTerm = e.target.value;
@@ -117,18 +127,17 @@ const Goods = () => {
       {/* Tableau */}
       <div className="bg-white rounded-lg p-2 border shadow-md">
         <div className="flex justify-between mb-2">
-          {/*     <div className="flex gap-1 items-center">
+          {/* <div className="flex gap-1 items-center">
             <span>Show</span>
             <select
               name="limit"
               id="limit"
-              value={limit}
-              onChange={handleLimitChange}
+              onChange={(e) => handleLimitChange(parseInt(e.target.value))}
               className={`text-[0.8rem] px-[1rem] py-[0.22rem] border border-gray-400 rounded-[0.25rem] shadow-lg placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-gray-300 focus:border-gray-500`}
             >
-              <option value={25}>25</option>
-              <option value={50}>50</option>
-              <option value={100}>100</option>
+              <option value={25}  >25</option>
+              <option value={50} >50</option>
+              <option value={100} >100</option>
             </select>
             <span>entries</span>
           </div> */}
@@ -339,14 +348,14 @@ const Goods = () => {
                         .replace(/\.?0+$/, "")}
                     </td>
                     <td className="border-y text-left truncate-25">
-                 {`${item.gifmisUser[0]?.user?.staffid || ''} - ${item.gifmisUser[0]?.user?.lastname || ''}`  }
+                      {`${item.gifmisUser[0]?.user?.staffid || ''} - ${item.gifmisUser[0]?.user?.lastname || ''}`}
                     </td>
                     <td className={`border-y text-center ${item.status === 'COMPLETED' ? 'text-green-600' : 'text-red-600'}`} style={{ placeItems: 'center' }}>
                       <FaCheckToSlot
-                       style={{
-                        cursor: item.status !== 'COMPLETED' ? 'pointer' : 'not-allowed',
-                        pointerEvents: isAdmin ? 'none' : item.status !== 'COMPLETED' ? 'auto' : 'none',
-                      }}
+                        style={{
+                          cursor: item.status !== 'COMPLETED' ? 'pointer' : 'not-allowed',
+                          pointerEvents: isAdmin ? 'none' : item.status !== 'COMPLETED' ? 'auto' : 'none',
+                        }}
                         onClick={() => handleTransactionDetail(item?.id)}
                         size={20}
                       />
@@ -370,7 +379,7 @@ const Goods = () => {
         </div>
       </div>
       {/* Pagination */}
-      {/* <div className="flex tex-xs justify-end mr-3 mt-1">
+    <div className="flex tex-xs justify-end mr-3 mt-1">
         <ReactPaginate
           previousLabel="Prev"
           nextLabel="Next"
@@ -388,8 +397,8 @@ const Goods = () => {
           forcePage={page - 1}
         />
 
-        {/* <img src="../images/login.jpg" alt="" /> 
-      </div> */}
+        {/* <img src="../images/login.jpg" alt="" /> */}
+      </div> 
     </div>
   );
 };

@@ -21,10 +21,12 @@ export class GoodsService extends HttpBaseService {
         return this.classInstance;
     }
 
-    async getAllTransactions() {
+    async getAllTransactions(page, limit) {
         let apiResponse = new ApiResponse();
-        return this.instance.get('/user').then(res => {
+        console.log("page", page, "limit", (limit));
+        return this.instance.get(`/user?&page=${page}&per_page=${limit}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
+            console.log("all", res["pages"]);
             return apiResponse;
         }).catch(err => {
             apiResponse = retriveAxiosErrorResponse(err);
