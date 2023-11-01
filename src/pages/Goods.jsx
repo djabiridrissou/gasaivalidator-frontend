@@ -12,6 +12,7 @@ import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { getAllGifmis } from "../redux/features/gifmis";
 import { getCurentUser } from "../redux/features/auth";
+import { ExptService } from "../services/expt-service";
 
 // const limit = 25;
 
@@ -25,6 +26,15 @@ const Goods = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [limitR, setLimit] = useState(25);
 
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
 
   const isAdmin = currentUser.role?.roleName == "admin";
   console.log('isAdmin', isAdmin);
@@ -43,7 +53,13 @@ const Goods = () => {
     });
   }, [page]);
 
-
+   const handleExportClick = async () => {
+    console.log("dans export");
+    const expt = new ExptService();
+    const response = await expt.exportData('gifmis/export');
+    window.open(response);
+    console.log("res", response);
+  }
 
   const handleLimitChange = (limitToSet) => {
     console.log("dans setLimit", limitToSet);
@@ -62,11 +78,11 @@ const Goods = () => {
       }
     }; */
 
- const handlePageChange = ({ selected }) => {
-      (setPage(selected + 1));
-    };
-  
-   
+  const handlePageChange = ({ selected }) => {
+    (setPage(selected + 1));
+  };
+
+
 
   /*   const handleSearchInputChange = (e) => {
       const newSearchTerm = e.target.value;
@@ -123,7 +139,22 @@ const Goods = () => {
 
   return (
     <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
-      <h1 className="text-[16px] font-bold">PAYABLE</h1>
+      <div className="flex justify justify-between">
+        <h1 className="text-[12px] font-bold">PAYABLE</h1>
+        <div className="flex w-[18%] justify-end">
+          <button
+            className={`text-[12px] font-bold border border-green-400 bg-green-200 p-1 rounded mb-2 shadow-lg ${isHovered ? 'hovered' : ''
+              }`}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onClick={() => {handleExportClick()}}
+          >
+            Export in excel File
+          </button>
+        </div>
+      </div>
+
+
       {/* Tableau */}
       <div className="bg-white rounded-lg p-2 border shadow-md">
         <div className="flex justify-between mb-2">
@@ -158,6 +189,8 @@ const Goods = () => {
               className="absolute right-2 top-[7px]  text-gray-400"
             />
           </div> */}
+
+
         </div>
         <div className="max-h-[80vh] overflow-y-scroll">
           <table className="table-auto w-full bg-white text-[13px]">
@@ -379,7 +412,7 @@ const Goods = () => {
         </div>
       </div>
       {/* Pagination */}
-    <div className="flex tex-xs justify-end mr-3 mt-1">
+      <div className="flex tex-xs justify-end mr-3 mt-1">
         <ReactPaginate
           previousLabel="Prev"
           nextLabel="Next"
@@ -398,7 +431,7 @@ const Goods = () => {
         />
 
         {/* <img src="../images/login.jpg" alt="" /> */}
-      </div> 
+      </div>
     </div>
   );
 };

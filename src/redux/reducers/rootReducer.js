@@ -27,6 +27,7 @@ import gifmisProcessedReducer from "../features/gifmis-processed";
 import noWorkDoneReducer from "../features/noworkdoneSlice";
 import misclassifiedReducer from "../features/misclassifiedSlice";
 
+
 const rootReducer = combineReducers({
   register: registerReducer,
   auth: authReducer,
@@ -54,6 +55,7 @@ const rootReducer = combineReducers({
   form7Edit: form7EditReducer,
   noworkdone: noWorkDoneReducer,
   misclassified: misclassifiedReducer,
+
 });
 
 export default rootReducer;

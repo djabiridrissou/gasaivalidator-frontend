@@ -6,65 +6,83 @@ import {
   formatDate,
   formatFinancialNumber,
 } from "../functions/helperFunctions";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllGifmisProcessed } from "../redux/features/gifmis-processed";
 
 const ViewDetails = () => {
+  const dispatch = useDispatch();
   const { id } = useParams();
+  console.log("id", id);
+
   const [details, setDetails] = useState();
 
-  useEffect(() => {
-    const getData = async () => {
-      const response = await axios.get(`${server}/gifmisprocessed/${id}`);
-      console.log(response.data);
-      setDetails(response.data);
-    };
-    getData();
+
+ useEffect(() => {
+  const response = dispatch(getAllGifmisProcessed()).unwrap().then((res) => {
+    console.log("gifprocessed", res);
+    setDetails(res.data.find(e => e.id == id));
+  });
   }, []);
+
+  console.log("details", details)
+
   return (
     <>
-      <h1 className="text-center font-semibold">
-        {details?.transaction.vendorname}
+      <h1 className="text-center font-bold text-3xl">
+        {details?.gifmis?.vendorname}
       </h1>
       <div className="w-[98.5%] mx-auto  flex justify-evenly  text-[13px] mt-2 p-2">
         {/* left */}
         <section className="space-y-3">
           <p>
             <span className="font-semibold">ORGNAME:</span>{" "}
-            {details?.transaction?.orgname}
+            {details?.gifmis?.orgname}
           </p>
           <p>
-            <span className="font-semibold">INVOICE NUMBER:</span>{" "}
-            {details?.transaction?.invoiceno}
+            <span className="font-semibold">OUTSTANDING CLAIM:</span>{" "}
+            {(details?.gifmis?.outstandingclaim)?.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
           </p>
           <p>
             <span className="font-semibold">DESCRIPTION:</span>{" "}
-            {details?.transaction?.description}
+            {details?.gifmis?.description}
           </p>
           <p>
             <span className="font-semibold">EXP TYPE:</span>{" "}
-            {details?.transaction?.orgname}
+            {details?.expendituretype}
           </p>
           <p>
-            <span className="font-semibold">INV GROSS AMOUNT:</span>{" "}
+            <span className="font-semibold">REVISED CONTRACT AMOUNT:</span>{" "}
             {formatFinancialNumber(
-              Number(details?.transaction?.invgrossamount)
+              Number(details?.gifmis?.revisedcontractamount)
             )}
           </p>
 
           <p>
-            <span className="font-semibold">BALANCE TO BE PAID:</span>{" "}
-            {formatFinancialNumber(
-              Number(details?.transactionDetails?.balancetobepaid)
-            )}
+            <span className="font-semibold">AVAILABLE BUDGET:</span>{" "}
+            {details?.availablebudget?.advancedpayment === "true" ? "Yes" : "No"}
           </p>
 
           <p>
-            <span className="font-semibold">FILE LABEL NO:</span>{" "}
-            {details?.transactionDetails?.transactions[0]?.filelabelnumber}
+            <span className="font-semibold">BUDGET FILE LABEL NUMBER:</span>{" "}
+            {details?.budgetfilelabelnumber === "" ? "-" : details?.budgetfilelabelnumber}
+          </p>
+
+          <p>
+            <span className="font-semibold">FUNDING TYPE:</span>{" "}
+            {details?.fundingtype === "" ? "-" : details?.fundingtype}
+          </p>
+
+          <p>
+            <span className="font-semibold">INVOICE NUMBER:</span>{" "}
+            {details?.invoiceno === "" ? "-" : details?.invoiceno}
           </p>
 
           <p>
             <span className="font-semibold">INV PAYMENT STATUS:</span>{" "}
-            {details?.transaction.payment}
+            {details?.transaction?.payment}
           </p>
 
           <p>
