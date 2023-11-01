@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { getContractManagement } from "../redux/features/gifmis";
+import { ExptService } from "../services/expt-service";
 
 const ContractManagement = () => {
     const dispatch = useDispatch();
@@ -18,6 +19,24 @@ const ContractManagement = () => {
             console.log("contractManagement", res.data);
         });
     }, []);
+
+    const [isHovered, setIsHovered] = useState(false);
+
+    const handleMouseEnter = () => {
+        setIsHovered(true);
+    };
+
+    const handleMouseLeave = () => {
+        setIsHovered(false);
+    };
+
+    const handleExportClick = async () => {
+        console.log("dans export");
+        const expt = new ExptService();
+        const response = await expt.exportData('contract-management/export');
+        window.open(response);
+        console.log("res", response);
+    }
 
     function formatDate(dateString) {
         if (dateString) {
@@ -36,7 +55,7 @@ const ContractManagement = () => {
         let dateToFormat;
         if (item?.gifmisProcesseds[0].expendituretype == "Goods") {
             dateToFormat = item?.gifmisProcesseds[0].suppliances[0].sraDate;
-        } 
+        }
         if (item?.gifmisProcesseds[0].expendituretype == "Service") {
             dateToFormat = item?.gifmisProcesseds[0].services[0].certificationOfCompletionDate;
         }
@@ -58,7 +77,20 @@ const ContractManagement = () => {
 
     return (
         <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
-            <h1 className="text-[16px] font-bold">Contract Management</h1>
+            <div className="flex justify justify-between">
+                <h1 className="text-[12px] font-bold">Contract Management</h1>
+                <div className="flex w-[18%] justify-end">
+                    <button
+                        className={`text-[12px] font-bold border border-green-400 bg-green-200 p-1 rounded mb-2 shadow-lg ${isHovered ? 'hovered' : ''
+                            }`}
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                        onClick={() => { handleExportClick() }}
+                    >
+                        Export in excel File
+                    </button>
+                </div>
+            </div>
             <div className="bg-white rounded-lg p-2 border shadow-md">
                 <div className="flex justify-between mb-2">
                 </div>
@@ -185,10 +217,10 @@ const ContractManagement = () => {
                                         <td className="border-y text-left ">
                                             {formatDate(item?.gifmisProcesseds[0].contracts[0].contractDate)}
                                         </td>
-                                 
+
                                         <td className="border-y text-left ">
                                             {formatRightDate(item)}
-                                        </td> 
+                                        </td>
                                     </tr>
                                 ))
                             ) : (

@@ -3,19 +3,28 @@ import { useSelector, useDispatch } from "react-redux";
 import ReactPaginate from "react-paginate";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BiSort } from "react-icons/bi";
-import { FaAccessibleIcon, FaArrowUpFromGroundWater, FaBellSlash, FaCheckToSlot } from "react-icons/fa6";
+import { FaAccessibleIcon, FaArrowUpFromGroundWater, FaBellSlash, FaCheckToSlot, FaEye } from "react-icons/fa6";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { getAllGifmisProcessed } from "../redux/features/gifmis-processed";
 import { FaEdit, FaTimes } from "react-icons/fa";
 import { getCurentUser } from "../redux/features/auth";
+import { ExptService } from "../services/expt-service";
+import ViewDetails from "./ViewDetails";
 
 function EditTransactionModal({ transaction, onConfirm, onClose }) {
   const [id, setId] = useState("");
   const [error, setError] = useState("");
+  const [isHovered, setIsHovered] = useState(false);
 
+  const handleMouseEnter = () => {
+      setIsHovered(true);
+  };
 
+  const handleMouseLeave = () => {
+      setIsHovered(false);
+  };
   const handleConfirm = () => {
     console.log("la transac", transaction);
     if (id == transaction.idgifmis) {
@@ -25,6 +34,8 @@ function EditTransactionModal({ transaction, onConfirm, onClose }) {
       setError("Incorrect ID. Try again.");
     }
   };
+
+
 
   return (
     <div className="modal-overlay">
@@ -77,6 +88,25 @@ const GifmisprocessedPage = () => {
       console.log(error);
     });
   }, []);
+
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+      setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+      setIsHovered(false);
+  };
+
+  const handleExportClick = async () => {
+    console.log("dans export");
+    const expt = new ExptService();
+    const response = await expt.exportData('gifmis-processed/export');
+    window.open(response);
+    console.log("res", response);
+}
+
   
 
   /* 
@@ -146,13 +176,16 @@ const GifmisprocessedPage = () => {
       );
     }
   }
-  const handleTransactionDetail = (transaction) => {
+  const handleTransactionEdit = (transaction) => {
     // Lorsque l'utilisateur clique sur l'icône "FaEdit", stockez les détails de la transaction
     setCurrentTransaction(transaction);
     // Affichez la fenêtre modale pour la saisie de l'ID
     setModalOpen(true);
   };
 
+  const handleTransactionShow = (transaction) => {
+    navigate(`/dashboard/view/${transaction.id}`);
+  }
   const handleConfirm = () => {
     // Cette fonction sera appelée lorsque l'ID est confirmé dans la fenêtre modale
     // Naviguez vers la page de "edittransaction" avec l'ID de la transaction actuelle
@@ -167,7 +200,20 @@ const GifmisprocessedPage = () => {
 
   return (
     <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
-      <h1 className="text-[16px] font-bold">PAYABLE PROCESSED</h1>
+      <div className="flex justify justify-between">
+                <h1 className="text-[12px] font-bold">Payable Processed</h1>
+                <div className="flex w-[18%] justify-end">
+                    <button
+                        className={`text-[12px] font-bold border border-green-400 bg-green-200 p-1 rounded mb-2 shadow-lg ${isHovered ? 'hovered' : ''
+                            }`}
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                        onClick={() => { handleExportClick() }}
+                    >
+                        Export in excel File
+                    </button>
+                </div>
+            </div>
       {/* Tableau */}
       <div className="bg-white rounded-lg p-2 border shadow-md">
         <div className="flex justify-between mb-2">
@@ -377,10 +423,10 @@ const GifmisprocessedPage = () => {
                       {`${item.user?.lastname || ''} - ${item.user?.staffid || ''}`}
                     </td>
                     
-                    <td className={`border-y text-center text-yellow-500`} style={{ placeItems: 'center' }}>
+                    <td className={`border-y text-center text-yellow-500 inline-flex gap-2`} style={{ placeItems: 'center' }}>
                       {item.userId == currentUser.id ? (
                         <FaEdit
-                          onClick={() => handleTransactionDetail(item)}
+                          onClick={() => handleTransactionEdit(item)}
                           size={20}
                           className="cursor-pointer"
                         />
@@ -395,6 +441,11 @@ const GifmisprocessedPage = () => {
                           className="cursor-pointer"
                         />
                       )}
+                      <FaEye
+                      size={18} 
+                      className="text-blue-500 cursor-pointer"
+                      onClick={() => handleTransactionShow(item)}
+                      />
 
                     </td>
                   </tr>

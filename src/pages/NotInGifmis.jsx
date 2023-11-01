@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { getAllNotInGifmis } from "../redux/features/gifmis";
+import { ExptService } from "../services/expt-service";
 
 const NoWarrant = () => {
     const dispatch = useDispatch();
@@ -18,10 +19,43 @@ const NoWarrant = () => {
             console.log("notingifmis", res.data);
         });
     }, []);
+    useEffect(() => {
+        const response = dispatch(getAllNotInGifmis()).unwrap().then((res) => {
+            console.log("notInGifmis", res.data);
+        });
+    }, []);
+    const [isHovered, setIsHovered] = useState(false);
 
+    const handleMouseEnter = () => {
+        setIsHovered(true);
+    };
+
+    const handleMouseLeave = () => {
+        setIsHovered(false);
+    };
+    const handleExportClick = async () => {
+        console.log("dans export");
+        const expt = new ExptService();
+        const response = await expt.exportData('notingifmis/export');
+        window.open(response);
+        console.log("res", response);
+    }
     return (
         <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
-            <h1 className="text-[16px] font-bold">Not In Gifmis</h1>
+            <div className="flex justify justify-between">
+                <h1 className="text-[12px] font-bold">Not IN GIFMIS</h1>
+                <div className="flex w-[18%] justify-end">
+                    <button
+                        className={`text-[12px] font-bold border border-green-400 bg-green-200 p-1 rounded mb-2 shadow-lg ${isHovered ? 'hovered' : ''
+                            }`}
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                        onClick={() => { handleExportClick() }}
+                    >
+                        Export in excel File
+                    </button>
+                </div>
+            </div>
             <div className="bg-white rounded-lg p-2 border shadow-md">
                 <div className="flex justify-between mb-2">
                 </div>
