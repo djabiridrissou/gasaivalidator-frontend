@@ -57,7 +57,7 @@ console.log("Chemin actuel : " + currentPath);
             className={`mt-3 block text-[13.5px] px-[0.9rem] py-[0.45rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]`}
           >
             <option value="">------------------------</option>
-            {/* <option value="fully paid">Fully paid</option> */}
+            <option value="fully paid">Fully paid</option>
             <option value="partial payment">Partial payment</option>
             <option value="unpaid">Unpaid</option>
           </select>
@@ -206,7 +206,7 @@ console.log("Chemin actuel : " + currentPath);
           <Form2 />
         </>
       )}
-      {paymentStatus === "partial payment" && (
+      {paymentStatus === "partial payment" || paymentStatus === "fully paid" && (
         <>
           <Form2 />
         </>

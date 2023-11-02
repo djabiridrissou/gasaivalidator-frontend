@@ -263,7 +263,7 @@ const Form4 = () => {
                       htmlFor="unitPrice"
                       className="text-[13.5px] text-gray-700"
                     >
-                      Unit Price
+                    Contract Amount
                     </label>
                     <input
                       type="text"

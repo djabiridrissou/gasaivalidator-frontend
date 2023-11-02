@@ -379,7 +379,13 @@ const GifmisprocessedPage = () => {
                 transactions?.map((item, itemIndex) =>
                 (
 
-                  <tr key={itemIndex}>
+                  <tr key={itemIndex} onClick={() => {
+                    if (item?.userId == currentUser?.id) {
+                      // Exécutez l'action souhaitée lorsque la ligne est cliquée
+                      handleTransactionEdit(item);
+                    }
+                  }}
+                  >
                     {/*  <td className="border-y text-left ">
                       {item.id}
                     </td> */}
@@ -401,19 +407,19 @@ const GifmisprocessedPage = () => {
                     <td className="border-y text-left truncate-25" title={item.gifmis.vendorname}>
                       {(item.gifmis.vendorname)}
                     </td>
-                    <td className="border-y text-left truncate-25">
+                    <td className="border-y text-right truncate-25">
                       {(item.gifmis.revisedcontractamount).toLocaleString(undefined, {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
                       })}
                     </td>
-                    <td className="border-y text-left truncate-25">
+                    <td className="border-y text-right truncate-25">
                       {(item.gifmis.amountpaid).toLocaleString(undefined, {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
                       })}
                     </td>
-                    <td className="border-y text-left truncate-25">
+                    <td className="border-y text-right truncate-25">
                       {(item.gifmis.outstandingclaim).toLocaleString(undefined, {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
@@ -424,7 +430,7 @@ const GifmisprocessedPage = () => {
                     </td>
                     
                     <td className={`border-y text-center text-yellow-500 inline-flex gap-2`} style={{ placeItems: 'center' }}>
-                      {item.userId == currentUser.id ? (
+                     {/*  {item.userId == currentUser.id ? (
                         <FaEdit
                           onClick={() => handleTransactionEdit(item)}
                           size={20}
@@ -440,10 +446,10 @@ const GifmisprocessedPage = () => {
                           size={20}
                           className="cursor-pointer"
                         />
-                      )}
+                      )} */}
                       <FaEye
                       size={18} 
-                      className="text-blue-500 cursor-pointer"
+                      className="text-blue-500 cursor-pointer text-center"
                       onClick={() => handleTransactionShow(item)}
                       />
 

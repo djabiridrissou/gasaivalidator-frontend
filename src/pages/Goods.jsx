@@ -53,7 +53,7 @@ const Goods = () => {
     });
   }, [page]);
 
-   const handleExportClick = async () => {
+  const handleExportClick = async () => {
     console.log("dans export");
     const expt = new ExptService();
     const response = await expt.exportData('gifmis/export');
@@ -147,7 +147,7 @@ const Goods = () => {
               }`}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            onClick={() => {handleExportClick()}}
+            onClick={() => { handleExportClick() }}
           >
             Export in excel File
           </button>
@@ -301,7 +301,7 @@ const Goods = () => {
                     /> */}
                   </span>
                 </th>
-                <th className="border border-gray-200  ">
+                {/* <th className="border border-gray-200  ">
                   <span className="inline-flex items-center">
                     ACTION{" "}
                     {/* <BiSort
@@ -311,9 +311,9 @@ const Goods = () => {
                           : "text-gray-500"
                         }`}
                       onClick={() => handleSort("balancetobepaid", "desc")}
-                    /> */}
+                    /> 
                   </span>
-                </th>
+                </th> */}
                 <th className="border border-gray-200  ">
                   <span className="inline-flex items-center">
                     STATUS{" "}
@@ -333,7 +333,15 @@ const Goods = () => {
               {transactions && transactions.length > 0 ? (
                 transactions?.map((item, itemIndex) => (
 
-                  <tr key={itemIndex}>
+                  <tr key={itemIndex} onClick={() => {
+                    if (!isAdmin && item.status !== 'COMPLETED') {
+                      // Exécutez l'action souhaitée lorsque la ligne est cliquée
+                      handleTransactionDetail(item?.id);
+                    }
+                  }}
+                    style={{
+                      cursor: item.status !== 'COMPLETED' && !isAdmin ? 'pointer' : 'not-allowed',
+                    }}>
                     <td className="border-y text-left ">
                       {item.id}
                     </td>
@@ -356,7 +364,7 @@ const Goods = () => {
                       {(item.vendorname)}
                     </td>
                     <td
-                      className="border-y text-left truncate-25"
+                      className="border-y text-right truncate-25"
 
                     >
                       {item?.revisedcontractamount?.toLocaleString(undefined, {
@@ -364,7 +372,7 @@ const Goods = () => {
                         maximumFractionDigits: 2,
                       }).replace(/\.?0+$/, "")}
                     </td>
-                    <td className="border-y text-left ">
+                    <td className="border-y text-right ">
                       {item.amountpaid
                         ?.toLocaleString(undefined, {
                           minimumFractionDigits: 2,
@@ -372,7 +380,7 @@ const Goods = () => {
                         })
                         .replace(/\.?0+$/, "")}
                     </td>
-                    <td className="border-y text-left ">
+                    <td className="border-y text-right ">
                       {item.outstandingclaim
                         ?.toLocaleString(undefined, {
                           minimumFractionDigits: 2,
@@ -383,7 +391,7 @@ const Goods = () => {
                     <td className="border-y text-left truncate-25">
                       {`${item.gifmisUser[0]?.user?.staffid || ''} - ${item.gifmisUser[0]?.user?.lastname || ''}`}
                     </td>
-                    <td className={`border-y text-center ${item.status === 'COMPLETED' ? 'text-green-600' : 'text-red-600'}`} style={{ placeItems: 'center' }}>
+                    {/* <td className={`border-y text-center ${item.status === 'COMPLETED' ? 'text-green-600' : 'text-red-600'}`} style={{ placeItems: 'center' }}>
                       <FaCheckToSlot
                         style={{
                           cursor: item.status !== 'COMPLETED' ? 'pointer' : 'not-allowed',
@@ -392,9 +400,13 @@ const Goods = () => {
                         onClick={() => handleTransactionDetail(item?.id)}
                         size={20}
                       />
-                    </td>
-                    <td className="border-y text-left truncate-25" title="">
-                      {item.status}
+                    </td> */}
+                    <td
+                      className={`border-y text-left truncate-25 ${item.status === 'COMPLETED' ? 'text-green-600' : 'text-red-600'
+                        }`}
+                      title=""
+                    >
+                      {item.status === 'COMPLETED' ? 'COMPLETED' : 'INCOMPLETE'}
                     </td>
                   </tr>
                 ))
