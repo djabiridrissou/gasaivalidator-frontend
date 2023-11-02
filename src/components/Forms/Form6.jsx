@@ -13,6 +13,7 @@ import {
   setRegionalLocation,
   setDistrictLocation,
 } from "../../redux/features/form6Slice";
+import { districtData } from "../../utils/district.Js";
 
 const Form6 = () => {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ const Form6 = () => {
   const works = useSelector((state) => state.form6.works);
   const regionalLocation = useSelector((state) => state.form6.regionalLocation);
   const districtLocation = useSelector((state) => state.form6.districtLocation);
+  const [districtList, setDistrictList] = useState([]);
 
   const formatNumber = (value) => {
     // Remove non-numeric characters except the dot
@@ -86,6 +88,12 @@ const Form6 = () => {
     { id: "16", name: "Volta" },
   ];
 
+  
+
+  const updateDistrict = () => {
+    console.log("dans district", districtData[regionalLocation]);
+  }
+
   const handleSupplianceChange = (index, fieldName, value) => {
     dispatch(updateSuppliance({ index, fieldName, value }));
   };
@@ -105,6 +113,7 @@ const Form6 = () => {
 
   const handleRegionalLocationChange = (e) => {
     dispatch(setRegionalLocation(e.target.value));
+    updateDistrict();
   };
 
   const handleDistrictLocationChange = (e) => {

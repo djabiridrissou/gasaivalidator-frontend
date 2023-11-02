@@ -32,7 +32,7 @@ const regionsInGhana = [
 
 const Form9 = () => {
   const currentPath = window.location.pathname;
-  console.log("Chemin actuel : " + currentPath);
+  //console.log("Chemin actuel : " + currentPath);
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();

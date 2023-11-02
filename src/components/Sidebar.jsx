@@ -130,6 +130,7 @@ const Sidebar = ({ open, setOpen }) => {
   const [cargoSubmenuOpen, setCargoSubmenuOpen] = useState(false);
   const [importSubmenuOpen, setImportSubmenuOpen] = useState(false);
   const [setupSubmenuOpen, setSetupSubmenuOpen] = useState(false);
+  const [summarySubmenuOpen, setSummarySubmenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const isAdmin = currentUser.role?.roleName == "admin";
   const contractManagementList = useSelector((state) => state.gifmis.contractManagement);
@@ -244,6 +245,42 @@ const Sidebar = ({ open, setOpen }) => {
           route: "/dashboard/notingifmis",
           icon: DocumentTextIcon,
         },
+       
+        {
+          name: (
+            <span>
+              No-Ipc <sup className="text-red-500">{(noipcList?.length)}</sup>
+            </span>
+          ),
+          route: "/dashboard/noipc",
+          icon: DocumentTextIcon,
+        },
+        {
+          name: (
+            <span>
+              No-Judgement <sup className="text-red-500">{(nojudgementList?.length)}</sup>
+            </span>
+          ),
+          route: "/dashboard/nojudgement",
+          icon: DocumentTextIcon,
+        },
+       
+        /* {
+          name: "Validated",
+          route: "#",
+          icon: DocumentTextIcon,
+        },
+        {
+          name: "Validated With Issues",
+          route: "#",
+          icon: DocumentTextIcon,
+        }, */
+      ],
+    },
+    {
+      name: "Summary Report",
+      icon: Bars3Icon,
+      subMenu: [
         {
           name: (
             <span>
@@ -265,41 +302,13 @@ const Sidebar = ({ open, setOpen }) => {
         {
           name: (
             <span>
-              No-Ipc <sup className="text-red-500">{(noipcList?.length)}</sup>
-            </span>
-          ),
-          route: "/dashboard/noipc",
-          icon: DocumentTextIcon,
-        },
-        {
-          name: (
-            <span>
-              No-Judgement <sup className="text-red-500">{(nojudgementList?.length)}</sup>
-            </span>
-          ),
-          route: "/dashboard/nojudgement",
-          icon: DocumentTextIcon,
-        },
-        {
-          name: (
-            <span>
               SOA <sup className="text-red-500">{(soaList?.length)}</sup>
             </span>
           ),
           route: "/dashboard/soa",
           icon: DocumentTextIcon
         },
-        /* {
-          name: "Validated",
-          route: "#",
-          icon: DocumentTextIcon,
-        },
-        {
-          name: "Validated With Issues",
-          route: "#",
-          icon: DocumentTextIcon,
-        }, */
-      ],
+      ]
     },
     {
       name: "Team Leaders",
@@ -402,7 +411,8 @@ const Sidebar = ({ open, setOpen }) => {
                     menu.name === "Audit Issues" ||
                     menu.name === "Cargo" ||
                     menu.name === "Imports" ||
-                    menu.name === "Setup"
+                    menu.name === "Setup" ||
+                    menu.name === "Summary Report"
                   }
                   subMenuOpen={
                     menu.name === "Audit Issues"
@@ -412,7 +422,9 @@ const Sidebar = ({ open, setOpen }) => {
                         : menu.name === "Imports"
                           ? importSubmenuOpen
                           : menu.name === "Setup"
-                            ? setupSubmenuOpen
+                          ? setupSubmenuOpen
+                          : menu.name === "Summary Report"
+                            ? summarySubmenuOpen
                             : false
                   }
                   setSubMenuOpen={
@@ -424,6 +436,8 @@ const Sidebar = ({ open, setOpen }) => {
                           ? setImportSubmenuOpen
                           : menu.name === "Setup"
                             ? setSetupSubmenuOpen
+                            : menu.name === "Summary Report"
+                            ? setSummarySubmenuOpen
                             : null
                   }
                   open={open} // Prop open
@@ -434,26 +448,37 @@ const Sidebar = ({ open, setOpen }) => {
                       setCargoSubmenuOpen(false);
                       setImportSubmenuOpen(false);
                       setSetupSubmenuOpen(false);
+                      setSummarySubmenuOpen(false);
                     } else if (menu.name === "Cargo") {
                       setCargoSubmenuOpen(!cargoSubmenuOpen);
                       setConditionsubmenuOpen(false);
                       setImportSubmenuOpen(false);
                       setSetupSubmenuOpen(false);
+                      setSummarySubmenuOpen(false);
                     } else if (menu.name === "Imports") {
                       setImportSubmenuOpen(!importSubmenuOpen);
                       setCargoSubmenuOpen(false);
                       setConditionsubmenuOpen(false);
                       setSetupSubmenuOpen(false);
+                      setSummarySubmenuOpen(false);
                     } else if (menu.name === "Setup") {
                       setSetupSubmenuOpen(!setupSubmenuOpen);
                       setConditionsubmenuOpen(false);
                       setCargoSubmenuOpen(false);
                       setImportSubmenuOpen(false);
+                      setSummarySubmenuOpen(false);
+                    } else if (menu.name === "Summary Report") {
+                      setSummarySubmenuOpen(!summarySubmenuOpen );
+                      setConditionsubmenuOpen(false);
+                      setCargoSubmenuOpen(false);
+                      setImportSubmenuOpen(false);
+                      setSetupSubmenuOpen(false);
                     } else {
                       setConditionsubmenuOpen(false);
                       setCargoSubmenuOpen(false);
                       setImportSubmenuOpen(false);
                       setSetupSubmenuOpen(false);
+                      setSummarySubmenuOpen(false);
                     }
                   }}
                 />
