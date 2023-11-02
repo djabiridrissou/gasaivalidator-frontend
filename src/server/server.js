@@ -1,1 +1,1 @@
-export const server = "http://161.35.152.240:9292/api";
+export const server = "https://api.gasaivalidator.com/api";
