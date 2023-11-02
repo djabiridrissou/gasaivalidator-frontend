@@ -80,7 +80,7 @@ const ContractManagement = () => {
             <div className="flex justify justify-between">
                 <h1 className="text-[12px] font-bold">Contract Management</h1>
                 <div className="flex w-[18%] justify-end">
-                    <button
+                    {/* <button
                         className={`text-[12px] font-bold border border-green-400 bg-green-200 p-1 rounded mb-2 shadow-lg ${isHovered ? 'hovered' : ''
                             }`}
                         onMouseEnter={handleMouseEnter}
@@ -88,7 +88,7 @@ const ContractManagement = () => {
                         onClick={() => { handleExportClick() }}
                     >
                         Export in excel File
-                    </button>
+                    </button> */}
                 </div>
             </div>
             <div className="bg-white rounded-lg p-2 border shadow-md">

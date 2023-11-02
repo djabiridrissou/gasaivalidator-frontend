@@ -45,7 +45,7 @@ const Form2 = () => {
         (transaction) =>
           !transaction.paymentDate || !transaction.pvNo || !transaction.amountPaid || !transaction.fileLabelNumber
       );
-  
+
       if (arePaymentDetailsMissing) {
         setModalOpen(true);
         return;
@@ -57,7 +57,18 @@ const Form2 = () => {
         (transaction) =>
           !transaction.paymentDate || !transaction.pvNo || !transaction.amountPaid || !transaction.fileLabelNumber
       );
-  
+
+      if (arePaymentDetailsMissing) {
+        setModalOpen(true);
+        return;
+      }
+    }
+    if (paymentStatus == "fully paid") {
+      const arePaymentDetailsMissing = transactions.some(
+        (transaction) =>
+          !transaction.paymentDate || !transaction.pvNo || !transaction.amountPaid || !transaction.fileLabelNumber
+      );
+
       if (arePaymentDetailsMissing) {
         setModalOpen(true);
         return;
@@ -66,7 +77,7 @@ const Form2 = () => {
     console.log("crpath", currentPath);
     if (currentPath.startsWith("/dashboard/edittransaction")) {
       navigate(`/dashboard/edittransaction/${id}/2`);
-    } 
+    }
     if (currentPath.startsWith("/dashboard/transactiondetails/")) {
       navigate(`/dashboard/transactiondetails/${id}/2`);
     }
@@ -186,7 +197,7 @@ const Form2 = () => {
                                 handleTransactionChange(
                                   index,
                                   "amountPaid",
-                                formattedValue
+                                  formattedValue
                                 )
                               }
                               }
@@ -241,7 +252,7 @@ const Form2 = () => {
           </div>
         )}
 
-        {paymentStatus === "partial payment" && (
+        {(paymentStatus == "partial payment") && (
           <>
             <div className="flex flex-col items-center mt-3">
               <label htmlFor="" className="font-bold mb-2">
@@ -312,10 +323,135 @@ const Form2 = () => {
                             handleTransactionChange(
                               index,
                               "amountPaid",
-                             formattedValue
+                              formattedValue
                             )
                           }
-                            
+
+                          }
+                          placeholder="Amount Paid"
+                          className="appearance-none block w-full text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
+                        />
+                      </div>
+
+                      <div>
+                        <label
+                          htmlFor="fileLabelNumber"
+                          className="text-[13.5px] text-gray-700"
+                        >
+                          File Label No.
+                        </label>
+                        <input
+                          type="text"
+                          id="fileLabelNumber"
+                          value={transactions.fileLabelNumber}
+                          onChange={(e) =>
+                            handleTransactionChange(
+                              index,
+                              "fileLabelNumber",
+                              e.target.value
+                            )
+                          }
+                          placeholder="File Label No."
+                          className="appearance-none block w-full text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
+                        />
+                      </div>
+                      <button
+                        className="font-medium bg-green-700 px-[0.8rem] py-[0.15rem] mt-6"
+                        onClick={addNewTransaction}
+                      >
+                        <span>+</span>
+                      </button>
+                      {index > 0 && (
+                        <button
+                          className="font-medium bg-red-700 px-[0.8rem] py-[0.15rem] mt-6"
+                          onClick={() => removeTransaction(index)}
+                        >
+                          <span>-</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </Fragment>
+              ))}
+            </div>
+          </>
+        )}
+
+        {(paymentStatus == "fully paid") && (
+          <>
+            <div className="flex flex-col items-center mt-3">
+              <label htmlFor="" className="font-bold mb-2">
+                Provide payment details
+              </label>
+              {transactions?.map((transactions, index) => (
+                <Fragment key={index}>
+                  <div>
+                    <div className="flex gap-2 items-center">
+                      <div>
+                        <label
+                          htmlFor="paymentDate"
+                          className="text-[13.5px] text-gray-700"
+                        >
+                          Payment Date
+                        </label>
+                        <input
+                          type="date"
+                          id="paymentDate"
+                          value={transactions.paymentDate}
+                          onChange={(e) =>
+                            handleTransactionChange(
+                              index,
+                              "paymentDate",
+                              e.target.value
+                            )
+                          }
+                          className="appearance-none block w-full text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="pvNo"
+                          className="text-[13.5px] text-gray-700"
+                        >
+                          PV NO.
+                        </label>
+                        <input
+                          type="text"
+                          id="pvNo"
+                          value={transactions.pvNo}
+                          onChange={(e) =>
+                            handleTransactionChange(
+                              index,
+                              "pvNo",
+                              e.target.value
+                            )
+                          }
+                          placeholder="PV No."
+                          className="appearance-none block w-full text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="invoiceAmount"
+                          className="text-[13.5px] text-gray-700"
+                        >
+                          Amount Paid
+                        </label>
+                        <input
+                          type="text"
+                          id="invoiceAmount"
+                          value={transactions.amountPaid}
+                          onChange={(e) => {
+                            const formattedValue = formatNumber(
+                              e.target.value
+                            );
+                            handleTransactionChange(
+                              index,
+                              "amountPaid",
+                              formattedValue
+                            )
+                          }
+
                           }
                           placeholder="Amount Paid"
                           className="appearance-none block w-full text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
@@ -366,10 +502,10 @@ const Form2 = () => {
           </>
         )}
         {isModalOpen && (
-        <DetailsModal
-          onClose={closeModal}
-        />
-      )}
+          <DetailsModal
+            onClose={closeModal}
+          />
+        )}
         <div className="flex justify-center space-x-2 mt-6">
           <button
             onClick={handleBack}

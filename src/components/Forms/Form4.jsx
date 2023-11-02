@@ -128,7 +128,7 @@ const Form4 = () => {
             <option value="Goods">Goods</option>
             <option value="Service">Service</option>
             <option value="Works">Works</option>
-            <option value="Compensation">Compensation</option>
+            {/* <option value="Compensation">Compensation</option> */}
           </select>
         </div>
       </div>

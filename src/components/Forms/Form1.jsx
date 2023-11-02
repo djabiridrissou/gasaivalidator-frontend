@@ -206,7 +206,13 @@ console.log("Chemin actuel : " + currentPath);
           <Form2 />
         </>
       )}
-      {paymentStatus === "partial payment" || paymentStatus === "fully paid" && (
+      {(paymentStatus === "partial payment")  && (
+        <>
+          <Form2 />
+        </>
+      )}
+
+{(paymentStatus === "fully paid")  && (
         <>
           <Form2 />
         </>
