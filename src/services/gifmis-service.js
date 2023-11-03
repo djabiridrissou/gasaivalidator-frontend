@@ -200,6 +200,16 @@ export class GoodsService extends HttpBaseService {
             return apiResponse;
         });
     }
+    async getBtaNotIssued() {
+        let apiResponse = new ApiResponse();
+        return this.instance.get('/bta-not-issued').then(res => {
+            apiResponse = retriveAxiosSuccessResponse(res);
+            return apiResponse;
+        }).catch(err => {
+            apiResponse = retriveAxiosErrorResponse(err);
+            return apiResponse;
+        });
+    }
 
 
 }

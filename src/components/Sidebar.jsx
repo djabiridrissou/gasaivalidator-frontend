@@ -28,7 +28,7 @@ import { HomeIcon as SolidHomeIcon } from "@heroicons/react/20/solid";
 import { FaI, FaKaggle } from "react-icons/fa6";
 import { faKhanda } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
-import { getContractManagement, getOverpayment, getWithoutIssue, getPerformanceIssue} from "../redux/features/gifmis";
+import { getContractManagement, getOverpayment, getWithoutIssue, getPerformanceIssue, getBtaIssued, getBtaNotIssued } from "../redux/features/gifmis";
 import { getCurentUser } from "../redux/features/auth";
 import { getAllNoWorkDone } from "../redux/features/noworkdoneSlice";
 import { getAllNoWarrant } from "../redux/features/gifmis";
@@ -42,6 +42,8 @@ import { getSoa } from "../redux/features/gifmis";
 import { getFailedVisit } from "../redux/features/gifmis";
 import WithoutIssue from "../pages/WithoutIssue";
 import FailedVisit from "../pages/FailedVisit";
+import BtaIssued from "../pages/BtaIssued";
+import BtaNotIssued from "../pages/BtaNotIssued";
 
 const SidebarMenuItem = ({
   route,
@@ -148,8 +150,11 @@ const Sidebar = ({ open, setOpen }) => {
   const soaList = useSelector((state) => state.gifmis.soa);
   const overpaymentList = useSelector((state) => state.gifmis.overpayment);
   const WithoutIssueList = useSelector((state) => state.gifmis.withoutIssue);
-const failedVisitList = useSelector((state) => state.gifmis.failedvisit);
-const performanceIssueList = useSelector((state) => state.gifmis.performanceIssue);
+  const failedVisitList = useSelector((state) => state.gifmis.failedvisit);
+  const performanceIssueList = useSelector((state) => state.gifmis.performanceIssue);
+  const btaIssuedList = useSelector((state) => state.gifmis.btaIssued);
+  const btaNotIssuedList = useSelector((state) => state.gifmis.btaNotIssued);
+
   useEffect(() => {
     const response = dispatch(getContractManagement()).unwrap().then((res) => {
       //console.log("contractManagement", res.data);
@@ -193,6 +198,12 @@ const performanceIssueList = useSelector((state) => state.gifmis.performanceIssu
     })
     const response14 = dispatch(getPerformanceIssue()).unwrap().then((res) => {
       console.log("performanceissue", res.data);
+    })
+    const response15 = dispatch(getBtaIssued()).unwrap().then((res) => {
+      console.log("bta issued", res.data);
+    })
+    const response16 = dispatch(getBtaNotIssued()).unwrap().then((res) => {
+      console.log("bta not issued", res.data);
     })
     dispatch(getCurentUser()).unwrap().then(res => {
       //console.log("res", res.user);
@@ -263,7 +274,7 @@ const performanceIssueList = useSelector((state) => state.gifmis.performanceIssu
           route: "/dashboard/notingifmis",
           icon: DocumentTextIcon,
         },
-       
+
         {
           name: (
             <span>
@@ -291,7 +302,7 @@ const performanceIssueList = useSelector((state) => state.gifmis.performanceIssu
           route: "/dashboard/nojudgement",
           icon: DocumentTextIcon,
         }, */
-       
+
         /* {
           name: "Validated",
           route: "#",
@@ -362,7 +373,25 @@ const performanceIssueList = useSelector((state) => state.gifmis.performanceIssu
           route: "/dashboard/performanceissue",
           icon: DocumentTextIcon
         },
-        
+        {
+          name: (
+            <span>
+              BTA Issued <sup className="text-red-500">{(btaIssuedList?.length)}</sup>
+            </span>
+          ),
+          route: "/dashboard/btaissued",
+          icon: DocumentTextIcon
+        },
+        {
+          name: (
+            <span>
+              BTA Not Issued <sup className="text-red-500">{(btaNotIssuedList?.length)}</sup>
+            </span>
+          ),
+          route: "/dashboard/btanotissued",
+          icon: DocumentTextIcon
+        },
+
       ]
     },
     {
@@ -477,10 +506,10 @@ const performanceIssueList = useSelector((state) => state.gifmis.performanceIssu
                         : menu.name === "Imports"
                           ? importSubmenuOpen
                           : menu.name === "Setup"
-                          ? setupSubmenuOpen
-                          : menu.name === "Summary Report"
-                            ? summarySubmenuOpen
-                            : false
+                            ? setupSubmenuOpen
+                            : menu.name === "Summary Report"
+                              ? summarySubmenuOpen
+                              : false
                   }
                   setSubMenuOpen={
                     menu.name === "Audit Issues"
@@ -492,8 +521,8 @@ const performanceIssueList = useSelector((state) => state.gifmis.performanceIssu
                           : menu.name === "Setup"
                             ? setSetupSubmenuOpen
                             : menu.name === "Summary Report"
-                            ? setSummarySubmenuOpen
-                            : null
+                              ? setSummarySubmenuOpen
+                              : null
                   }
                   open={open} // Prop open
                   setOpen={setOpen} // Prop setOpen
@@ -523,7 +552,7 @@ const performanceIssueList = useSelector((state) => state.gifmis.performanceIssu
                       setImportSubmenuOpen(false);
                       setSummarySubmenuOpen(false);
                     } else if (menu.name === "Summary Report") {
-                      setSummarySubmenuOpen(!summarySubmenuOpen );
+                      setSummarySubmenuOpen(!summarySubmenuOpen);
                       setConditionsubmenuOpen(false);
                       setCargoSubmenuOpen(false);
                       setImportSubmenuOpen(false);

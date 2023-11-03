@@ -37,10 +37,11 @@ import {
   Overpayment,
   FailedVisit,
   PerformanceIssue,
+  BtaIssued,
+  BtaNotIssued,
+  WithoutIssue,
 } from "./routes/routes";
 import OrgTransactions from "./pages/OrgTransactions";
-import WithoutIssue from "./pages/WithoutIssue";
-
 
 
 const App = () => {
@@ -72,6 +73,8 @@ const App = () => {
           <Route path="/dashboard/performanceissue" element={<PerformanceIssue />} />
           <Route path="/dashboard/overpayment" element={<Overpayment />} />
           <Route path="/dashboard/failedvisit" element={<FailedVisit />} />
+          <Route path="/dashboard/btaissued" element={<BtaIssued />} />
+          <Route path="/dashboard/btanotissued" element={<BtaNotIssued />} />
           <Route path="/dashboard/withoutissue" element={<WithoutIssue />} />
           <Route path="/dashboard/teamleaders" element={<TeamLeaders />} />
           <Route path="/dashboard/teammembers" element={<TeamMembers />} />

@@ -157,7 +157,7 @@ const NoWorkDone = () => {
                                         <td className="border-y text-left ">
                                             {(item?.vendorname)}
                                         </td>
-                                        <td className="border-y text-left ">
+                                        <td className="border-y text-right ">
                                             {(item?.outstandingclaim).toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
                                                 maximumFractionDigits: 2,
