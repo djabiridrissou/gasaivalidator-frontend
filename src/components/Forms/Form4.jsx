@@ -197,7 +197,7 @@ const Form4 = () => {
                       htmlFor="contractNo"
                       className="text-[13.5px] text-gray-700"
                     >
-                      Contract No.
+                      Contract Number/PO Number
                     </label>
                     <input
                       type="text"
@@ -287,7 +287,7 @@ const Form4 = () => {
                       htmlFor="supplyBeforeDate"
                       className="text-[13.5px] text-gray-700"
                     >
-                      Supply-before Date
+                      Delivery Date
                     </label>
                     <input
                       type="date"
@@ -434,7 +434,7 @@ const Form4 = () => {
                       htmlFor="contractNo"
                       className="text-[13.5px] text-gray-700"
                     >
-                      Contract No.
+                      Contract Number/PO Number
                     </label>
                     <input
                       type="text"
@@ -480,7 +480,7 @@ const Form4 = () => {
                       htmlFor="serviceToBeDeliveredBeforeDate"
                       className="text-[13.5px] text-gray-700"
                     >
-                      Service to be delivered before date
+                      Delivery Date
                     </label>
                     <input
                       type="date"
@@ -766,7 +766,7 @@ const Form4 = () => {
                       htmlFor="contractNo"
                       className="text-[13.5px] text-gray-700"
                     >
-                      Contract No.
+                      Contract Number/PO Number
                     </label>
                     <input
                       type="text"
@@ -927,7 +927,7 @@ const Form4 = () => {
                       htmlFor="contractNo"
                       className="text-[13.5px] text-gray-700"
                     >
-                      Contract No.
+                      Contract Number/PO Number
                     </label>
                     <input
                       type="text"

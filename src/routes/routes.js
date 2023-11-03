@@ -31,7 +31,9 @@ import NoJudgement from "../pages/NoJudgement";
 import TeamLeaders from "../pages/TeamLeaders";
 import TeamMembers from "../pages/TeamMembers";
 import Soa from "../pages/Soa";
-
+import Form10 from "../components/Forms/Form10";
+import Form11 from "../components/Forms/Form11";
+import Overpayment from "../pages/Overpayment";
 
 export {
   Login,
@@ -52,6 +54,7 @@ export {
   Form7,
   Form8,
   Form9,
+  Form11,
   NoWorkDone,
   Misclassified,
   ViewDetails,
@@ -67,4 +70,6 @@ export {
   Soa,
   TeamLeaders,
   TeamMembers,
+  Form10,
+  Overpayment,
 };

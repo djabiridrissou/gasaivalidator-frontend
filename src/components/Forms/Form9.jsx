@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleIpcSupported, updateIpc } from "../../redux/features/form9Slice";
@@ -7,14 +7,14 @@ import {
   setDistrictLocation,
 } from "../../redux/features/form6Slice";
 import Form2 from "./Form2";
-
 import { formatNumber } from "../../functions/helperFunctions";
+import { districtData } from "../../utils/district.Js";
 
 const regionsInGhana = [
   { id: "1", name: "Ahafo" },
   { id: "2", name: "Ashanti" },
   { id: "3", name: "Bono East" },
-  { id: "4", name: "Bono Ahafo" },
+  { id: "4", name: "Bono" },
   { id: "5", name: "Central" },
   { id: "6", name: "Eastern" },
   { id: "7", name: "Greater Accra" },
@@ -31,6 +31,7 @@ const regionsInGhana = [
 
 
 const Form9 = () => {
+
   const currentPath = window.location.pathname;
   //console.log("Chemin actuel : " + currentPath);
   const { id } = useParams();
@@ -40,9 +41,10 @@ const Form9 = () => {
   const ipcDetails = useSelector((state) => state.form9.ipcDetails);
   const regionalLocation = useSelector((state) => state.form6.regionalLocation);
   const districtLocation = useSelector((state) => state.form6.districtLocation);
+  const districtList = districtData[regionalLocation];
 
+  
   const handleIpcChange = (index, fieldName, value) => {
-    //console.log("dans contrat change", index, fieldName, value);
     dispatch(updateIpc({ index, fieldName, value }));
   };
 
@@ -52,8 +54,11 @@ const Form9 = () => {
 
   const handleDistrictLocationChange = (e) => {
     dispatch(setDistrictLocation(e.target.value));
-  };
+  };  
+  
+  
 
+console.log("dans district", districtLocation);
   return (
     <div>
       <div className="flex flex-col items-center">
@@ -186,7 +191,6 @@ const Form9 = () => {
             className={`mt-3 block  text-[13.5px] px-[0.9rem] py-[0.45rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]`}
           >
             <option value="">------------------------</option>
-            <option value="">Select a Region</option>
             {regionsInGhana.map((region) => (
               <option key={region.id} value={region.name}>
                 {region.name}
@@ -196,21 +200,27 @@ const Form9 = () => {
         </div>
       </div>
       <div>
-        <div className="flex flex-col items-center  flex-wrap ">
+      <div className="mb-3 flex flex-col items-center flex-wrap">
           <label
-            htmlFor="paymentStatus"
-            className="block mt-2 text-[13.5px] text-gray-700 font-semibold"
+            htmlFor="districtLocation"
+            className="block mt-2  text-sm text-[13.5px] text-gray-700 font-semibold"
           >
-            Enter Work District Location
+            Select the district
           </label>
-          <input
+          <select
             name="districtLocation"
             id="districtLocation"
-            type="text"
             value={districtLocation}
             onChange={handleDistrictLocationChange}
-            className={`mt-3 block text-[13.5px] px-[0.9rem] py-[0.45rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]`}
-          />
+            className={`mt-3 block  text-[13.5px] px-[0.9rem] py-[0.45rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]`}
+          >
+            <option value="default">------------------------</option>
+            {districtList?.map((district) => (
+              <option key={district} value={district}>
+                {district}
+              </option>
+            ))}{" "}
+          </select>
         </div>
       </div>
       <div className="flex space-x-2 mt-6 justify-center">

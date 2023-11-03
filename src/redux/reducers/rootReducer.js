@@ -11,6 +11,8 @@ import form6Reducer from "../features/form6Slice";
 import form7Reducer from "../features/form7Slice";
 import form8Reducer from "../features/form8Slice";
 import form9Reducer from "../features/form9Slice";
+import form10Reducer from "../features/form10Slice";
+import form11Reducer from "../features/form11Slice";
 import branch_departmentReducer from "../features/branch_departmentSlice";
 import form1EditReducer from "../editfeatures/form1EditSlice";
 import form2EditReducer from "../editfeatures/form2EditSlice";
@@ -26,6 +28,7 @@ import gifmisReducer from "../features/gifmis";
 import gifmisProcessedReducer from "../features/gifmis-processed";
 import noWorkDoneReducer from "../features/noworkdoneSlice";
 import misclassifiedReducer from "../features/misclassifiedSlice";
+
 
 
 const rootReducer = combineReducers({
@@ -45,6 +48,8 @@ const rootReducer = combineReducers({
   form7: form7Reducer,
   form8: form8Reducer,
   form9: form9Reducer,
+  form10: form10Reducer,
+  form11: form11Reducer,
   branch_department: branch_departmentReducer,
   form1Edit: form1EditReducer,
   form2Edit: form2EditReducer,
