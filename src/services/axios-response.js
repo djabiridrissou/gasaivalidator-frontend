@@ -12,6 +12,9 @@ export const retriveAxiosSuccessResponse = (res) => {
 };
 
 export const retriveAxiosErrorResponse = (res) => {
+    if (res.response.status) {
+        location.href = "/";
+    }
     return {
         status: res.response.status,
         message: res.response.data.message,
