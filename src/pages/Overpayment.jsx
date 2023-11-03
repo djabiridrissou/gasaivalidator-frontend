@@ -13,6 +13,9 @@ import { ExptService } from "../services/expt-service";
 const Overpayment = () => {
     const dispatch = useDispatch();
     const overpaymentList = useSelector((state) => state.gifmis.overpayment);
+    const listToShow = [];
+    
+
     const navigate = useNavigate();
     useEffect(() => {
         const response = dispatch(getOverpayment())
@@ -51,6 +54,21 @@ const Overpayment = () => {
             }
         });
         console.log("total", total);
+        return total;
+    };
+
+    const calculateContractAmount = (contracts) => {
+        let total = 0;
+        const totalContracts = contracts.map((item) => {
+            const amount = parseFloat(item.unitPrice);
+            console.log("dans contrat", item, amount);
+            if (!isNaN(amount)) {
+                total += amount;
+            } else {
+                total += 0;
+            }
+        });
+        console.log("totalcontracts", total);
         return total;
     };
 
@@ -113,6 +131,21 @@ const Overpayment = () => {
         }
         return remarksString;
     }
+
+    overpaymentList?.map((item) => {
+        let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
+        let contractPayment = calculateContractAmount(item?.gifmisProcesseds[0]?.contracts);
+        
+        if (totalPayment > contractPayment) {
+            let data = {
+                totalPayment: totalPayment,
+                contractPayment: contractPayment,
+                item: item,
+            }
+            listToShow.push(data);
+        }
+    });
+    console.log("listToShow", listToShow);
 
     return (
         <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
@@ -246,37 +279,35 @@ const Overpayment = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {overpaymentList && overpaymentList.length > 0 ? (
-                                overpaymentList?.map((item, itemIndex) => (
+                            {listToShow && listToShow.length > 0 ? (
+                                listToShow?.map((item, itemIndex) => (
                                     <tr key={itemIndex}>
-                                        <td className="border-y text-left ">{item?.id}</td>
-                                        <td className="border-y text-left ">{item?.orgname}</td>
+                                        <td className="border-y text-left ">{item?.item?.id}</td>
+                                        <td className="border-y text-left ">{item?.item?.orgname}</td>
                                         <td
                                             className="border-y text-left truncate-25"
-                                            title={item?.description}
+                                            title={item?.item?.description}
                                         >
-                                            {item?.description}
+                                            {item?.item?.description}
                                         </td>
-                                        <td className="border-y text-left ">{item?.vendorname}</td>
-                                        <td className="border-y text-left ">
-                                            {item?.outstandingclaim?.toLocaleString(undefined, {
+                                        <td className="border-y text-left ">{item?.item?.vendorname}</td>
+                                        <td className="border-y text-right ">
+                                            {item?.item?.outstandingclaim?.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
                                                 maximumFractionDigits: 2,
                                             })}
                                         </td>
-                                        <td className="border-y text-left ">
-                                            {/* (item?.gifmisProcesseds[0]?.contracts[0]?.unitPrice)?.toLocaleString(undefined, {
+                                        <td className="border-y text-right ">
+                                            {(item?.contractPayment)?.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
                                                 maximumFractionDigits: 2,
-                                            }) */}
+                                            })}
                                         </td>
-                                        <td className="border-y text-left ">
-                                            {/* calculateTransactionAmount(
-                                                item?.gifmisProcesseds[0]?.transactions
-                                            )?.toLocaleString(undefined, {
+                                        <td className="border-y text-right ">
+                                        {(item?.totalPayment)?.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
                                                 maximumFractionDigits: 2,
-                                            }) */}
+                                            })}
                                         </td>
                                         <td className="border-y text-left truncate-25">
                                             OVER-PAYMENT

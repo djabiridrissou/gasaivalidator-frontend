@@ -37,7 +37,8 @@ import Overpayment from "../pages/Overpayment";
 import WithoutIssue from "../pages/WithoutIssue";
 import FailedVisit from "../pages/FailedVisit";
 import PerformanceIssue from "../pages/PerformanceIssue";
-
+import BtaIssued from "../pages/BtaIssued";
+import BtaNotIssued from "../pages/BtaNotIssued";
 export {
   Login,
   Register,
@@ -78,4 +79,6 @@ export {
   WithoutIssue,
   FailedVisit,
   PerformanceIssue,
+  BtaIssued,
+  BtaNotIssued,
 };

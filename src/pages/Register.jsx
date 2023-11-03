@@ -143,6 +143,7 @@ console.log("addUserDto", addUserDto)
         if (res.status == 200) {
           setError(false);
           navigate("/dashboard");
+          window.location.reload();
         } else {
           setError(true);
           setErrorMessage("Error");

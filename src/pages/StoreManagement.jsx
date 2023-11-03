@@ -194,31 +194,31 @@ const StoreManagement = () => {
                                         <td className="border-y text-left ">
                                             {(item?.vendorname)}
                                         </td>
-                                        <td className="border-y text-left ">
+                                        <td className="border-y text-right ">
                                             {(item?.outstandingclaim)?.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
                                                 maximumFractionDigits: 2,
                                             })}
                                         </td>
-                                        <td className="border-y text-left ">
+                                        <td className="border-y text-right ">
                                         {(item?.gifmisProcesseds[0].contracts[0].quantity)?.toLocaleString(undefined, {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,
                                         })}
                                         </td>
-                                        <td className="border-y text-left ">
+                                        <td className="border-y text-right ">
                                         {(item?.gifmisProcesseds[0].suppliances[0].quantity)?.toLocaleString(undefined, {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,
                                         })}
                                         </td>
-                                        <td className="border-y text-left ">
+                                        <td className="border-y text-right ">
                                         {(item?.gifmisProcesseds[0].quantitydistributed)?.toLocaleString(undefined, {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,
                                         })}
                                         </td>
-                                        <td className="border-y text-left ">
+                                        <td className="border-y text-right ">
                                         {(item?.gifmisProcesseds[0].actualquantityinstore)?.toLocaleString(undefined, {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,

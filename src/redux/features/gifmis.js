@@ -82,6 +82,10 @@ export const getBtaIssued = createAsyncThunk(
     async () => await gifmis.getBtaIssued()
 );
 
+export const getBtaNotIssued = createAsyncThunk(
+    "gifmis/btaNotIssued",
+    async () => await gifmis.getBtaNotIssued()
+);
 
 
 const initialState = {
@@ -100,6 +104,7 @@ const initialState = {
     failedvisit: [],
     performanceIssue: [],
     btaIssued: [],
+    btaNotIssued: [],
 };
 
 const gifmisSlice = createSlice({
@@ -183,6 +188,11 @@ const gifmisSlice = createSlice({
                 state.btaIssued = payload.data;
             }
         });
+        builder.addCase(getBtaNotIssued.fulfilled, (state, { payload }) => {
+            if (payload.data) {
+                state.btaNotIssued = payload.data;
+            }
+        })
     },
 });
 

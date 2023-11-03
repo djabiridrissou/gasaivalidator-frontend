@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { getBtaIssued } from "../redux/features/gifmis";
 import { ExptService } from "../services/expt-service";
 
-const PerformanceIssue = () => {
+const BtaIssued = () => {
     const dispatch = useDispatch();
     const btaIssuedList = useSelector((state) => state.gifmis.btaIssued);
     const navigate = useNavigate();
@@ -233,7 +233,7 @@ const PerformanceIssue = () => {
                                             {item?.description}
                                         </td>
                                         <td className="border-y text-left ">{item?.vendorname}</td>
-                                        <td className="border-y text-left ">
+                                        <td className="border-y text-right ">
                                             {item?.outstandingclaim?.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
                                                 maximumFractionDigits: 2,
@@ -285,4 +285,4 @@ const PerformanceIssue = () => {
         </div>
     );
 };
-export default PerformanceIssue;
+export default BtaIssued;
