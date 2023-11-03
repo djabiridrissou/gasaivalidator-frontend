@@ -177,4 +177,29 @@ export class GoodsService extends HttpBaseService {
             return apiResponse;
         });
     }
+
+    async getPerformanceIssue() {
+        let apiResponse = new ApiResponse();
+        return this.instance.get('/performance-issue').then(res => {
+            apiResponse = retriveAxiosSuccessResponse(res);
+            return apiResponse;
+        }).catch(err => {
+            apiResponse = retriveAxiosErrorResponse(err);
+            return apiResponse;
+        });
+    }
+
+    
+    async getBtaIssued() {
+        let apiResponse = new ApiResponse();
+        return this.instance.get('/bta-issued').then(res => {
+            apiResponse = retriveAxiosSuccessResponse(res);
+            return apiResponse;
+        }).catch(err => {
+            apiResponse = retriveAxiosErrorResponse(err);
+            return apiResponse;
+        });
+    }
+
+
 }

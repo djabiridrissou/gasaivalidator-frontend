@@ -7,18 +7,18 @@ import { FaCheckToSlot } from "react-icons/fa6";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { getFailedVisit } from "../redux/features/gifmis";
+import { getBtaIssued } from "../redux/features/gifmis";
 import { ExptService } from "../services/expt-service";
 
-const FailedVisit = () => {
+const PerformanceIssue = () => {
     const dispatch = useDispatch();
-    const failedvisitList = useSelector((state) => state.gifmis.failedvisit);
+    const btaIssuedList = useSelector((state) => state.gifmis.btaIssued);
     const navigate = useNavigate();
     useEffect(() => {
-        const response = dispatch(getFailedVisit())
+        const response = dispatch(getBtaIssued())
             .unwrap()
             .then((res) => {
-                console.log("failedvisit", res.data);
+                console.log("BTA ISSUED", res.data);
             });
     }, []);
 
@@ -34,7 +34,7 @@ const FailedVisit = () => {
     const handleExportClick = async () => {
         console.log("dans export");
         const expt = new ExptService();
-        const response = await expt.exportData("failed-visit/export");
+        const response = await expt.exportData("btaissued/export");
         window.open(response);
         console.log("res", response);
     };
@@ -117,7 +117,7 @@ const FailedVisit = () => {
     return (
         <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
             <div className="flex justify justify-between">
-                <h1 className="text-[12px] font-bold">FAILED VISIT</h1>
+                <h1 className="text-[12px] font-bold">BTA ISSUED</h1>
                 <div className="flex w-[18%] justify-end">
                     {/* <button
             className={`text-[12px] font-bold border border-green-400 bg-green-200 p-1 rounded mb-2 shadow-lg ${
@@ -217,11 +217,12 @@ const FailedVisit = () => {
                     /> */}
                                     </span>
                                 </th>
+                                
                             </tr>
                         </thead>
                         <tbody>
-                            {failedvisitList && failedvisitList.length > 0 ? (
-                                failedvisitList?.map((item, itemIndex) => (
+                            {btaIssuedList && btaIssuedList.length > 0 ? (
+                                btaIssuedList?.map((item, itemIndex) => (
                                     <tr key={itemIndex}>
                                         <td className="border-y text-left ">{item?.id}</td>
                                         <td className="border-y text-left ">{item?.orgname}</td>
@@ -240,7 +241,10 @@ const FailedVisit = () => {
                                         </td>
                                 
                                         <td className="border-y text-left truncate-25">
-                                            Failed Visit
+                                            BTA ISSUED
+                                        </td>
+                                        <td className="border-y text-left truncate-25">
+                                           {item?.auditordetails}
                                         </td>
                                     </tr>
                                 ))
@@ -281,4 +285,4 @@ const FailedVisit = () => {
         </div>
     );
 };
-export default FailedVisit;
+export default PerformanceIssue;

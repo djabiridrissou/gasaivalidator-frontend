@@ -36,6 +36,7 @@ import Form11 from "../components/Forms/Form11";
 import Overpayment from "../pages/Overpayment";
 import WithoutIssue from "../pages/WithoutIssue";
 import FailedVisit from "../pages/FailedVisit";
+import PerformanceIssue from "../pages/PerformanceIssue";
 
 export {
   Login,
@@ -76,4 +77,5 @@ export {
   Overpayment,
   WithoutIssue,
   FailedVisit,
+  PerformanceIssue,
 };

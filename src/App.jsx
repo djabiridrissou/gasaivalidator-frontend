@@ -36,6 +36,7 @@ import {
   TeamMembers,
   Overpayment,
   FailedVisit,
+  PerformanceIssue,
 } from "./routes/routes";
 import OrgTransactions from "./pages/OrgTransactions";
 import WithoutIssue from "./pages/WithoutIssue";
@@ -68,6 +69,7 @@ const App = () => {
           <Route path="/dashboard/noipc" element={<NoIpc />} />
           <Route path="/dashboard/nojudgement" element={<NoJudgement />} />
           <Route path="/dashboard/soa" element={<Soa />} />
+          <Route path="/dashboard/performanceissue" element={<PerformanceIssue />} />
           <Route path="/dashboard/overpayment" element={<Overpayment />} />
           <Route path="/dashboard/failedvisit" element={<FailedVisit />} />
           <Route path="/dashboard/withoutissue" element={<WithoutIssue />} />
