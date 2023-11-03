@@ -12,7 +12,7 @@ export const retriveAxiosSuccessResponse = (res) => {
 };
 
 export const retriveAxiosErrorResponse = (res) => {
-    if (res.response.status) {
+    if (res.response.status == 401) {
         location.href = "/";
     }
     return {
