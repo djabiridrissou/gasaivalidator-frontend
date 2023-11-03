@@ -10,6 +10,7 @@ const initialState = {
   itemDistributedNotInStore: false,
   setFileLabelNumberSendToStore: "",
   quantitySendToStore: "",
+  fileLabelNumberSendToStore: "",
 };
 
 const form8Slice = createSlice({
@@ -48,7 +49,7 @@ const form8Slice = createSlice({
     },
 
     setFileLabelNumberSendToStore: (state, action) => {
-      state.setFileLabelNumberSendToStore = action.payload;
+      state.fileLabelNumberSendToStore = action.payload;
     },
 
     setQuantitySendToStore: (state, action) => {
