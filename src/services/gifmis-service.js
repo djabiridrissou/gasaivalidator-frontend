@@ -67,7 +67,7 @@ export class GoodsService extends HttpBaseService {
         });
     }
 
-    
+
     async getAllNoContract() {
         let apiResponse = new ApiResponse();
         return this.instance.get('/no-contract').then(res => {
