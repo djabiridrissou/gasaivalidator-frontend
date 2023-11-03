@@ -28,7 +28,7 @@ import { HomeIcon as SolidHomeIcon } from "@heroicons/react/20/solid";
 import { FaI, FaKaggle } from "react-icons/fa6";
 import { faKhanda } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
-import { getContractManagement } from "../redux/features/gifmis";
+import { getContractManagement, getOverpayment, getWithoutIssue, getPerformanceIssue} from "../redux/features/gifmis";
 import { getCurentUser } from "../redux/features/auth";
 import { getAllNoWorkDone } from "../redux/features/noworkdoneSlice";
 import { getAllNoWarrant } from "../redux/features/gifmis";
@@ -39,6 +39,9 @@ import { getStoreManagement } from "../redux/features/gifmis";
 import { getNoIpc } from "../redux/features/gifmis";
 import { getNoJudgement } from "../redux/features/gifmis";
 import { getSoa } from "../redux/features/gifmis";
+import { getFailedVisit } from "../redux/features/gifmis";
+import WithoutIssue from "../pages/WithoutIssue";
+import FailedVisit from "../pages/FailedVisit";
 
 const SidebarMenuItem = ({
   route,
@@ -143,7 +146,10 @@ const Sidebar = ({ open, setOpen }) => {
   const noipcList = useSelector((state) => state.gifmis.noIpc);
   const nojudgementList = useSelector((state) => state.gifmis.noJudgement);
   const soaList = useSelector((state) => state.gifmis.soa);
-
+  const overpaymentList = useSelector((state) => state.gifmis.overpayment);
+  const WithoutIssueList = useSelector((state) => state.gifmis.withoutIssue);
+const failedVisitList = useSelector((state) => state.gifmis.failedvisit);
+const performanceIssueList = useSelector((state) => state.gifmis.performanceIssue);
   useEffect(() => {
     const response = dispatch(getContractManagement()).unwrap().then((res) => {
       //console.log("contractManagement", res.data);
@@ -152,29 +158,41 @@ const Sidebar = ({ open, setOpen }) => {
 
     });
     const response3 = dispatch(getAllNoWarrant()).unwrap().then((res) => {
-      console.log("nowarrant", res.data);
+      //console.log("nowarrant", res.data);
     });
     const response4 = dispatch(getAllNoContract()).unwrap().then((res) => {
-      console.log("nocontract", res.data);
+      //console.log("nocontract", res.data);
     });
     const response5 = dispatch(getAllMisclassified()).unwrap().then((res) => {
-      console.log("misclassifiedData", res.data);
+      //console.log("misclassifiedData", res.data);
     });
     const response6 = dispatch(getAllNotInGifmis()).unwrap().then((res) => {
-      console.log("notingifmis", res.data);
+      //console.log("notingifmis", res.data);
     });
 
     const response7 = dispatch(getStoreManagement()).unwrap().then((res) => {
-      console.log("storemanagement", res.data);
+      //console.log("storemanagement", res.data);
     });
     const response8 = dispatch(getNoIpc()).unwrap().then((res) => {
-      console.log("noipc", res.data);
+      //console.log("noipc", res.data);
     });
     const response9 = dispatch(getNoJudgement()).unwrap().then((res) => {
-      console.log("nojudgement", res.data);
+      //console.log("nojudgement", res.data);
     });
     const response10 = dispatch(getSoa()).unwrap().then((res) => {
-      console.log("soa", res.data);
+      //console.log("soa", res.data);
+    })
+    const response11 = dispatch(getOverpayment()).unwrap().then((res) => {
+      console.log("overpayment", res.data);
+    })
+    const response12 = dispatch(getWithoutIssue()).unwrap().then((res) => {
+      console.log("withoutissue", res.data);
+    })
+    const response13 = dispatch(getFailedVisit()).unwrap().then((res) => {
+      console.log("failedvisit", res.data);
+    })
+    const response14 = dispatch(getPerformanceIssue()).unwrap().then((res) => {
+      console.log("performanceissue", res.data);
     })
     dispatch(getCurentUser()).unwrap().then(res => {
       //console.log("res", res.user);
@@ -258,12 +276,21 @@ const Sidebar = ({ open, setOpen }) => {
         {
           name: (
             <span>
+              Over-Payment <sup className="text-red-500">{(overpaymentList?.length)}</sup>
+            </span>
+          ),
+          route: "/dashboard/overpayment",
+          icon: DocumentTextIcon,
+        },
+        /* {
+          name: (
+            <span>
               No-Judgement <sup className="text-red-500">{(nojudgementList?.length)}</sup>
             </span>
           ),
           route: "/dashboard/nojudgement",
           icon: DocumentTextIcon,
-        },
+        }, */
        
         /* {
           name: "Validated",
@@ -308,6 +335,34 @@ const Sidebar = ({ open, setOpen }) => {
           route: "/dashboard/soa",
           icon: DocumentTextIcon
         },
+        {
+          name: (
+            <span>
+              Without Issue <sup className="text-red-500">{(WithoutIssueList?.length)}</sup>
+            </span>
+          ),
+          route: "/dashboard/withoutissue",
+          icon: DocumentTextIcon
+        },
+        {
+          name: (
+            <span>
+              Failed Visit <sup className="text-red-500">{(failedVisitList?.length)}</sup>
+            </span>
+          ),
+          route: "/dashboard/failedvisit",
+          icon: DocumentTextIcon
+        },
+        {
+          name: (
+            <span>
+              Performance Issue <sup className="text-red-500">{(performanceIssueList?.length)}</sup>
+            </span>
+          ),
+          route: "/dashboard/performanceissue",
+          icon: DocumentTextIcon
+        },
+        
       ]
     },
     {

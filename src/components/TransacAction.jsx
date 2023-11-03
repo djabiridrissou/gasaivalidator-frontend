@@ -103,6 +103,15 @@ const TransactionDetails = () => {
   let storeFileLabelNumber = useSelector((state) => state.form8.fileLabelNumberInStore);
   let ipcSupported = useSelector((state) => state.form9.ipcSupported);
   let ipcDetails = useSelector((state) => state.form9.ipcDetails);
+
+  let availableBta = useSelector((state) => state.form11.availableBta);
+  let btaAmount = useSelector((state) => state.form11.btaAmount);
+  let btaDate = useSelector((state) => state.form11.btaDate);
+  let btaReferenceNumber = useSelector((state) => state.form11.btaReferenceNumber);
+  let onPremise = useSelector((state) => state.form10.onPremise);
+  let auditorSatisfy = useSelector((state) => state.form10.auditorSatisfy);
+  let auditorDetails = useSelector((state) => state.form10.auditorDetails);
+
   if (paymentStatus === "fully paid") {
     transactions = transactions1;
     advancedPayment = false;
@@ -159,7 +168,13 @@ const TransactionDetails = () => {
       storefilelabelnumber: storeFileLabelNumber,
       ipcsupported: ipcSupported,
       ipcdetails: ipcDetails,
-
+      availablebta: availableBta,
+      btadate: btaDate,
+      btarefnumber: btaReferenceNumber,
+      btaamount: btaAmount,
+      onpremise: onPremise,
+      auditorsatisfy: auditorSatisfy,
+      auditordetails: auditorDetails
     };
 
     const addGifmisProcessedDto = {
@@ -183,7 +198,7 @@ const TransactionDetails = () => {
 
     // console.log("contracts", contracts);
     navigate("/dashboard/goods");
-    window.location.reload();
+    //window.location.reload();
   };
 
   return (

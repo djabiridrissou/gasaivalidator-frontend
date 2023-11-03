@@ -31,7 +31,7 @@ const Form6 = () => {
   const works = useSelector((state) => state.form6.works);
   const regionalLocation = useSelector((state) => state.form6.regionalLocation);
   const districtLocation = useSelector((state) => state.form6.districtLocation);
-  const [districtList, setDistrictList] = useState([]);
+  const districtList = districtData[regionalLocation];
 
   const formatNumber = (value) => {
     // Remove non-numeric characters except the dot
@@ -73,7 +73,7 @@ const Form6 = () => {
     { id: "1", name: "Ahafo" },
     { id: "2", name: "Ashanti" },
     { id: "3", name: "Bono East" },
-    { id: "4", name: "Bono Ahafo" },
+    { id: "4", name: "Bono" },
     { id: "5", name: "Central" },
     { id: "6", name: "Eastern" },
     { id: "7", name: "Greater Accra" },
@@ -122,6 +122,8 @@ const Form6 = () => {
 
   const expenditureType = useSelector((state) => state.form4.expenditureType);
   const workType = useSelector((state) => state.form4.workType);
+
+  console.log("districtlocation", districtLocation);
 
   return (
     <div>
@@ -427,7 +429,7 @@ const Form6 = () => {
                         onChange={(e) =>
                           handleServiceChange(
                             index,
-                            "fileLabelNumber",
+                            "certificationIssuedBy",
                             e.target.value
                           )
                         }
@@ -450,7 +452,7 @@ const Form6 = () => {
                         onChange={(e) =>
                           handleServiceChange(
                             index,
-                            "fileLabelNumber",
+                            "designation",
                             e.target.value
                           )
                         }
@@ -499,20 +501,24 @@ const Form6 = () => {
               <div>
                 <button
                   onClick={() => {
-                    if (isServiceCompleted) {
-                      const serviceAreMissing = services.some(
-                        (service) =>
-                          !service.certificationOfCompletionDate || !service.percentageOfCompletion || !service.certificationIssuedBy || !service.designation || !service.fileLabelNumber
-                      );
-                      if (serviceAreMissing) {
-                        return;
+                    if (expenditureType == "Service") {
+                      if (isServiceCompleted) {
+                        const serviceAreMissing = services.some(
+                          (service) =>
+                            !service.certificationOfCompletionDate || !service.percentageOfCompletion || !service.certificationIssuedBy || !service.designation || !service.fileLabelNumber
+                        );
+                        if (serviceAreMissing) {
+                          return;
+                        } else {
+                            navigate(`/dashboard/transactiondetails/${id}/9`)
+                        }
                       }
+                    } else {
+                      navigate(`/dashboard/transactiondetails/${id}/6`)
                     }
-                    navigate(`/dashboard/transactiondetails/${id}/6`)
                   }}
-                  className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${expenditureType === "Service" && "bg-green-800/50"
-                    }`}
-                  disabled={expenditureType === "Service"}
+                  className={`bg-blue-500 text-white px-4 py-2 border-full rounded `}
+                  //disabled={expenditureType === "Service"}
                 >
                   Next
                 </button>
@@ -521,10 +527,25 @@ const Form6 = () => {
             {currentPath.startsWith("/dashboard/edittransaction") && (
               <div>
                 <button
-                  onClick={() => navigate(`/dashboard/edittransaction/${id}/6`)}
-                  className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${expenditureType === "Service" && "bg-green-800/50"
-                    }`}
-                  disabled={expenditureType === "Service"}
+                   onClick={() => {
+                    if (expenditureType == "Service") {
+                      if (isServiceCompleted) {
+                        const serviceAreMissing = services.some(
+                          (service) =>
+                            !service.certificationOfCompletionDate || !service.percentageOfCompletion || !service.certificationIssuedBy || !service.designation || !service.fileLabelNumber
+                        );
+                        if (serviceAreMissing) {
+                          return;
+                        } else {
+                            navigate(`/dashboard/edittransaction/${id}/9`)
+                        }
+                      }
+                    } else {
+                      navigate(`/dashboard/edittransaction/${id}/6`)
+                    }
+                  }}
+                  className={`bg-blue-500 text-white px-4 py-2 border-full rounded `}
+                  //disabled={expenditureType === "Service"}
                 >
                   Next
                 </button>
@@ -572,7 +593,7 @@ const Form6 = () => {
               <div>
                 {works?.map((work, index) => (
                   <Fragment key={index}>
-                    <div className="flex justify-center mt-3">
+                    <div className="flex justify-center mt-3 gap-3">
                       <div className="">
                         <label
                           htmlFor="sraDate"
@@ -714,24 +735,28 @@ const Form6 = () => {
                       </div>
                     </div>
                     <div className="">
-                      <div className="mb-3 flex flex-col items-center flex-wrap">
-                        <label
-                          htmlFor="paymentStatus"
-                          className="block mt-3 mb-2 text-sm text-[13.5px] text-gray-700 font-semibold"
-                        >
-                          Enter Work District Location
-                        </label>
-                        <input
-                          name="districtLocation"
-                          id="districtLocation"
-                          type="text"
-                          value={districtLocation}
-                          onChange={handleDistrictLocationChange}
-                          className={` block text-[13.5px] px-[0.9rem] py-[0.45rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]`}
-                        />
-
-
-                      </div>
+                    <div className="mb-3 flex flex-col items-center flex-wrap">
+          <label
+            htmlFor="districtLocation"
+            className="block mt-2  text-sm text-[13.5px] text-gray-700 font-semibold"
+          >
+            Select the district
+          </label>
+          <select
+            name="districtLocation"
+            id="districtLocation"
+            value={districtLocation}
+            onChange={handleDistrictLocationChange}
+            className={`mt-3 block  text-[13.5px] px-[0.9rem] py-[0.45rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]`}
+          >
+            <option value="default">------------------------</option>
+            {districtList?.map((district) => (
+              <option key={district} value={district}>
+                {district}
+              </option>
+            ))}{" "}
+          </select>
+        </div>
                     </div>
                   </Fragment>
                 ))}
@@ -744,6 +769,55 @@ const Form6 = () => {
               >
                 Back
               </button>
+              {currentPath.startsWith("/dashboard/transactiondetails") && (
+                <button
+                   onClick={() => {
+                    if (expenditureType == "Works") {
+                      if (isWorkCompleted) {
+                        const workAreMissing = works.some(
+                          (work) =>
+                            !work.certificationOfCompletionDate || !work.percentageOfCompletion || !work.certificationIssuedBy || !work.designation || !work.fileLabelNumber
+                        );
+                        if (workAreMissing) {
+                          return;
+                        } else {
+                            navigate(`/dashboard/transactiondetails/${id}/9`)
+                        }
+                      }
+                    }
+                    
+                  }}
+                  className={`bg-blue-500 text-white px-4 py-2 border-full rounded `}
+                  //disabled={expenditureType === "Service"}
+                >
+                  next
+                </button>
+              )}
+              {currentPath.startsWith("/dashboard/edittransaction") && (
+                <button
+                   onClick={() => {
+                    if (expenditureType == "Works") {
+                      if (isWorkCompleted) {
+                        const workAreMissing = works.some(
+                          (work) =>
+                            !work.certificationOfCompletionDate || !work.percentageOfCompletion || !work.certificationIssuedBy || !work.designation || !work.fileLabelNumber
+                        );
+                        if (workAreMissing) {
+                          return;
+                        } else {
+                            navigate(`/dashboard/edittransaction/${id}/9`)
+                        }
+                      }
+                    }
+                    
+                  }}
+                  className={`bg-blue-500 text-white px-4 py-2 border-full rounded `}
+                  //disabled={expenditureType === "Service"}
+                >
+                  next
+                </button>
+              )}
+              
             </div>
           </div>
         )}

@@ -57,6 +57,33 @@ export const getSoa = createAsyncThunk(
     async () => await gifmis.getSoa()
 );
 
+export const getOverpayment = createAsyncThunk(
+    "gifmis/overpayment",
+    async () => await gifmis.getOverpayment()
+);
+
+export const getWithoutIssue = createAsyncThunk(
+    "gifmis/withoutIssue",
+    async () => await gifmis.getWithoutIssue()
+);
+
+export const getFailedVisit = createAsyncThunk(
+    "gifmis/failedvisit",
+    async () => await gifmis.getFailedVisit()
+);
+
+export const getPerformanceIssue = createAsyncThunk(
+    "gifmis/performanceIssue",
+    async () => await gifmis.getPerformanceIssue()
+);
+
+export const getBtaIssued = createAsyncThunk(
+    "gifmis/btaIssued",
+    async () => await gifmis.getBtaIssued()
+);
+
+
+
 const initialState = {
     transactions: [],
     transactionsPerOrg: [],
@@ -68,6 +95,11 @@ const initialState = {
     noIpc: [],
     noJudgement: [],
     soa: [],
+    overpayment: [],
+    withoutIssue: [],
+    failedvisit: [],
+    performanceIssue: [],
+    btaIssued: [],
 };
 
 const gifmisSlice = createSlice({
@@ -124,6 +156,31 @@ const gifmisSlice = createSlice({
         builder.addCase(getSoa.fulfilled, (state, { payload }) => {
             if (payload.data) {
                 state.soa = payload.data;
+            }
+        });
+        builder.addCase(getOverpayment.fulfilled, (state, { payload }) => {
+            if (payload.data) {
+                state.overpayment = payload.data;
+            }
+        });
+        builder.addCase(getWithoutIssue.fulfilled, (state, { payload }) => {
+            if (payload.data) {
+                state.withoutIssue = payload.data;
+            }
+        });
+        builder.addCase(getFailedVisit.fulfilled, (state, { payload }) => {
+            if (payload.data) {
+                state.failedvisit = payload.data;
+            }
+        });
+        builder.addCase(getPerformanceIssue.fulfilled, (state, { payload }) => {
+            if (payload.data) {
+                state.performanceIssue = payload.data;
+            }
+        });
+        builder.addCase(getBtaIssued.fulfilled, (state, { payload }) => {
+            if (payload.data) {
+                state.btaIssued = payload.data;
             }
         });
     },

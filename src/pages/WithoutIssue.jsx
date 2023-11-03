@@ -7,18 +7,18 @@ import { FaCheckToSlot } from "react-icons/fa6";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { getSoa } from "../redux/features/gifmis";
+import { getWithoutIssue } from "../redux/features/gifmis";
 import { ExptService } from "../services/expt-service";
 
-const StoreManagement = () => {
+const WithoutIssue = () => {
     const dispatch = useDispatch();
-    const soaList = useSelector((state) => state.gifmis.soa);
+    const withoutList = useSelector((state) => state.gifmis.withoutIssue);
     const navigate = useNavigate();
     useEffect(() => {
-        const response = dispatch(getSoa())
+        const response = dispatch(getWithoutIssue())
             .unwrap()
             .then((res) => {
-                console.log("soa", res.data);
+                console.log("without", res.data);
             });
     }, []);
 
@@ -34,7 +34,7 @@ const StoreManagement = () => {
     const handleExportClick = async () => {
         console.log("dans export");
         const expt = new ExptService();
-        const response = await expt.exportData("soa/export");
+        const response = await expt.exportData("without/export");
         window.open(response);
         console.log("res", response);
     };
@@ -117,7 +117,7 @@ const StoreManagement = () => {
     return (
         <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
             <div className="flex justify justify-between">
-                <h1 className="text-[12px] font-bold">SOA</h1>
+                <h1 className="text-[12px] font-bold">WITHOUT ISSUES</h1>
                 <div className="flex w-[18%] justify-end">
                     {/* <button
             className={`text-[12px] font-bold border border-green-400 bg-green-200 p-1 rounded mb-2 shadow-lg ${
@@ -246,8 +246,8 @@ const StoreManagement = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {soaList && soaList.length > 0 ? (
-                                soaList?.map((item, itemIndex) => (
+                            {withoutList && withoutList.length > 0 ? (
+                                withoutList?.map((item, itemIndex) => (
                                     <tr key={itemIndex}>
                                         <td className="border-y text-left ">{item?.id}</td>
                                         <td className="border-y text-left ">{item?.orgname}</td>
@@ -278,8 +278,8 @@ const StoreManagement = () => {
                                                 maximumFractionDigits: 2,
                                             })}
                                         </td>
-                                        <td className="border-y text-left truncate-25" title={formatRemarks(item)}>
-                                            {formatRemarks(item)}
+                                        <td className="border-y text-left truncate-25" >
+                                            WITHOUT ISSUES
                                         </td>
                                     </tr>
                                 ))
@@ -321,4 +321,4 @@ const StoreManagement = () => {
     );
 };
 
-export default StoreManagement;
+export default WithoutIssue;

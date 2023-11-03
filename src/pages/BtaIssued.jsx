@@ -7,18 +7,18 @@ import { FaCheckToSlot } from "react-icons/fa6";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { getSoa } from "../redux/features/gifmis";
+import { getBtaIssued } from "../redux/features/gifmis";
 import { ExptService } from "../services/expt-service";
 
-const StoreManagement = () => {
+const PerformanceIssue = () => {
     const dispatch = useDispatch();
-    const soaList = useSelector((state) => state.gifmis.soa);
+    const btaIssuedList = useSelector((state) => state.gifmis.btaIssued);
     const navigate = useNavigate();
     useEffect(() => {
-        const response = dispatch(getSoa())
+        const response = dispatch(getBtaIssued())
             .unwrap()
             .then((res) => {
-                console.log("soa", res.data);
+                console.log("BTA ISSUED", res.data);
             });
     }, []);
 
@@ -34,7 +34,7 @@ const StoreManagement = () => {
     const handleExportClick = async () => {
         console.log("dans export");
         const expt = new ExptService();
-        const response = await expt.exportData("soa/export");
+        const response = await expt.exportData("btaissued/export");
         window.open(response);
         console.log("res", response);
     };
@@ -117,7 +117,7 @@ const StoreManagement = () => {
     return (
         <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
             <div className="flex justify justify-between">
-                <h1 className="text-[12px] font-bold">SOA</h1>
+                <h1 className="text-[12px] font-bold">BTA ISSUED</h1>
                 <div className="flex w-[18%] justify-end">
                     {/* <button
             className={`text-[12px] font-bold border border-green-400 bg-green-200 p-1 rounded mb-2 shadow-lg ${
@@ -206,32 +206,6 @@ const StoreManagement = () => {
                                 </th>
                                 <th className="border border-gray-200  ">
                                     <span className="inline-flex items-center">
-                                        CONTRACT AMOUNT{" "}
-                                        {/* <BiSort
-                      size={15}
-                      className={`ml-2 cursor-pointer ${sortField === "description"
-                          ? "text-blue-500"
-                          : "text-gray-500"
-                        }`}
-                      onClick={() => handleSort("description", "desc")}
-                    /> */}
-                                    </span>
-                                </th>
-                                <th className="border border-gray-200  ">
-                                    <span className="inline-flex items-center">
-                                        TOTAL PAYMENT{" "}
-                                        {/* <BiSort
-                      size={15}
-                      className={`ml-2 cursor-pointer ${sortField === "description"
-                          ? "text-blue-500"
-                          : "text-gray-500"
-                        }`}
-                      onClick={() => handleSort("description", "desc")}
-                    /> */}
-                                    </span>
-                                </th>
-                                <th className="border border-gray-200  ">
-                                    <span className="inline-flex items-center">
                                         REMARKS{" "}
                                         {/* <BiSort
                       size={15}
@@ -243,11 +217,12 @@ const StoreManagement = () => {
                     /> */}
                                     </span>
                                 </th>
+                                
                             </tr>
                         </thead>
                         <tbody>
-                            {soaList && soaList.length > 0 ? (
-                                soaList?.map((item, itemIndex) => (
+                            {btaIssuedList && btaIssuedList.length > 0 ? (
+                                btaIssuedList?.map((item, itemIndex) => (
                                     <tr key={itemIndex}>
                                         <td className="border-y text-left ">{item?.id}</td>
                                         <td className="border-y text-left ">{item?.orgname}</td>
@@ -264,22 +239,12 @@ const StoreManagement = () => {
                                                 maximumFractionDigits: 2,
                                             })}
                                         </td>
-                                        <td className="border-y text-left ">
-                                            {(item?.gifmisProcesseds[0]?.contracts[0]?.unitPrice)?.toLocaleString(undefined, {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                        })}
+                                
+                                        <td className="border-y text-left truncate-25">
+                                            BTA ISSUED
                                         </td>
-                                        <td className="border-y text-left ">
-                                            {calculateTransactionAmount(
-                                                item?.gifmisProcesseds[0]?.transactions
-                                            )?.toLocaleString(undefined, {
-                                                minimumFractionDigits: 2,
-                                                maximumFractionDigits: 2,
-                                            })}
-                                        </td>
-                                        <td className="border-y text-left truncate-25" title={formatRemarks(item)}>
-                                            {formatRemarks(item)}
+                                        <td className="border-y text-left truncate-25">
+                                           {item?.auditordetails}
                                         </td>
                                     </tr>
                                 ))
@@ -320,5 +285,4 @@ const StoreManagement = () => {
         </div>
     );
 };
-
-export default StoreManagement;
+export default PerformanceIssue;

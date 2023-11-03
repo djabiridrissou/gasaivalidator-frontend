@@ -437,13 +437,13 @@ const Form3 = () => {
         {currentPath.startsWith("/dashboard/transactiondetails") && (
            <button
           onClick={() => {
-            if (fundingType == "default") {
+            if (fundingType === "default") {
               return;
             }
             if (fundingType == "Central government" && warrantSupported && (!warrantNo || !warrantDate || !warrantAmount || !fileLabelNumber)) {
               return;
             }
-            navigate(`/dashboard/transactiondetails/${id}/3`)
+            navigate(`/dashboard/transactiondetails/${id}/10`)
           }}
           className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${
             fundingType === "IGF" || fundingType === "Statutory"|| fundingType === "Donor"
@@ -458,13 +458,13 @@ const Form3 = () => {
         {currentPath.startsWith("/dashboard/edittransaction") && (
            <button
            onClick={() => {
-            if (fundingType == "default") {
+            if (fundingType === "default") {
               return;
             }
             if (fundingType == "Central government" && warrantSupported && (!warrantNo || !warrantDate || !warrantAmount || !fileLabelNumber)) {
               return;
             }
-            navigate(`/dashboard/edittransaction/${id}/3`)
+            navigate(`/dashboard/edittransaction/${id}/10`)
           }}
           className={`bg-blue-500 text-white px-4 py-2 border-full rounded ${
             fundingType === "IGF" || fundingType === "Statutory"|| fundingType === "Donor"

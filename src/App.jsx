@@ -17,6 +17,8 @@ import {
   Form7,
   Form8,
   Form9,
+  Form10,
+  Form11,
   EditTransaction,
   NoWorkDone,
   ViewDetails,
@@ -32,8 +34,12 @@ import {
   Soa,
   TeamLeaders,
   TeamMembers,
+  Overpayment,
+  FailedVisit,
+  PerformanceIssue,
 } from "./routes/routes";
 import OrgTransactions from "./pages/OrgTransactions";
+import WithoutIssue from "./pages/WithoutIssue";
 
 
 
@@ -63,6 +69,10 @@ const App = () => {
           <Route path="/dashboard/noipc" element={<NoIpc />} />
           <Route path="/dashboard/nojudgement" element={<NoJudgement />} />
           <Route path="/dashboard/soa" element={<Soa />} />
+          <Route path="/dashboard/performanceissue" element={<PerformanceIssue />} />
+          <Route path="/dashboard/overpayment" element={<Overpayment />} />
+          <Route path="/dashboard/failedvisit" element={<FailedVisit />} />
+          <Route path="/dashboard/withoutissue" element={<WithoutIssue />} />
           <Route path="/dashboard/teamleaders" element={<TeamLeaders />} />
           <Route path="/dashboard/teammembers" element={<TeamMembers />} />
           <Route path="/dashboard/transactiondetails/:id" element={<TransactionDetails />}>
@@ -74,6 +84,8 @@ const App = () => {
             <Route path="6" element={<Form7 />} />
             <Route path="7" element={<Form8 />} />
             <Route path="8" element={<Form9 />} />
+            <Route path="9" element={<Form10 />} />
+            <Route path="10" element={<Form11 />} />
           </Route>
         </Route>
         <Route
@@ -88,6 +100,8 @@ const App = () => {
             <Route path="6" element={<Form7 />} />
             <Route path="7" element={<Form8 />} />
             <Route path="8" element={<Form9 />} />
+            <Route path="9" element={<Form10 />} />
+            <Route path="10" element={<Form11 />} />
         </Route>
       
       </Routes>
