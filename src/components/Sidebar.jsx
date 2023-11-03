@@ -28,7 +28,7 @@ import { HomeIcon as SolidHomeIcon } from "@heroicons/react/20/solid";
 import { FaI, FaKaggle } from "react-icons/fa6";
 import { faKhanda } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
-import { getContractManagement, getOverpayment } from "../redux/features/gifmis";
+import { getContractManagement, getOverpayment, getWithoutIssue } from "../redux/features/gifmis";
 import { getCurentUser } from "../redux/features/auth";
 import { getAllNoWorkDone } from "../redux/features/noworkdoneSlice";
 import { getAllNoWarrant } from "../redux/features/gifmis";
@@ -39,6 +39,9 @@ import { getStoreManagement } from "../redux/features/gifmis";
 import { getNoIpc } from "../redux/features/gifmis";
 import { getNoJudgement } from "../redux/features/gifmis";
 import { getSoa } from "../redux/features/gifmis";
+import { getFailedVisit } from "../redux/features/gifmis";
+import WithoutIssue from "../pages/WithoutIssue";
+import FailedVisit from "../pages/FailedVisit";
 
 const SidebarMenuItem = ({
   route,
@@ -144,7 +147,8 @@ const Sidebar = ({ open, setOpen }) => {
   const nojudgementList = useSelector((state) => state.gifmis.noJudgement);
   const soaList = useSelector((state) => state.gifmis.soa);
   const overpaymentList = useSelector((state) => state.gifmis.overpayment);
-
+  const WithoutIssueList = useSelector((state) => state.gifmis.withoutIssue);
+const failedVisitList = useSelector((state) => state.gifmis.failedvisit);
   useEffect(() => {
     const response = dispatch(getContractManagement()).unwrap().then((res) => {
       //console.log("contractManagement", res.data);
@@ -179,6 +183,12 @@ const Sidebar = ({ open, setOpen }) => {
     })
     const response11 = dispatch(getOverpayment()).unwrap().then((res) => {
       console.log("overpayment", res.data);
+    })
+    const response12 = dispatch(getWithoutIssue()).unwrap().then((res) => {
+      console.log("withoutissue", res.data);
+    })
+    const response13 = dispatch(getFailedVisit()).unwrap().then((res) => {
+      console.log("failedvisit", res.data);
     })
     dispatch(getCurentUser()).unwrap().then(res => {
       //console.log("res", res.user);
@@ -321,6 +331,25 @@ const Sidebar = ({ open, setOpen }) => {
           route: "/dashboard/soa",
           icon: DocumentTextIcon
         },
+        {
+          name: (
+            <span>
+              Without Issue <sup className="text-red-500">{(WithoutIssueList?.length)}</sup>
+            </span>
+          ),
+          route: "/dashboard/withoutissue",
+          icon: DocumentTextIcon
+        },
+        {
+          name: (
+            <span>
+              Failed Visit <sup className="text-red-500">{(failedVisitList?.length)}</sup>
+            </span>
+          ),
+          route: "/dashboard/failedvisit",
+          icon: DocumentTextIcon
+        },
+        
       ]
     },
     {

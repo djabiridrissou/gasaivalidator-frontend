@@ -35,8 +35,10 @@ import {
   TeamLeaders,
   TeamMembers,
   Overpayment,
+  FailedVisit,
 } from "./routes/routes";
 import OrgTransactions from "./pages/OrgTransactions";
+import WithoutIssue from "./pages/WithoutIssue";
 
 
 
@@ -67,6 +69,8 @@ const App = () => {
           <Route path="/dashboard/nojudgement" element={<NoJudgement />} />
           <Route path="/dashboard/soa" element={<Soa />} />
           <Route path="/dashboard/overpayment" element={<Overpayment />} />
+          <Route path="/dashboard/failedvisit" element={<FailedVisit />} />
+          <Route path="/dashboard/withoutissue" element={<WithoutIssue />} />
           <Route path="/dashboard/teamleaders" element={<TeamLeaders />} />
           <Route path="/dashboard/teammembers" element={<TeamMembers />} />
           <Route path="/dashboard/transactiondetails/:id" element={<TransactionDetails />}>

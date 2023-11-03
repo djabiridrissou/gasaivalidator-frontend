@@ -34,6 +34,8 @@ import Soa from "../pages/Soa";
 import Form10 from "../components/Forms/Form10";
 import Form11 from "../components/Forms/Form11";
 import Overpayment from "../pages/Overpayment";
+import WithoutIssue from "../pages/WithoutIssue";
+import FailedVisit from "../pages/FailedVisit";
 
 export {
   Login,
@@ -72,4 +74,6 @@ export {
   TeamMembers,
   Form10,
   Overpayment,
+  WithoutIssue,
+  FailedVisit,
 };

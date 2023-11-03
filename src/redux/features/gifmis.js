@@ -60,7 +60,18 @@ export const getSoa = createAsyncThunk(
 export const getOverpayment = createAsyncThunk(
     "gifmis/overpayment",
     async () => await gifmis.getOverpayment()
+);
+
+export const getWithoutIssue = createAsyncThunk(
+    "gifmis/withoutIssue",
+    async () => await gifmis.getWithoutIssue()
+);
+
+export const getFailedVisit = createAsyncThunk(
+    "gifmis/failedvisit",
+    async () => await gifmis.getFailedVisit()
 )
+
 
 const initialState = {
     transactions: [],
@@ -74,6 +85,8 @@ const initialState = {
     noJudgement: [],
     soa: [],
     overpayment: [],
+    withoutIssue: [],
+    failedvisit: [],
 };
 
 const gifmisSlice = createSlice({
@@ -135,6 +148,16 @@ const gifmisSlice = createSlice({
         builder.addCase(getOverpayment.fulfilled, (state, { payload }) => {
             if (payload.data) {
                 state.overpayment = payload.data;
+            }
+        });
+        builder.addCase(getWithoutIssue.fulfilled, (state, { payload }) => {
+            if (payload.data) {
+                state.withoutIssue = payload.data;
+            }
+        });
+        builder.addCase(getFailedVisit.fulfilled, (state, { payload }) => {
+            if (payload.data) {
+                state.failedvisit = payload.data;
             }
         });
     },
