@@ -24,14 +24,7 @@ const EditTransaction = () => {
   let transactions1 = useSelector((state) => state.form1.transactions);
   let transactions2 = useSelector((state) => state.form2.transactions);
   let isJobDone = useSelector((state) => state.form1.isJobDone);
-  let transactions = [
-    {
-      paymentDate: "",
-      pvNo: "",
-      amountPaid: "0",
-      fileLabelNumber: "",
-    },
-  ];
+
   let fundingType = useSelector((state) => state.form3.fundingType);
   let financialYear = useSelector((state) => state.form3.financialYear);
   let availableBudget = useSelector((state) => state.form3.availableBudget);
@@ -100,14 +93,14 @@ const EditTransaction = () => {
   let onPremise = useSelector((state) => state.form10.onPremise);
   let auditorSatisfy = useSelector((state) => state.form10.auditorSatisfy);
   let auditorDetails = useSelector((state) => state.form10.auditorDetails);
-  if (paymentStatus === "fully paid") {
+/*   if (paymentStatus === "fully paid") {
     transactions = transactions1;
     advancedPayment = false;
   } else if (paymentStatus === "partial payment" || paymentStatus === "unpaid") {
     transactions = transactions2;
   }
-
-
+ */
+  let transactions = useSelector((state) => state.form2.transactions);
   const handleEdit = () => {
     const data = {
       payment: paymentStatus,

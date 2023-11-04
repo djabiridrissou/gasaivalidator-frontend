@@ -24,6 +24,15 @@ const Overpayment = () => {
                 console.log("overpayment", res.data);
             });
     }, []);
+    function customParse(str) {
+        // Supprimer les virgules pour les milliers
+        str = str.replace(/,/g, "");
+      
+        // Remplacer le point par la virgule pour le séparateur décimal
+        str = str.replace(".", ",");
+      
+        return parseFloat(str);
+      }
 
     const [isHovered, setIsHovered] = useState(false);
 
@@ -45,7 +54,7 @@ const Overpayment = () => {
     const calculateTransactionAmount = (transactions) => {
         let total = 0;
         const totalTransactions = transactions.map((item) => {
-            const amount = parseFloat(item.amountPaid);
+            const amount = customParse(item.amountPaid);
             console.log("dans calc", item, amount);
             if (!isNaN(amount)) {
                 total += amount;
@@ -60,7 +69,7 @@ const Overpayment = () => {
     const calculateContractAmount = (contracts) => {
         let total = 0;
         const totalContracts = contracts.map((item) => {
-            const amount = parseFloat(item.unitPrice);
+            const amount = customParse(item.unitPrice);
             console.log("dans contrat", item, amount);
             if (!isNaN(amount)) {
                 total += amount;
