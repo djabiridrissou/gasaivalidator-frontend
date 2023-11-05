@@ -13,20 +13,28 @@ import { ExptService } from "../services/expt-service";
 const BtaIssued = () => {
     const dispatch = useDispatch();
     const btaIssuedList = useSelector((state) => state.gifmis.btaIssued);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();
     useEffect(() => {
-        const response = dispatch(getBtaIssued())
+        const response = dispatch(getBtaIssued(page))
             .unwrap()
             .then((res) => {
-                console.log("BTA ISSUED", res.data);
+                console.log("BTA ISSUED", res);
+                setTotalPages(res.pages);
             });
-    }, []);
+    }, [page]);
 
     const [isHovered, setIsHovered] = useState(false);
 
     const handleMouseEnter = () => {
         setIsHovered(true);
     };
+
+    const handlePageChange = ({ selected }) => {
+        (setPage(selected + 1));
+      };
+    
 
     const handleMouseLeave = () => {
         setIsHovered(false);
@@ -262,7 +270,7 @@ const BtaIssued = () => {
                 </div>
             </div>
             {/* Pagination */}
-            {/* <div className="flex tex-xs justify-end mr-3 mt-1">
+        <div className="flex tex-xs justify-end mr-3 mt-1">
         <ReactPaginate
           previousLabel="Prev"
           nextLabel="Next"
@@ -280,8 +288,8 @@ const BtaIssued = () => {
           forcePage={page - 1}
         />
 
-        {/* <img src="../images/login.jpg" alt="" /> 
-      </div> */}
+        {/* <img src="../images/login.jpg" alt="" /> */}
+      </div> 
         </div>
     );
 };

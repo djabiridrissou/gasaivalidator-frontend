@@ -6,8 +6,8 @@ const noWorkDone = NoWorkDoneService.getInstance();
 // Thunks
 export const getAllNoWorkDone = createAsyncThunk(
     "noworkdone/getAll",
-    async () => {
-        return await noWorkDone.getAll();
+    async (page) => {
+        return await noWorkDone.getAll(page);
     }
 );
 

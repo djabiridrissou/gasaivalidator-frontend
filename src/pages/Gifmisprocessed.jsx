@@ -76,9 +76,12 @@ const GifmisprocessedPage = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [currentTransaction, setCurrentTransaction] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   useEffect(() => {
-    const response = dispatch(getAllGifmisProcessed()).unwrap().then((res) => {
+    const response = dispatch(getAllGifmisProcessed(page)).unwrap().then((res) => {
       console.log("gifprocessed", res);
+      setTotalPages(res.pages);
     });
 
     dispatch(getCurentUser()).unwrap().then(res => {
@@ -87,12 +90,16 @@ const GifmisprocessedPage = () => {
     }).catch(error => {
       console.log(error);
     });
-  }, []);
+  }, [page]);
 
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
       setIsHovered(true);
+  };
+
+  const handlePageChange = ({ selected }) => {
+    (setPage(selected + 1));
   };
 
   const handleMouseLeave = () => {
@@ -479,7 +486,7 @@ const GifmisprocessedPage = () => {
         />
       )}
       {/* Pagination */}
-      {/* <div className="flex tex-xs justify-end mr-3 mt-1">
+      <div className="flex tex-xs justify-end mr-3 mt-1">
         <ReactPaginate
           previousLabel="Prev"
           nextLabel="Next"
@@ -497,8 +504,8 @@ const GifmisprocessedPage = () => {
           forcePage={page - 1}
         />
 
-        {/* <img src="../images/login.jpg" alt="" /> 
-      </div> */}
+        {/* <img src="../images/login.jpg" alt="" /> */}
+      </div>
     </div>
   );
 };

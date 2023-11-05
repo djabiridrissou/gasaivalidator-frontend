@@ -14,13 +14,16 @@ const PerformanceIssue = () => {
     const dispatch = useDispatch();
     const performanceIssueList = useSelector((state) => state.gifmis.performanceIssue);
     const navigate = useNavigate();
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     useEffect(() => {
-        const response = dispatch(getPerformanceIssue())
+        const response = dispatch(getPerformanceIssue(page))
             .unwrap()
             .then((res) => {
-                console.log("performanceIssue", res.data);
+                console.log("performanceIssue", res);
+                setTotalPages(res.pages);
             });
-    }, []);
+    }, [page]);
 
     const [isHovered, setIsHovered] = useState(false);
 
@@ -39,6 +42,9 @@ const PerformanceIssue = () => {
         console.log("res", response);
     };
 
+    const handlePageChange = ({ selected }) => {
+        (setPage(selected + 1));
+    }
     const calculateTransactionAmount = (transactions) => {
         let total = 0;
         const totalTransactions = transactions.map((item) => {
@@ -274,7 +280,7 @@ const PerformanceIssue = () => {
                 </div>
             </div>
             {/* Pagination */}
-            {/* <div className="flex tex-xs justify-end mr-3 mt-1">
+        <div className="flex tex-xs justify-end mr-3 mt-1">
         <ReactPaginate
           previousLabel="Prev"
           nextLabel="Next"
@@ -292,8 +298,8 @@ const PerformanceIssue = () => {
           forcePage={page - 1}
         />
 
-        {/* <img src="../images/login.jpg" alt="" /> 
-      </div> */}
+        {/* <img src="../images/login.jpg" alt="" /> */}
+      </div> 
         </div>
     );
 };

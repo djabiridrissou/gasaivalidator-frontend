@@ -13,12 +13,15 @@ import { ExptService } from "../services/expt-service";
 const Misclassified = () => {
     const dispatch = useDispatch();
     const misclassifiedList = useSelector((state) => state.misclassified.misclassifiedList);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();
     useEffect(() => {
-        const response = dispatch(getAllMisclassified()).unwrap().then((res) => {
+        const response = dispatch(getAllMisclassified(page)).unwrap().then((res) => {
             console.log("misclassifiedData", res.data);
+            setTotalPages(res.pages);
         });
-    }, []);
+    }, [page]);
     const [isHovered, setIsHovered] = useState(false);
 
     const handleMouseEnter = () => {
@@ -28,6 +31,10 @@ const Misclassified = () => {
     const handleMouseLeave = () => {
         setIsHovered(false);
     };
+
+    const handlePageChange = ({ selected }) => {
+        (setPage(selected + 1));
+    }
 
     const handleExportClick = async () => {
         console.log("dans export");
@@ -182,7 +189,7 @@ const Misclassified = () => {
                 </div>
             </div>
             {/* Pagination */}
-            {/* <div className="flex tex-xs justify-end mr-3 mt-1">
+        <div className="flex tex-xs justify-end mr-3 mt-1">
         <ReactPaginate
           previousLabel="Prev"
           nextLabel="Next"
@@ -200,8 +207,8 @@ const Misclassified = () => {
           forcePage={page - 1}
         />
 
-        {/* <img src="../images/login.jpg" alt="" /> 
-      </div> */}
+        {/* <img src="../images/login.jpg" alt="" />  */}
+      </div>
         </div>
     );
 };

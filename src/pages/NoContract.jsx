@@ -3,15 +3,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getAllNoContract } from "../redux/features/gifmis";
 import { ExptService } from "../services/expt-service";
+import ReactPaginate from "react-paginate";
+
 const NoContract = () => {
     const dispatch = useDispatch();
     const nocontractList = useSelector((state) => state.gifmis.noContract);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();
     useEffect(() => {
         const response = dispatch(getAllNoContract()).unwrap().then((res) => {
             console.log("nocontract", res.data);
+            setTotalPages(res.pages);
         });
-    }, []);
+    }, [page]);
     const [isHovered, setIsHovered] = useState(false);
 
     const handleMouseEnter = () => {
@@ -22,13 +27,17 @@ const NoContract = () => {
         setIsHovered(false);
     };
 
+    const handlePageChange = ({ selected }) => {
+        (setPage(selected + 1));
+    };
+
     const handleExportClick = async () => {
         console.log("dans export");
         const expt = new ExptService();
         const response = await expt.exportData('nocontract/export');
         window.open(response);
         console.log("res", response);
-    }
+    };
 
 
     return (
@@ -175,7 +184,7 @@ const NoContract = () => {
                 </div>
             </div>
             {/* Pagination */}
-            {/* <div className="flex tex-xs justify-end mr-3 mt-1">
+        <div className="flex tex-xs justify-end mr-3 mt-1">
         <ReactPaginate
           previousLabel="Prev"
           nextLabel="Next"
@@ -193,8 +202,8 @@ const NoContract = () => {
           forcePage={page - 1}
         />
 
-        {/* <img src="../images/login.jpg" alt="" /> 
-      </div> */}
+        {/* <img src="../images/login.jpg" alt="" />  */}
+      </div>
         </div>
     );
 };

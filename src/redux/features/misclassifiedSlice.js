@@ -6,8 +6,8 @@ const misclassified = MisclassifiedService.getInstance();
 // Thunks
 export const getAllMisclassified = createAsyncThunk(
     "misclassified/getAll",
-    async () => {
-        return await misclassified.getAllMisclassified();
+    async (page) => {
+        return await misclassified.getAllMisclassified(page);
     }
 );
 

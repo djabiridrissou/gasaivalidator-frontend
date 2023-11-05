@@ -14,16 +14,22 @@ const StoreManagement = () => {
     const dispatch = useDispatch();
     const soaList = useSelector((state) => state.gifmis.soa);
     const navigate = useNavigate();
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     useEffect(() => {
-        const response = dispatch(getSoa())
+        const response = dispatch(getSoa(page))
             .unwrap()
             .then((res) => {
-                console.log("soa", res.data);
+                console.log("soa", res);
+                setTotalPages(res.pages);
             });
-    }, []);
+    }, [page]);
 
     const [isHovered, setIsHovered] = useState(false);
 
+    const handlePageChange = ({ selected }) => {
+        (setPage(selected + 1));
+    }
     const handleMouseEnter = () => {
         setIsHovered(true);
     };
@@ -39,18 +45,28 @@ const StoreManagement = () => {
         console.log("res", response);
     };
 
+    function customParse(str) {
+        // Supprimer les virgules pour les milliers
+        str = str.replace(/,/g, "");
+      
+        // Remplacer le point par la virgule pour le séparateur décimal
+        str = str.replace(".", ",");
+      
+        return parseFloat(str);
+      }
+
     const calculateTransactionAmount = (transactions) => {
         let total = 0;
         const totalTransactions = transactions.map((item) => {
-            const amount = parseFloat(item.amountPaid);
-            console.log("dans calc", item, amount);
+            const amount = customParse(item.amountPaid);
+            //console.log("dans calc", item, amount);
             if (!isNaN(amount)) {
                 total += amount;
             } else {
                 total += 0;
             }
         });
-        console.log("total", total);
+        //console.log("total", total);
         return total;
     };
 
@@ -297,7 +313,7 @@ const StoreManagement = () => {
                 </div>
             </div>
             {/* Pagination */}
-            {/* <div className="flex tex-xs justify-end mr-3 mt-1">
+        <div className="flex tex-xs justify-end mr-3 mt-1">
         <ReactPaginate
           previousLabel="Prev"
           nextLabel="Next"
@@ -315,8 +331,8 @@ const StoreManagement = () => {
           forcePage={page - 1}
         />
 
-        {/* <img src="../images/login.jpg" alt="" /> 
-      </div> */}
+        {/* <img src="../images/login.jpg" alt="" /> */}
+      </div>
         </div>
     );
 };

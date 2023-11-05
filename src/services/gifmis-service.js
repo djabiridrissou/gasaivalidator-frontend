@@ -45,9 +45,9 @@ export class GoodsService extends HttpBaseService {
         });
     }
 
-    async getAllNoWarrant() {
+    async getAllNoWarrant(page) {
         let apiResponse = new ApiResponse();
-        return this.instance.get('/no-warrant').then(res => {
+        return this.instance.get(`/no-warrant?page=${page}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
         }).catch(err => {
@@ -56,9 +56,9 @@ export class GoodsService extends HttpBaseService {
         });
     }
 
-    async getAllNotInGifmis() {
+    async getAllNotInGifmis(page) {
         let apiResponse = new ApiResponse();
-        return this.instance.get('/not-in-gifmis').then(res => {
+        return this.instance.get(`/not-in-gifmis?page=${page}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
         }).catch(err => {
@@ -68,9 +68,9 @@ export class GoodsService extends HttpBaseService {
     }
 
 
-    async getAllNoContract() {
+    async getAllNoContract(page) {
         let apiResponse = new ApiResponse();
-        return this.instance.get('/no-contract').then(res => {
+        return this.instance.get(`/no-contract?page=${page}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
         }).catch(err => {
@@ -79,9 +79,9 @@ export class GoodsService extends HttpBaseService {
         });
     }
 
-    async getStoreManagement() {
+    async getStoreManagement(page) {
         let apiResponse = new ApiResponse();
-        return this.instance.get('/store-management').then(res => {
+        return this.instance.get(`/store-management?page=${page}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
         }).catch(err => {
@@ -90,9 +90,9 @@ export class GoodsService extends HttpBaseService {
         });
     }
 
-    async getContractManagement() {
+    async getContractManagement(page) {
         let apiResponse = new ApiResponse();
-        return this.instance.get('/contract-management').then(res => {
+        return this.instance.get(`/contract-management?page=${page}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
         }).catch(err => {
@@ -101,9 +101,9 @@ export class GoodsService extends HttpBaseService {
         });
     }
 
-    async getNoIpc() {
+    async getNoIpc(page) {
         let apiResponse = new ApiResponse();
-        return this.instance.get('/no-ipc').then(res => {
+        return this.instance.get(`/no-ipc?page=${page}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
         }).catch(err => {
@@ -112,9 +112,9 @@ export class GoodsService extends HttpBaseService {
         });
     }
 
-    async getNoJudgement() {
+    async getNoJudgement(page) {
         let apiResponse = new ApiResponse();
-        return this.instance.get('/no-judgement').then(res => {
+        return this.instance.get(`/no-judgement?page=${page}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
         }).catch(err => {
@@ -123,9 +123,9 @@ export class GoodsService extends HttpBaseService {
         });
     }
 
-    async getSoa() {
+    async getSoa(page) {
         let apiResponse = new ApiResponse();
-        return this.instance.get('/soa').then(res => {
+        return this.instance.get(`/soa?page=${page}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
         }).catch(err => {
@@ -134,9 +134,9 @@ export class GoodsService extends HttpBaseService {
         });
     }
 
-    async getOverpayment() {
+    async getOverpayment(page) {
         let apiResponse = new ApiResponse();
-        return this.instance.get('/overpayment').then(res => {
+        return this.instance.get(`/overpayment?page=${page}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
         }).catch(err => {
@@ -145,9 +145,9 @@ export class GoodsService extends HttpBaseService {
         });
     }
 
-    async getOverpayment() {
+    async getOverpayment(page) {
         let apiResponse = new ApiResponse();
-        return this.instance.get('/overpayment').then(res => {
+        return this.instance.get(`/overpayment?page=${page}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
         }).catch(err => {
@@ -156,9 +156,9 @@ export class GoodsService extends HttpBaseService {
         });
     }
 
-    async getWithoutIssue() {
+    async getWithoutIssue(page) {
         let apiResponse = new ApiResponse();
-        return this.instance.get('/without-issue').then(res => {
+        return this.instance.get(`/without-issue?page=${page}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
         }).catch(err => {
@@ -167,9 +167,9 @@ export class GoodsService extends HttpBaseService {
         });
     }
 
-    async getFailedVisit() {
+    async getFailedVisit(page) {
         let apiResponse = new ApiResponse();
-        return this.instance.get('/failed-visit').then(res => {
+        return this.instance.get(`/failed-visit?page=${page}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
         }).catch(err => {
@@ -178,9 +178,9 @@ export class GoodsService extends HttpBaseService {
         });
     }
 
-    async getPerformanceIssue() {
+    async getPerformanceIssue(page) {
         let apiResponse = new ApiResponse();
-        return this.instance.get('/performance-issue').then(res => {
+        return this.instance.get(`/performance-issue?page=${page}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
         }).catch(err => {
@@ -190,9 +190,9 @@ export class GoodsService extends HttpBaseService {
     }
 
     
-    async getBtaIssued() {
+    async getBtaIssued(page) {
         let apiResponse = new ApiResponse();
-        return this.instance.get('/bta-issued').then(res => {
+        return this.instance.get(`/bta-issued?page=${page}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
         }).catch(err => {
@@ -200,9 +200,9 @@ export class GoodsService extends HttpBaseService {
             return apiResponse;
         });
     }
-    async getBtaNotIssued() {
+    async getBtaNotIssued(page) {
         let apiResponse = new ApiResponse();
-        return this.instance.get('/bta-not-issued').then(res => {
+        return this.instance.get(`/bta-not-issued?page=${page}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
         }).catch(err => {
