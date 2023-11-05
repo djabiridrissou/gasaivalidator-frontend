@@ -14,22 +14,24 @@ const Overpayment = () => {
     const dispatch = useDispatch();
     const overpaymentList = useSelector((state) => state.gifmis.overpayment);
     const listToShow = [];
-    
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     const navigate = useNavigate();
     useEffect(() => {
-        const response = dispatch(getOverpayment())
+        const response = dispatch(getOverpayment(page))
             .unwrap()
             .then((res) => {
                 console.log("overpayment", res.data);
+                setTotalPages(res.pages);
             });
-    }, []);
+    }, [page]);
     function customParse(str) {
         // Supprimer les virgules pour les milliers
-        str = str.replace(/,/g, "");
+        str = str?.replace(/,/g, "");
       
         // Remplacer le point par la virgule pour le séparateur décimal
-        str = str.replace(".", ",");
+        str = str?.replace(".", ",");
       
         return parseFloat(str);
       }
@@ -39,6 +41,10 @@ const Overpayment = () => {
     const handleMouseEnter = () => {
         setIsHovered(true);
     };
+
+    const handlePageChange = ({ selected }) => {
+        (setPage(selected + 1));
+    }
 
     const handleMouseLeave = () => {
         setIsHovered(false);
@@ -337,7 +343,7 @@ const Overpayment = () => {
                 </div>
             </div>
             {/* Pagination */}
-            {/* <div className="flex tex-xs justify-end mr-3 mt-1">
+    <div className="flex tex-xs justify-end mr-3 mt-1">
         <ReactPaginate
           previousLabel="Prev"
           nextLabel="Next"
@@ -355,8 +361,8 @@ const Overpayment = () => {
           forcePage={page - 1}
         />
 
-        {/* <img src="../images/login.jpg" alt="" /> 
-      </div> */}
+        {/* <img src="../images/login.jpg" alt="" /> */}
+      </div> 
         </div>
     );
 };

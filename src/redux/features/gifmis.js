@@ -6,9 +6,9 @@ const gifmis = GoodsService.getInstance();
 // Thunks
 export const getAllGifmis = createAsyncThunk(
     "gifmis/getAllGifmis",
-    async (page, limitR) => {
-        console.log("page", page, "limit dans service", (limitR));
-        return await gifmis.getAllTransactions(page, limitR);
+    async ({page, searchTerm}) => {
+        console.log("page", page, "search dans service", searchTerm);
+        return await gifmis.getAllTransactions(page, searchTerm);
     }
 );
 export const countPerOrganisation = createAsyncThunk(
@@ -18,73 +18,73 @@ export const countPerOrganisation = createAsyncThunk(
 
 export const getAllNoWarrant = createAsyncThunk(
     "gifmis/getAllNoWarrant",
-    async () => await gifmis.getAllNoWarrant()
+    async (page) => await gifmis.getAllNoWarrant(page)
 );
 
 export const getAllNotInGifmis = createAsyncThunk(
     "gifmis/notingifmis",
-    async () => await gifmis.getAllNotInGifmis()
+    async (page) => await gifmis.getAllNotInGifmis(page)
 );
 
 
 export const getAllNoContract = createAsyncThunk(
     "gifmis/nocontract",
-    async () => await gifmis.getAllNoContract()
+    async (page) => await gifmis.getAllNoContract(page)
 );
 
 export const getStoreManagement = createAsyncThunk(
     "gifmis/storemanagement",
-    async () => await gifmis.getStoreManagement()
+    async (page) => await gifmis.getStoreManagement(page)
 );
 
 export const getContractManagement = createAsyncThunk(
     "gifmis/contractmanagement",
-    async () => await gifmis.getContractManagement()
+    async (page) => await gifmis.getContractManagement(page)
 );
 
 export const getNoIpc = createAsyncThunk(
     "gifmis/noipc",
-    async () => await gifmis.getNoIpc()
+    async (page) => await gifmis.getNoIpc(page)
 );
 
 export const getNoJudgement = createAsyncThunk(
     "gifmis/nojudgement",
-    async () => await gifmis.getNoJudgement()
+    async (page) => await gifmis.getNoJudgement(page)
 );
 
 export const getSoa = createAsyncThunk(
     "gifmis/soa",
-    async () => await gifmis.getSoa()
+    async (page) => await gifmis.getSoa(page)
 );
 
 export const getOverpayment = createAsyncThunk(
     "gifmis/overpayment",
-    async () => await gifmis.getOverpayment()
+    async (page) => await gifmis.getOverpayment(page)
 );
 
 export const getWithoutIssue = createAsyncThunk(
     "gifmis/withoutIssue",
-    async () => await gifmis.getWithoutIssue()
+    async (page) => await gifmis.getWithoutIssue(page)
 );
 
 export const getFailedVisit = createAsyncThunk(
     "gifmis/failedvisit",
-    async () => await gifmis.getFailedVisit()
+    async (page) => await gifmis.getFailedVisit(page)
 );
 
 export const getPerformanceIssue = createAsyncThunk(
     "gifmis/performanceIssue",
-    async () => await gifmis.getPerformanceIssue()
+    async (page) => await gifmis.getPerformanceIssue(page)
 );
 
 export const getBtaIssued = createAsyncThunk(
     "gifmis/btaIssued",
-    async () => await gifmis.getBtaIssued()
+    async (page) => await gifmis.getBtaIssued(page)
 );
 
 export const getBtaNotIssued = createAsyncThunk(
     "gifmis/btaNotIssued",
-    async () => await gifmis.getBtaNotIssued()
+    async (page) => await gifmis.getBtaNotIssued(page)
 );
 
 

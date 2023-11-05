@@ -25,7 +25,7 @@ const Goods = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [limitR, setLimit] = useState(25);
-
+  const [searchTerm, setSearchTerm] = useState("");
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -39,9 +39,9 @@ const Goods = () => {
   const isAdmin = currentUser.role?.roleName == "admin";
   console.log('isAdmin', isAdmin);
   useEffect(() => {
-    console.log("page", page, "limit", limitR);
+    console.log("page dans jsx", page, "search", searchTerm);
     //setLimit(limit);
-    const response = dispatch(getAllGifmis(page, limitR)).unwrap().then((res) => {
+    const response = dispatch(getAllGifmis({page, searchTerm})).unwrap().then((res) => {
       console.log("transac", res.pages);
       setTotalPages(res.pages);
     });
@@ -51,7 +51,7 @@ const Goods = () => {
     }).catch(error => {
       console.log(error);
     });
-  }, [page]);
+  }, [page, searchTerm]);
 
   const handleExportClick = async () => {
     console.log("dans export");
@@ -84,12 +84,13 @@ const Goods = () => {
 
 
 
-  /*   const handleSearchInputChange = (e) => {
+  const handleSearchInputChange = (e) => {
       const newSearchTerm = e.target.value;
-      dispatch(setSearchTerm(e.target.value));
-      dispatch(setPage(1)); // Réinitialise la page à 1 lorsque la recherche est modifiée
+      setSearchTerm(e.target.value);
+      console.log("newSearchTerm", newSearchTerm);
+      setPage(1); // Réinitialise la page à 1 lorsque la recherche est modifiée
       //console.log('dans search');
-    }; */
+    };
 
   /*   if (loading) {
       return (
@@ -121,12 +122,12 @@ const Goods = () => {
     if (value) {
       return (
         <span
-        /* dangerouslySetInnerHTML={{
+        dangerouslySetInnerHTML={{
           __html: value.replace(
-            /* new RegExp(searchTerm, "gi"),
+            new RegExp(searchTerm, "gi"),
             (match) => `<span class="highlight">${match}</span>` 
           ),
-        }} */
+        }}
         />
       );
     }
@@ -173,7 +174,7 @@ const Goods = () => {
             <span>entries</span>
           </div> */}
 
-          {/* <div className="flex relative w-[30%]">
+          <div className="flex relative w-[30%]">
             <input
               type="text"
               name="search"
@@ -181,14 +182,14 @@ const Goods = () => {
               value={searchTerm}
               onChange={handleSearchInputChange}
               autoFocus
-              placeholder="Any field except ID....."
-              className={`w-full text-[0.8rem] px-[0.75rem] py-[0.22rem] border border-gray-400 rounded-[0.25rem] shadow-lg placeholder-[#8391a2] focus:ring-[0.2px] focus:ring-gray-300 focus:border-gray-400`}
+              placeholder="Search ORGANISATION, VENDOR OR DESCRIPTION...."
+              className={`w-full text-[0.8rem] px-[0.75rem] py-[0.22rem] border border-gray-400 rounded-[0.25rem] shadow-lg placeholder-[#8391a2] placeholder-shown:sm focus:ring-[0.2px] focus:ring-gray-300 focus:border-gray-400`}
             />
             <AiOutlineSearch
               size={18}
               className="absolute right-2 top-[7px]  text-gray-400"
             />
-          </div> */}
+          </div>
 
 
         </div>
@@ -343,7 +344,7 @@ const Goods = () => {
                       cursor: item.status !== 'COMPLETED' && !isAdmin ? 'pointer' : 'not-allowed',
                     }}>
                     <td className="border-y text-left ">
-                      {item.id}
+                      {(item.id)}
                     </td>
                     {/*  <td className="border-y text-left ">
                       {(item.sn)}
@@ -352,16 +353,16 @@ const Goods = () => {
                       className="border-y text-left truncate-25 "
                       title={item.orgname}
                     >
-                      {(item.orgname)}
+                      {renderHighlightedTableCell(item.orgname)}
                     </td>
                     <td
                       className="border-y text-left truncate-25"
                       title={item.description}
                     >
-                      {(item.description)}
+                      {renderHighlightedTableCell(item.description)}
                     </td>
                     <td className="border-y text-left truncate-25" title={item?.vendorname}>
-                      {(item.vendorname)}
+                      {renderHighlightedTableCell(item.vendorname)}
                     </td>
                     <td
                       className="border-y text-right truncate-25"

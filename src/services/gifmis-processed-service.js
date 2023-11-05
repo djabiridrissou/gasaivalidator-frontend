@@ -21,9 +21,9 @@ export class GifmisProcessedService extends HttpBaseService {
         return this.classInstance;
     }
 
-    async getAllGifmisProcessed() {
+    async getAllGifmisProcessed(page) {
         let apiResponse = new ApiResponse();
-        return this.instance.get('').then(res => {
+        return this.instance.get(`?page=${page}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
         }).catch(err => {

@@ -13,14 +13,17 @@ import { ExptService } from "../services/expt-service";
 const FailedVisit = () => {
     const dispatch = useDispatch();
     const failedvisitList = useSelector((state) => state.gifmis.failedvisit);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();
     useEffect(() => {
-        const response = dispatch(getFailedVisit())
+        const response = dispatch(getFailedVisit(page))
             .unwrap()
             .then((res) => {
-                console.log("failedvisit", res.data);
+                console.log("failedvisit", res);
+                setTotalPages(res.pages);
             });
-    }, []);
+    }, [page]);
 
     const [isHovered, setIsHovered] = useState(false);
 
@@ -38,6 +41,11 @@ const FailedVisit = () => {
         window.open(response);
         console.log("res", response);
     };
+
+    const handlePageChange = ({ selected }) => {
+        (setPage(selected + 1));
+    };
+
 
     const calculateTransactionAmount = (transactions) => {
         let total = 0;
@@ -258,7 +266,7 @@ const FailedVisit = () => {
                 </div>
             </div>
             {/* Pagination */}
-            {/* <div className="flex tex-xs justify-end mr-3 mt-1">
+        <div className="flex tex-xs justify-end mr-3 mt-1">
         <ReactPaginate
           previousLabel="Prev"
           nextLabel="Next"
@@ -276,8 +284,8 @@ const FailedVisit = () => {
           forcePage={page - 1}
         />
 
-        {/* <img src="../images/login.jpg" alt="" /> 
-      </div> */}
+        {/* <img src="../images/login.jpg" alt="" /> */}
+      </div>
         </div>
     );
 };

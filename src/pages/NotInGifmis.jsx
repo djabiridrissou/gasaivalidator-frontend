@@ -10,13 +10,16 @@ import { useNavigate } from "react-router-dom";
 import { getAllNotInGifmis } from "../redux/features/gifmis";
 import { ExptService } from "../services/expt-service";
 
-const NoWarrant = () => {
+const NotInGifmis = () => {
     const dispatch = useDispatch();
     const nowarrantList = useSelector((state) => state.gifmis.notInGifmis);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();
     useEffect(() => {
-        const response = dispatch(getAllNotInGifmis()).unwrap().then((res) => {
+        const response = dispatch(getAllNotInGifmis(page)).unwrap().then((res) => {
             console.log("notingifmis", res.data);
+            setTotalPages(res.pages);
         });
     }, []);
     useEffect(() => {
@@ -30,6 +33,9 @@ const NoWarrant = () => {
         setIsHovered(true);
     };
 
+    const handlePageChange = ({ selected }) => {
+        (setPage(selected + 1));
+    }
     const handleMouseLeave = () => {
         setIsHovered(false);
     };
@@ -184,7 +190,7 @@ const NoWarrant = () => {
                 </div>
             </div>
             {/* Pagination */}
-            {/* <div className="flex tex-xs justify-end mr-3 mt-1">
+         <div className="flex tex-xs justify-end mr-3 mt-1">
         <ReactPaginate
           previousLabel="Prev"
           nextLabel="Next"
@@ -202,10 +208,10 @@ const NoWarrant = () => {
           forcePage={page - 1}
         />
 
-        {/* <img src="../images/login.jpg" alt="" /> 
-      </div> */}
+        {/* <img src="../images/login.jpg" alt="" /> */}
+      </div>
         </div>
     );
 };
 
-export default NoWarrant;
+export default NotInGifmis;

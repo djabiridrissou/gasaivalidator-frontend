@@ -13,10 +13,13 @@ import { ExptService } from "../services/expt-service";
 const NoWarrant = () => {
     const dispatch = useDispatch();
     const nowarrantList = useSelector((state) => state.gifmis.noWarrant);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();
     useEffect(() => {
-        const response = dispatch(getAllNoWarrant()).unwrap().then((res) => {
+        const response = dispatch(getAllNoWarrant(page)).unwrap().then((res) => {
             console.log("nowarrant", res.data);
+            setTotalPages(res.pages);
         });
     }, []);
     const [isHovered, setIsHovered] = useState(false);
@@ -24,6 +27,10 @@ const NoWarrant = () => {
     const handleMouseEnter = () => {
         setIsHovered(true);
     };
+
+    const handlePageChange = ({ selected }) => {
+        (setPage(selected + 1));
+    }
 
     const handleMouseLeave = () => {
         setIsHovered(false);
@@ -179,7 +186,7 @@ const NoWarrant = () => {
                 </div>
             </div>
             {/* Pagination */}
-            {/* <div className="flex tex-xs justify-end mr-3 mt-1">
+    <div className="flex tex-xs justify-end mr-3 mt-1">
         <ReactPaginate
           previousLabel="Prev"
           nextLabel="Next"
@@ -197,8 +204,8 @@ const NoWarrant = () => {
           forcePage={page - 1}
         />
 
-        {/* <img src="../images/login.jpg" alt="" /> 
-      </div> */}
+        {/* <img src="../images/login.jpg" alt="" /> */}
+      </div>
         </div>
     );
 };

@@ -3,16 +3,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getNoIpc } from "../redux/features/gifmis";
 import { ExptService } from "../services/expt-service";
+import ReactPaginate from "react-paginate";
 
 const NoIpc = () => {
     const dispatch = useDispatch();
     const noipcList = useSelector((state) => state.gifmis.noIpc);
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();
     useEffect(() => {
-        const response = dispatch(getNoIpc()).unwrap().then((res) => {
+        const response = dispatch(getNoIpc(page)).unwrap().then((res) => {
             console.log("noipc", res.data);
+            setTotalPages(res.pages);
         });
-    }, []);
+    }, [page]);
 
     const [isHovered, setIsHovered] = useState(false);
 
@@ -20,6 +24,9 @@ const NoIpc = () => {
         setIsHovered(true);
     };
 
+    const handlePageChange = ({ selected }) => {
+        (setPage(selected + 1));
+    }
     const handleMouseLeave = () => {
         setIsHovered(false);
     };
@@ -174,7 +181,7 @@ const NoIpc = () => {
                 </div>
             </div>
             {/* Pagination */}
-            {/* <div className="flex tex-xs justify-end mr-3 mt-1">
+        <div className="flex tex-xs justify-end mr-3 mt-1">
         <ReactPaginate
           previousLabel="Prev"
           nextLabel="Next"
@@ -192,8 +199,8 @@ const NoIpc = () => {
           forcePage={page - 1}
         />
 
-        {/* <img src="../images/login.jpg" alt="" /> 
-      </div> */}
+        {/* <img src="../images/login.jpg" alt="" /> */}
+      </div>
         </div>
     );
 };

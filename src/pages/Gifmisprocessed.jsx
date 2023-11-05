@@ -76,9 +76,13 @@ const GifmisprocessedPage = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [currentTransaction, setCurrentTransaction] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
   useEffect(() => {
-    const response = dispatch(getAllGifmisProcessed()).unwrap().then((res) => {
+    const response = dispatch(getAllGifmisProcessed(page)).unwrap().then((res) => {
       console.log("gifprocessed", res);
+      setTotalPages(res.pages);
     });
 
     dispatch(getCurentUser()).unwrap().then(res => {
@@ -87,12 +91,16 @@ const GifmisprocessedPage = () => {
     }).catch(error => {
       console.log(error);
     });
-  }, []);
+  }, [page, searchTerm]);
 
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
       setIsHovered(true);
+  };
+
+  const handlePageChange = ({ selected }) => {
+    (setPage(selected + 1));
   };
 
   const handleMouseLeave = () => {
@@ -129,12 +137,12 @@ const GifmisprocessedPage = () => {
   
     */
 
-  /*   const handleSearchInputChange = (e) => {
+  const handleSearchInputChange = (e) => {
       const newSearchTerm = e.target.value;
-      dispatch(setSearchTerm(e.target.value));
-      dispatch(setPage(1)); // Réinitialise la page à 1 lorsque la recherche est modifiée
+      (setSearchTerm(e.target.value));
+      (setPage(1)); // Réinitialise la page à 1 lorsque la recherche est modifiée
       //console.log('dans search');
-    }; */
+    };
 
   /*   if (loading) {
       return (
@@ -233,7 +241,7 @@ const GifmisprocessedPage = () => {
             <span>entries</span>
           </div> */}
 
-          {/* <div className="flex relative w-[30%]">
+         {/*  <div className="flex relative w-[30%]">
             <input
               type="text"
               name="search"
@@ -479,7 +487,7 @@ const GifmisprocessedPage = () => {
         />
       )}
       {/* Pagination */}
-      {/* <div className="flex tex-xs justify-end mr-3 mt-1">
+      <div className="flex tex-xs justify-end mr-3 mt-1">
         <ReactPaginate
           previousLabel="Prev"
           nextLabel="Next"
@@ -497,8 +505,8 @@ const GifmisprocessedPage = () => {
           forcePage={page - 1}
         />
 
-        {/* <img src="../images/login.jpg" alt="" /> 
-      </div> */}
+        {/* <img src="../images/login.jpg" alt="" /> */}
+      </div>
     </div>
   );
 };

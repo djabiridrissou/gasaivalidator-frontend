@@ -21,9 +21,9 @@ export class NoWorkDoneService extends HttpBaseService {
         return this.classInstance;
     }
 
-    async getAll() {
+    async getAll(page) {
         let apiResponse = new ApiResponse();
-        return this.instance.get('/').then(res => {
+        return this.instance.get(`?page=${page}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
         }).catch(err => {

@@ -14,11 +14,14 @@ const ContractManagement = () => {
     const dispatch = useDispatch();
     const contractManagementList = useSelector((state) => state.gifmis.contractManagement);
     const navigate = useNavigate();
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     useEffect(() => {
-        const response = dispatch(getContractManagement()).unwrap().then((res) => {
+        const response = dispatch(getContractManagement(page)).unwrap().then((res) => {
             console.log("contractManagement", res.data);
+            setTotalPages(res.pages);
         });
-    }, []);
+    }, [page]);
 
     const [isHovered, setIsHovered] = useState(false);
 
@@ -29,6 +32,10 @@ const ContractManagement = () => {
     const handleMouseLeave = () => {
         setIsHovered(false);
     };
+
+    const handlePageChange = ({ selected }) => {
+        (setPage(selected + 1));
+    }
 
     const handleExportClick = async () => {
         console.log("dans export");
@@ -237,7 +244,7 @@ const ContractManagement = () => {
                 </div>
             </div>
             {/* Pagination */}
-            {/* <div className="flex tex-xs justify-end mr-3 mt-1">
+        <div className="flex tex-xs justify-end mr-3 mt-1">
         <ReactPaginate
           previousLabel="Prev"
           nextLabel="Next"
@@ -255,8 +262,8 @@ const ContractManagement = () => {
           forcePage={page - 1}
         />
 
-        {/* <img src="../images/login.jpg" alt="" /> 
-      </div> */}
+        {/* <img src="../images/login.jpg" alt="" /> */}
+      </div>
         </div>
     );
 };

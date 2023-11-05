@@ -14,17 +14,24 @@ const NoWorkDone = () => {
     const dispatch = useDispatch();
     const noWorkDone = useSelector((state) => state.noworkdone.noWorkDoneList);
     const navigate = useNavigate();
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     useEffect(() => {
         const response = dispatch(getAllNoWorkDone()).unwrap().then((res) => {
             console.log("noWorkDoneData", res.data);
+            setTotalPages(res.pages);
         });
-    }, []);
+    }, [page]);
 
     const [isHovered, setIsHovered] = useState(false);
 
     const handleMouseEnter = () => {
         setIsHovered(true);
     };
+
+    const handlePageChange = ({ selected }) => {
+        (setPage(selected + 1));
+    }
 
     const handleMouseLeave = () => {
         setIsHovered(false);
@@ -182,7 +189,7 @@ const NoWorkDone = () => {
                 </div>
             </div>
             {/* Pagination */}
-            {/* <div className="flex tex-xs justify-end mr-3 mt-1">
+        <div className="flex tex-xs justify-end mr-3 mt-1">
         <ReactPaginate
           previousLabel="Prev"
           nextLabel="Next"
@@ -200,8 +207,8 @@ const NoWorkDone = () => {
           forcePage={page - 1}
         />
 
-        {/* <img src="../images/login.jpg" alt="" /> 
-      </div> */}
+        {/* <img src="../images/login.jpg" alt="" /> */}
+      </div> 
         </div>
     );
 };
