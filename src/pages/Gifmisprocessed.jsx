@@ -78,6 +78,7 @@ const GifmisprocessedPage = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
   useEffect(() => {
     const response = dispatch(getAllGifmisProcessed(page)).unwrap().then((res) => {
       console.log("gifprocessed", res);
@@ -90,7 +91,7 @@ const GifmisprocessedPage = () => {
     }).catch(error => {
       console.log(error);
     });
-  }, [page]);
+  }, [page, searchTerm]);
 
   const [isHovered, setIsHovered] = useState(false);
 
@@ -136,12 +137,12 @@ const GifmisprocessedPage = () => {
   
     */
 
-  /*   const handleSearchInputChange = (e) => {
+  const handleSearchInputChange = (e) => {
       const newSearchTerm = e.target.value;
-      dispatch(setSearchTerm(e.target.value));
-      dispatch(setPage(1)); // Réinitialise la page à 1 lorsque la recherche est modifiée
+      (setSearchTerm(e.target.value));
+      (setPage(1)); // Réinitialise la page à 1 lorsque la recherche est modifiée
       //console.log('dans search');
-    }; */
+    };
 
   /*   if (loading) {
       return (
@@ -240,7 +241,7 @@ const GifmisprocessedPage = () => {
             <span>entries</span>
           </div> */}
 
-          {/* <div className="flex relative w-[30%]">
+         {/*  <div className="flex relative w-[30%]">
             <input
               type="text"
               name="search"

@@ -47,13 +47,28 @@ const StoreManagement = () => {
 
     function customParse(str) {
         // Supprimer les virgules pour les milliers
-        str = str.replace(/,/g, "");
+        str = str?.replace(/,/g, "");
       
         // Remplacer le point par la virgule pour le séparateur décimal
-        str = str.replace(".", ",");
+        str = str?.replace(".", ",");
       
         return parseFloat(str);
       }
+
+      const calculateContractAmount = (contracts) => {
+        let total = 0;
+        const totalContracts = contracts.map((item) => {
+            const amount = customParse(item.unitPrice);
+            console.log("dans contrat", item, amount);
+            if (!isNaN(amount)) {
+                total += amount;
+            } else {
+                total += 0;
+            }
+        });
+        console.log("totalcontracts", total);
+        return total;
+    };
 
     const calculateTransactionAmount = (transactions) => {
         let total = 0;
@@ -281,7 +296,7 @@ const StoreManagement = () => {
                                             })}
                                         </td>
                                         <td className="border-y text-right ">
-                                            {(item?.gifmisProcesseds[0]?.contracts[0]?.unitPrice)?.toLocaleString(undefined, {
+                                            {calculateContractAmount(item?.gifmisProcesseds[0]?.contracts)?.toLocaleString(undefined, {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,
                                         })}

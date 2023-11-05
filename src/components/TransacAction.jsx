@@ -5,7 +5,7 @@ import { server } from "../server/server";
 import { useDispatch, useSelector } from "react-redux";
 import { saveGifmisProcessed } from "../utils/saveGifmisProcessed";
 import { addGifmisProcessed } from "../redux/features/gifmis-processed";
-
+import { toast } from 'react-toastify';
 const TransactionDetails = () => {
   const { id } = useParams();
   const location = useLocation();
@@ -188,16 +188,17 @@ let transactions = useSelector((state) => state.form2.transactions);
     dispatch(addGifmisProcessed(addGifmisProcessedDto)).unwrap().then((res) => {
       if (res.status == 200) {
         console.log("Handle success");
+        toast.success("Done!");
       } else {
         console.log("Handle error");
         console.log("error", res);
+        toast.error("Oups! Something went wrong");
       }
     }).catch(error => {
       console.log("Handle error");
       console.log("catcherror", error);
+      toast.error("Oups! Something went wrong");
     });
-
-    // console.log("contracts", contracts);
     navigate("/dashboard/goods");
     window.location.reload();
   };

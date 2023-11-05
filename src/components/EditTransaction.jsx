@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { saveGifmisProcessed } from "../utils/saveGifmisProcessed";
 import { updateGifmisProcessed } from "../redux/features/gifmis-processed";
 import { getAllGifmisProcessed } from "../redux/features/gifmis-processed";
+import { toast } from 'react-toastify';
+
 const EditTransaction = () => {
   const { id } = useParams();
   const location = useLocation();
@@ -167,13 +169,16 @@ const EditTransaction = () => {
     dispatch(updateGifmisProcessed({ updateGifmisProcessedDto, id: gifmisProcessed.id })).unwrap().then((res) => {
       if (res.status == 200) {
         console.log("Handle success");
+        toast.success("Update Done successfully!");
       } else {
         console.log("Handle error");
         console.log("error", res);
+        toast.error("Something went wrong!");
       }
     }).catch(error => {
       console.log("Handle error");
       console.log("catcherror", error);
+      toast.error("Something went wrong!");
     });
 
     navigate("/dashboard/gifmisprocessed");

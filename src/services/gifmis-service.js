@@ -21,10 +21,10 @@ export class GoodsService extends HttpBaseService {
         return this.classInstance;
     }
 
-    async getAllTransactions(page, limit) {
+    async getAllTransactions(page, searchTerm) {
         let apiResponse = new ApiResponse();
-        console.log("page", page, "limit", (limit));
-        return this.instance.get(`/user?&page=${page}&per_page=${limit}`).then(res => {
+        console.log("page", page, "search", (searchTerm));
+        return this.instance.get(`/user?page=${page}&search=${searchTerm}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
             console.log("all", res["pages"]);
             return apiResponse;

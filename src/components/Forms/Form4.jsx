@@ -211,7 +211,7 @@ const Form4 = () => {
                           e.target.value
                         );
                       }}
-                      placeholder="Contract No."
+                      placeholder="PO Number"
                       className="appearance-none block w-[90%] text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
                     />
                   </div>
@@ -278,7 +278,7 @@ const Form4 = () => {
                           formattedValue
                         );
                       }}
-                      placeholder="Unit Price"
+                      placeholder="Contract Amount"
                       className="appearance-none block w-[90%] text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
                     />
                   </div>

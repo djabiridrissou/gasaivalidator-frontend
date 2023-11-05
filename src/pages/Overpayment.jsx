@@ -28,10 +28,10 @@ const Overpayment = () => {
     }, [page]);
     function customParse(str) {
         // Supprimer les virgules pour les milliers
-        str = str.replace(/,/g, "");
+        str = str?.replace(/,/g, "");
       
         // Remplacer le point par la virgule pour le séparateur décimal
-        str = str.replace(".", ",");
+        str = str?.replace(".", ",");
       
         return parseFloat(str);
       }
