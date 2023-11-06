@@ -60,23 +60,23 @@ const ContractManagement = () => {
 
     function formatRightDate(item) {
         let dateToFormat;
-        if (item?.gifmisProcesseds[0].expendituretype == "Goods") {
-            dateToFormat = item?.gifmisProcesseds[0].suppliances[0].sraDate;
+        if (item?.gifmisProcesseds[0]?.expendituretype == "Goods") {
+            dateToFormat = item?.gifmisProcesseds[0]?.suppliances[0]?.sraDate;
         }
-        if (item?.gifmisProcesseds[0].expendituretype == "Service") {
-            dateToFormat = item?.gifmisProcesseds[0].services[0].certificationOfCompletionDate;
+        if (item?.gifmisProcesseds[0]?.expendituretype == "Service") {
+            dateToFormat = item?.gifmisProcesseds[0]?.services[0]?.certificationOfCompletionDate;
         }
-        if (item?.gifmisProcesseds[0].expendituretype == "Works") {
-            dateToFormat = item?.gifmisProcesseds[0].works[0].certificationOfCompletionDate;
+        if (item?.gifmisProcesseds[0]?.expendituretype == "Works") {
+            dateToFormat = item?.gifmisProcesseds[0]?.works[0]?.certificationOfCompletionDate;
         }
 
         if (dateToFormat) {
             const options = { day: "2-digit", month: "2-digit", year: "2-digit" };
-            const formattedDate = new Date(dateToFormat).toLocaleDateString(
+            const formattedDate = new Date(dateToFormat)?.toLocaleDateString(
                 "en-US",
                 options
             );
-            const [month, day, year] = formattedDate.split("/");
+            const [month, day, year] = formattedDate?.split("/");
             return `${day}/${month}/${year}`;
         }
         return "";
@@ -206,13 +206,13 @@ const ContractManagement = () => {
                                         <td className="border-y text-left ">
                                             {item?.id}
                                         </td>
-                                        <td className="border-y text-left ">
+                                        <td className="border-y text-left truncate-25" title={(item?.orgname)}>
                                             {(item?.orgname)}
                                         </td>
                                         <td className="border-y text-left truncate-25" title={(item?.description)}>
                                             {(item?.description)}
                                         </td>
-                                        <td className="border-y text-left ">
+                                        <td className="border-y text-left truncate-25" title={(item?.vendorname)}>
                                             {(item?.vendorname)}
                                         </td>
                                         <td className="border-y text-right ">
@@ -222,7 +222,7 @@ const ContractManagement = () => {
                                             })}
                                         </td>
                                         <td className="border-y text-left ">
-                                            {formatDate(item?.gifmisProcesseds[0].contracts[0].contractDate)}
+                                            {formatDate(item?.gifmisProcesseds[0]?.contracts[0]?.contractDate)}
                                         </td>
 
                                         <td className="border-y text-left ">

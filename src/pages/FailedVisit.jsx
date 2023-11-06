@@ -125,7 +125,7 @@ const FailedVisit = () => {
     return (
         <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
             <div className="flex justify justify-between">
-                <h1 className="text-[12px] font-bold">FAILED VISIT</h1>
+                <h1 className="text-[12px] font-bold">FIELD VISIT</h1>
                 <div className="flex w-[18%] justify-end">
                     {/* <button
             className={`text-[12px] font-bold border border-green-400 bg-green-200 p-1 rounded mb-2 shadow-lg ${
@@ -225,6 +225,32 @@ const FailedVisit = () => {
                     /> */}
                                     </span>
                                 </th>
+                                <th className="border border-gray-200  ">
+                                    <span className="inline-flex items-center">
+                                        REGION{" "}
+                                        {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === "description"
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("description", "desc")}
+                    /> */}
+                                    </span>
+                                </th>
+                                <th className="border border-gray-200  ">
+                                    <span className="inline-flex items-center">
+                                        DISTRICT{" "}
+                                        {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === "description"
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("description", "desc")}
+                    /> */}
+                                    </span>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -232,14 +258,14 @@ const FailedVisit = () => {
                                 failedvisitList?.map((item, itemIndex) => (
                                     <tr key={itemIndex}>
                                         <td className="border-y text-left ">{item?.id}</td>
-                                        <td className="border-y text-left ">{item?.orgname}</td>
+                                        <td className="border-y text-left truncate-25" title={item?.orgname}>{item?.orgname}</td>
                                         <td
                                             className="border-y text-left truncate-25"
                                             title={item?.description}
                                         >
                                             {item?.description}
                                         </td>
-                                        <td className="border-y text-left ">{item?.vendorname}</td>
+                                        <td className="border-y text-left truncate-25" title={item?.vendorname}>{item?.vendorname}</td>
                                         <td className="border-y text-right ">
                                             {item?.outstandingclaim?.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
@@ -248,7 +274,13 @@ const FailedVisit = () => {
                                         </td>
                                 
                                         <td className="border-y text-left truncate-25">
-                                            Failed Visit
+                                            Field Visit
+                                        </td>
+                                        <td className="border-y text-left truncate-25">
+                                        {item?.gifmisProcesseds[0]?.regionallocation}
+                                        </td>
+                                        <td className="border-y text-left truncate-25">
+                                        {item?.gifmisProcesseds[0]?.districtlocation}
                                         </td>
                                     </tr>
                                 ))

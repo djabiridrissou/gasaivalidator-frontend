@@ -192,13 +192,13 @@ const StoreManagement = () => {
                                         <td className="border-y text-left ">
                                             {item?.id}
                                         </td>
-                                        <td className="border-y text-left ">
+                                        <td className="border-y text-left truncate-25" title={(item?.orgname)}>
                                             {(item?.orgname)}
                                         </td>
                                         <td className="border-y text-left truncate-25" title={(item?.description)}>
                                             {(item?.description)}
                                         </td>
-                                        <td className="border-y text-left ">
+                                        <td className="border-y text-left truncate-25" title={(item?.vendorname)}>
                                             {(item?.vendorname)}
                                         </td>
                                         <td className="border-y text-right ">
@@ -208,25 +208,25 @@ const StoreManagement = () => {
                                             })}
                                         </td>
                                         <td className="border-y text-right ">
-                                        {(item?.gifmisProcesseds[0].contracts[0].quantity)?.toLocaleString(undefined, {
+                                        {(item?.gifmisProcesseds[0]?.contracts[0]?.quantity)?.toLocaleString(undefined, {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,
                                         })}
                                         </td>
                                         <td className="border-y text-right ">
-                                        {(item?.gifmisProcesseds[0].suppliances[0].quantity)?.toLocaleString(undefined, {
+                                        {(item?.gifmisProcesseds[0]?.suppliances[0]?.quantity)?.toLocaleString(undefined, {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,
                                         })}
                                         </td>
                                         <td className="border-y text-right ">
-                                        {(item?.gifmisProcesseds[0].quantitydistributed)?.toLocaleString(undefined, {
+                                        {(item?.gifmisProcesseds[0]?.quantitydistributed)?.toLocaleString(undefined, {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,
                                         })}
                                         </td>
                                         <td className="border-y text-right ">
-                                        {(item?.gifmisProcesseds[0].actualquantityinstore)?.toLocaleString(undefined, {
+                                        {(item?.gifmisProcesseds[0]?.actualquantityinstore)?.toLocaleString(undefined, {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,
                                         })}

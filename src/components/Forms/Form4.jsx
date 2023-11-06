@@ -1235,7 +1235,7 @@ const Form4 = () => {
             {(expenditureType == "Works" && (workType != "Road" && workType != "Bridge")) && (
               <button
                 onClick={() => {
-                  if (workType == "default") {
+                  if (workType === "default") {
                     return;
                   }
                   if (workType == "Building") {
@@ -1261,7 +1261,7 @@ const Form4 = () => {
                       }
                     }
                   }
-                  navigate(`/dashboard/transactiondetails/${id}/4`)
+                  navigate(`/dashboard/transactiondetails/${id}/8`)
                 }
                 }
                 className="bg-blue-500 text-white px-4 py-2 border-full rounded"
@@ -1357,7 +1357,7 @@ const Form4 = () => {
             {(expenditureType == "Works" && (workType != "Road" && workType != "Bridge")) && (
               <button
                 onClick={() => {
-                  if (workType == "default") {
+                  if (workType === "default") {
                     return;
                   }
                   if (workType == "Building") {
@@ -1382,7 +1382,7 @@ const Form4 = () => {
                       }
                     }
                   }
-                  navigate(`/dashboard/edittransaction/${id}/4`)
+                  navigate(`/dashboard/edittransaction/${id}/8`)
                 }}
                 className="bg-blue-500 text-white px-4 py-2 border-full rounded"
               >

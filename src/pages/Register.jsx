@@ -239,7 +239,7 @@ console.log("addUserDto", addUserDto)
                     onChange={(e) => dispatch(setLastName(e.target.value))}
                     required
                     autoComplete="lastName"
-                    placeholder="Last Name"
+                    placeholder="Full Name"
                     className="appearance-none block w-full text-[0.9rem]  px-[0.9rem] py-[0.45rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
                   />
                 </div>
@@ -259,7 +259,7 @@ console.log("addUserDto", addUserDto)
                     onChange={(e) => dispatch(setOtherNames(e.target.value))}
                     required
                     autoComplete="otherNames"
-                    placeholder="First Name and Other Name"
+                    placeholder="Any Other Name"
                     className="appearance-none block w-full text-[0.9rem]  px-[0.9rem] py-[0.45rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
                   />
                 </div>

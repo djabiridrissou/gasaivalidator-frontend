@@ -155,17 +155,17 @@ const NoWorkDone = () => {
                                         <td className="border-y text-left ">
                                             {item?.id}
                                         </td>
-                                        <td className="border-y text-left ">
+                                        <td className="border-y text-left truncate-25" title={(item?.orgname)}>
                                             {(item?.orgname)}
                                         </td>
                                         <td className="border-y text-left truncate-25" title={(item?.description)}>
                                             {(item?.description)}
                                         </td>
-                                        <td className="border-y text-left ">
+                                        <td className="border-y text-left truncate-25" title={(item?.vendorname)}>
                                             {(item?.vendorname)}
                                         </td>
                                         <td className="border-y text-right ">
-                                            {(item?.outstandingclaim).toLocaleString(undefined, {
+                                            {(item?.outstandingclaim)?.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
                                                 maximumFractionDigits: 2,
                                             })}

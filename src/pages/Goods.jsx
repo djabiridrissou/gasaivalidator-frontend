@@ -335,34 +335,34 @@ const Goods = () => {
                 transactions?.map((item, itemIndex) => (
 
                   <tr key={itemIndex} onClick={() => {
-                    if (!isAdmin && item.status !== 'COMPLETED') {
+                    if (!isAdmin && item?.status !== 'COMPLETED') {
                       // Exécutez l'action souhaitée lorsque la ligne est cliquée
                       handleTransactionDetail(item?.id);
                     }
                   }}
                     style={{
-                      cursor: item.status !== 'COMPLETED' && !isAdmin ? 'pointer' : 'not-allowed',
+                      cursor: item?.status !== 'COMPLETED' && !isAdmin ? 'pointer' : 'not-allowed',
                     }}>
                     <td className="border-y text-left ">
-                      {(item.id)}
+                      {(item?.id)}
                     </td>
                     {/*  <td className="border-y text-left ">
                       {(item.sn)}
                     </td> */}
                     <td
                       className="border-y text-left truncate-25 "
-                      title={item.orgname}
+                      title={item?.orgname}
                     >
-                      {renderHighlightedTableCell(item.orgname)}
+                      {renderHighlightedTableCell(item?.orgname)}
                     </td>
                     <td
                       className="border-y text-left truncate-25"
-                      title={item.description}
+                      title={item?.description}
                     >
-                      {renderHighlightedTableCell(item.description)}
+                      {renderHighlightedTableCell(item?.description)}
                     </td>
                     <td className="border-y text-left truncate-25" title={item?.vendorname}>
-                      {renderHighlightedTableCell(item.vendorname)}
+                      {renderHighlightedTableCell(item?.vendorname)}
                     </td>
                     <td
                       className="border-y text-right truncate-25"
@@ -374,7 +374,7 @@ const Goods = () => {
                       }).replace(/\.?0+$/, "")}
                     </td>
                     <td className="border-y text-right ">
-                      {item.amountpaid
+                      {item?.amountpaid
                         ?.toLocaleString(undefined, {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,
@@ -382,7 +382,7 @@ const Goods = () => {
                         .replace(/\.?0+$/, "")}
                     </td>
                     <td className="border-y text-right ">
-                      {item.outstandingclaim
+                      {item?.outstandingclaim
                         ?.toLocaleString(undefined, {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,
@@ -390,7 +390,7 @@ const Goods = () => {
                         .replace(/\.?0+$/, "")}
                     </td>
                     <td className="border-y text-left truncate-25">
-                      {`${item.gifmisUser[0]?.user?.staffid || ''} - ${item.gifmisUser[0]?.user?.lastname || ''}`}
+                      {`${item?.gifmisUser[0]?.user?.staffid || ''} - ${item?.gifmisUser[0]?.user?.lastname || ''}`}
                     </td>
                     {/* <td className={`border-y text-center ${item.status === 'COMPLETED' ? 'text-green-600' : 'text-red-600'}`} style={{ placeItems: 'center' }}>
                       <FaCheckToSlot
@@ -403,11 +403,11 @@ const Goods = () => {
                       />
                     </td> */}
                     <td
-                      className={`border-y text-left truncate-25 ${item.status === 'COMPLETED' ? 'text-green-600' : 'text-red-600'
+                      className={`border-y text-left truncate-25 ${item?.status === 'COMPLETED' ? 'text-green-600' : 'text-red-600'
                         }`}
                       title=""
                     >
-                      {item.status === 'COMPLETED' ? 'COMPLETED' : 'INCOMPLETE'}
+                      {item?.status === 'COMPLETED' ? 'COMPLETED' : 'INCOMPLETE'}
                     </td>
                   </tr>
                 ))
