@@ -79,6 +79,7 @@ const GifmisprocessedPage = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
+  const isAdmin = currentUser.role?.roleName == "admin";
   useEffect(() => {
     const response = dispatch(getAllGifmisProcessed(page)).unwrap().then((res) => {
       console.log("gifprocessed", res);
@@ -388,7 +389,7 @@ const GifmisprocessedPage = () => {
                 (
 
                   <tr key={itemIndex} onClick={() => {
-                    if (item?.userId == currentUser?.id) {
+                    if (!isAdmin && item?.userId == currentUser?.id) {
                       // Exécutez l'action souhaitée lorsque la ligne est cliquée
                       handleTransactionEdit(item);
                     }
@@ -398,43 +399,43 @@ const GifmisprocessedPage = () => {
                       {item.id}
                     </td> */}
                     <td className="border-y text-left ">
-                      {(item.payment)}
+                      {(item?.payment)}
                     </td>
                     <td
                       className="border-y text-left truncate-25 "
-                      title={item.gifmis.orgname}
+                      title={item?.gifmis?.orgname}
                     >
-                      {(item.gifmis.orgname)}
+                      {(item?.gifmis?.orgname)}
                     </td>
                     <td
                       className="border-y text-left truncate-25"
-                      title={item.gifmis.description}
+                      title={item?.gifmis?.description}
                     >
-                      {(item.gifmis.description)}
+                      {(item?.gifmis?.description)}
                     </td>
-                    <td className="border-y text-left truncate-25" title={item.gifmis.vendorname}>
-                      {(item.gifmis.vendorname)}
+                    <td className="border-y text-left truncate-25" title={item?.gifmis?.vendorname}>
+                      {(item?.gifmis?.vendorname)}
                     </td>
                     <td className="border-y text-right truncate-25">
-                      {(item.gifmis.revisedcontractamount).toLocaleString(undefined, {
+                      {(item?.gifmis?.revisedcontractamount)?.toLocaleString(undefined, {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
                       })}
                     </td>
                     <td className="border-y text-right truncate-25">
-                      {(item.gifmis.amountpaid).toLocaleString(undefined, {
+                      {(item?.gifmis?.amountpaid)?.toLocaleString(undefined, {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
                       })}
                     </td>
                     <td className="border-y text-right truncate-25">
-                      {(item.gifmis.outstandingclaim).toLocaleString(undefined, {
+                      {(item?.gifmis?.outstandingclaim)?.toLocaleString(undefined, {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
                       })}
                     </td>
-                    <td className="border-y text-left truncate-25" title={item.user.lastname}>
-                      {`${item.user?.lastname || ''} - ${item.user?.staffid || ''}`}
+                    <td className="border-y text-left truncate-25" title={item?.user?.lastname}>
+                      {`${item?.user?.lastname || ''} - ${item?.user?.staffid || ''}`}
                     </td>
                     
                     <td className={`border-y text-center text-yellow-500 inline-flex gap-2`} style={{ placeItems: 'center' }}>

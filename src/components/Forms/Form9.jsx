@@ -243,6 +243,7 @@ console.log("dans district", districtLocation);
                     return;
                   }
                 }
+                
                 navigate(`/dashboard/transactiondetails/${id}/4`)
               }}
               className="bg-blue-500 text-white px-4 py-2 border-full rounded "

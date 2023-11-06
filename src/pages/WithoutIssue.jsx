@@ -13,6 +13,7 @@ import { ExptService } from "../services/expt-service";
 const WithoutIssue = () => {
     const dispatch = useDispatch();
     const withoutList = useSelector((state) => state.gifmis.withoutIssue);
+    const listToShow = [];
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();
@@ -46,10 +47,16 @@ const WithoutIssue = () => {
         console.log("res", response);
     };
 
+    function customParse(str) {
+        str = str?.replace(/,/g, "");
+        str = str?.replace(".", ",");
+        return parseFloat(str);
+    }
+
     const calculateTransactionAmount = (transactions) => {
         let total = 0;
         const totalTransactions = transactions.map((item) => {
-            const amount = parseFloat(item.amountPaid);
+            const amount = customParse(item.amountPaid);
             console.log("dans calc", item, amount);
             if (!isNaN(amount)) {
                 total += amount;
@@ -60,6 +67,50 @@ const WithoutIssue = () => {
         console.log("total", total);
         return total;
     };
+
+    const calculateContractAmount = (contracts) => {
+        let total = 0;
+        const totalContracts = contracts.map((item) => {
+            const amount = customParse(item.unitPrice);
+            console.log("dans contrat", item, amount);
+            if (!isNaN(amount)) {
+                total += amount;
+            } else {
+                total += 0;
+            }
+        });
+        console.log("totalcontracts", total);
+        return total;
+    };
+
+    withoutList?.map((item) => {
+        if (item?.gifmisProcesseds[0]?.expendituretype == "Works") {
+            let contractPayment = item?.gifmisProcesseds[0]?.ipcdetails?.ipcAmount;
+            let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
+            if (totalPayment > contractPayment) {
+                let data = {
+                    totalPayment: totalPayment,
+                    contractPayment: contractPayment,
+                    item: item,
+                }
+                listToShow.push(data);
+            }
+
+        } else {
+            let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
+            let contractPayment = calculateContractAmount(item?.gifmisProcesseds[0]?.contracts);
+
+            if (totalPayment > contractPayment) {
+                let data = {
+                    totalPayment: totalPayment,
+                    contractPayment: contractPayment,
+                    item: item,
+                }
+                listToShow.push(data);
+            }
+        }
+
+    });
 
     const formatRemarks = (item) => {
         let remarksString = "";
@@ -253,33 +304,33 @@ const WithoutIssue = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {withoutList && withoutList.length > 0 ? (
-                                withoutList?.map((item, itemIndex) => (
+                            {listToShow && listToShow.length > 0 ? (
+                                listToShow?.map((item, itemIndex) => (
                                     <tr key={itemIndex}>
-                                        <td className="border-y text-left ">{item?.id}</td>
-                                        <td className="border-y text-left ">{item?.orgname}</td>
+                                        <td className="border-y text-left ">{item?.item?.id}</td>
+                                        <td className="border-y text-left truncate-25" title={item?.item?.orgname}>{item?.item?.orgname}</td>
                                         <td
                                             className="border-y text-left truncate-25"
-                                            title={item?.description}
+                                            title={item?.item?.description}
                                         >
-                                            {item?.description}
+                                            {item?.item?.description}
                                         </td>
-                                        <td className="border-y text-left ">{item?.vendorname}</td>
-                                        <td className="border-y text-left ">
-                                            {item?.outstandingclaim?.toLocaleString(undefined, {
+                                        <td className="border-y text-left truncate-25" title={item?.item?.vendorname}>{item?.item?.vendorname}</td>
+                                        <td className="border-y text-left" >
+                                            {item?.item?.outstandingclaim?.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
                                                 maximumFractionDigits: 2,
                                             })}
                                         </td>
                                         <td className="border-y text-left ">
-                                            {(item?.gifmisProcesseds[0]?.contracts[0]?.unitPrice)?.toLocaleString(undefined, {
+                                            {(item?.contractPayment)?.toLocaleString(undefined, {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,
                                         })}
                                         </td>
                                         <td className="border-y text-left ">
-                                            {calculateTransactionAmount(
-                                                item?.gifmisProcesseds[0]?.transactions
+                                            {(
+                                                item?.totalPayment
                                             )?.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
                                                 maximumFractionDigits: 2,

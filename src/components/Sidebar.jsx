@@ -154,6 +154,56 @@ const Sidebar = ({ open, setOpen }) => {
   const performanceIssueList = useSelector((state) => state.gifmis.performanceIssue);
   const btaIssuedList = useSelector((state) => state.gifmis.btaIssued);
   const btaNotIssuedList = useSelector((state) => state.gifmis.btaNotIssued);
+  const listToShow = [];
+  function customParse(str) {
+    str = str?.replace(/,/g, "");
+    str = str?.replace(".", ",");
+    return parseFloat(str);
+  }
+
+  const calculateContractAmount = (contracts) => {
+    let total = 0;
+    const totalContracts = contracts.map((item) => {
+        const amount = customParse(item.unitPrice);
+        console.log("dans contrat", item, amount);
+        if (!isNaN(amount)) {
+            total += amount;
+        } else {
+            total += 0;
+        }
+    });
+    console.log("totalcontracts", total);
+    return total;
+};
+
+const calculateTransactionAmount = (transactions) => {
+    let total = 0;
+    const totalTransactions = transactions.map((item) => {
+        const amount = customParse(item.amountPaid);
+        //console.log("dans calc", item, amount);
+        if (!isNaN(amount)) {
+            total += amount;
+        } else {
+            total += 0;
+        }
+    });
+    //console.log("total", total);
+    return total;
+};
+
+overpaymentList?.map((item) => {
+  let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
+  let contractPayment = calculateContractAmount(item?.gifmisProcesseds[0]?.contracts);
+  
+  if (totalPayment > contractPayment) {
+      let data = {
+          totalPayment: totalPayment,
+          contractPayment: contractPayment,
+          item: item,
+      }
+      listToShow.push(data);
+  }
+});
 
   useEffect(() => {
     const response = dispatch(getContractManagement()).unwrap().then((res) => {
@@ -287,7 +337,7 @@ const Sidebar = ({ open, setOpen }) => {
         {
           name: (
             <span>
-              Over-Payment <sup className="text-red-500">{(overpaymentList?.length)}</sup>
+              Over-Payment <sup className="text-red-500">{(listToShow?.length)}</sup>
             </span>
           ),
           route: "/dashboard/overpayment",
@@ -358,7 +408,7 @@ const Sidebar = ({ open, setOpen }) => {
         {
           name: (
             <span>
-              Failed Visit <sup className="text-red-500">{(failedVisitList?.length)}</sup>
+              Field Visit <sup className="text-red-500">{(failedVisitList?.length)}</sup>
             </span>
           ),
           route: "/dashboard/failedvisit",

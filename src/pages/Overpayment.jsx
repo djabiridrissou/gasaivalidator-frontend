@@ -27,14 +27,10 @@ const Overpayment = () => {
             });
     }, [page]);
     function customParse(str) {
-        // Supprimer les virgules pour les milliers
         str = str?.replace(/,/g, "");
-      
-        // Remplacer le point par la virgule pour le séparateur décimal
         str = str?.replace(".", ",");
-      
         return parseFloat(str);
-      }
+    }
 
     const [isHovered, setIsHovered] = useState(false);
 
@@ -148,17 +144,32 @@ const Overpayment = () => {
     }
 
     overpaymentList?.map((item) => {
-        let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
-        let contractPayment = calculateContractAmount(item?.gifmisProcesseds[0]?.contracts);
-        
-        if (totalPayment > contractPayment) {
-            let data = {
-                totalPayment: totalPayment,
-                contractPayment: contractPayment,
-                item: item,
+        if (item?.gifmisProcesseds[0]?.expendituretype == "Works") {
+            let contractPayment = item?.gifmisProcesseds[0]?.ipcdetails?.ipcAmount;
+            let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
+            if (totalPayment > contractPayment) {
+                let data = {
+                    totalPayment: totalPayment,
+                    contractPayment: contractPayment,
+                    item: item,
+                }
+                listToShow.push(data);
             }
-            listToShow.push(data);
+
+        } else {
+            let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
+            let contractPayment = calculateContractAmount(item?.gifmisProcesseds[0]?.contracts);
+
+            if (totalPayment > contractPayment) {
+                let data = {
+                    totalPayment: totalPayment,
+                    contractPayment: contractPayment,
+                    item: item,
+                }
+                listToShow.push(data);
+            }
         }
+
     });
     console.log("listToShow", listToShow);
 
@@ -298,14 +309,14 @@ const Overpayment = () => {
                                 listToShow?.map((item, itemIndex) => (
                                     <tr key={itemIndex}>
                                         <td className="border-y text-left ">{item?.item?.id}</td>
-                                        <td className="border-y text-left ">{item?.item?.orgname}</td>
+                                        <td className="border-y text-left truncate-25" title={item?.item?.orgname}>{item?.item?.orgname}</td>
                                         <td
                                             className="border-y text-left truncate-25"
                                             title={item?.item?.description}
                                         >
                                             {item?.item?.description}
                                         </td>
-                                        <td className="border-y text-left ">{item?.item?.vendorname}</td>
+                                        <td className="border-y text-left truncate-25" title={item?.item?.vendorname}>{item?.item?.vendorname}</td>
                                         <td className="border-y text-right ">
                                             {item?.item?.outstandingclaim?.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
@@ -319,7 +330,7 @@ const Overpayment = () => {
                                             })}
                                         </td>
                                         <td className="border-y text-right ">
-                                        {(item?.totalPayment)?.toLocaleString(undefined, {
+                                            {(item?.totalPayment)?.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
                                                 maximumFractionDigits: 2,
                                             })}
@@ -343,26 +354,26 @@ const Overpayment = () => {
                 </div>
             </div>
             {/* Pagination */}
-    <div className="flex tex-xs justify-end mr-3 mt-1">
-        <ReactPaginate
-          previousLabel="Prev"
-          nextLabel="Next"
-          breakLabel="..."
-          breakClassName=""
-          pageCount={totalPages}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={handlePageChange}
-          containerClassName="pagination flex items-center gap-[4px]"
-          subContainerClassName="pages pagination"
-          activeClassName="active" // Ajoutez vos styles personnalisés ici
-          pageClassName="pagination-item"
-          style={{ overflowX: "hidden" }} // Ajoutez la classe CSS personnalisée ici
-          forcePage={page - 1}
-        />
+            <div className="flex tex-xs justify-end mr-3 mt-1">
+                <ReactPaginate
+                    previousLabel="Prev"
+                    nextLabel="Next"
+                    breakLabel="..."
+                    breakClassName=""
+                    pageCount={totalPages}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={handlePageChange}
+                    containerClassName="pagination flex items-center gap-[4px]"
+                    subContainerClassName="pages pagination"
+                    activeClassName="active" // Ajoutez vos styles personnalisés ici
+                    pageClassName="pagination-item"
+                    style={{ overflowX: "hidden" }} // Ajoutez la classe CSS personnalisée ici
+                    forcePage={page - 1}
+                />
 
-        {/* <img src="../images/login.jpg" alt="" /> */}
-      </div> 
+                {/* <img src="../images/login.jpg" alt="" /> */}
+            </div>
         </div>
     );
 };

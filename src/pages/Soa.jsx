@@ -13,6 +13,7 @@ import { ExptService } from "../services/expt-service";
 const StoreManagement = () => {
     const dispatch = useDispatch();
     const soaList = useSelector((state) => state.gifmis.soa);
+    const listToShow = [];
     const navigate = useNavigate();
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -55,7 +56,22 @@ const StoreManagement = () => {
         return parseFloat(str);
       }
 
-      const calculateContractAmount = (contracts) => {
+      const calculateTransactionAmount = (transactions) => {
+        let total = 0;
+        const totalTransactions = transactions.map((item) => {
+            const amount = customParse(item.amountPaid);
+            console.log("dans calc", item, amount);
+            if (!isNaN(amount)) {
+                total += amount;
+            } else {
+                total += 0;
+            }
+        });
+        console.log("total", total);
+        return total;
+    };
+
+    const calculateContractAmount = (contracts) => {
         let total = 0;
         const totalContracts = contracts.map((item) => {
             const amount = customParse(item.unitPrice);
@@ -70,20 +86,34 @@ const StoreManagement = () => {
         return total;
     };
 
-    const calculateTransactionAmount = (transactions) => {
-        let total = 0;
-        const totalTransactions = transactions.map((item) => {
-            const amount = customParse(item.amountPaid);
-            //console.log("dans calc", item, amount);
-            if (!isNaN(amount)) {
-                total += amount;
-            } else {
-                total += 0;
+    soaList?.map((item) => {
+        if (item?.gifmisProcesseds[0]?.expendituretype == "Works") {
+            let contractPayment = item?.gifmisProcesseds[0]?.ipcdetails?.ipcAmount;
+            let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
+            if (totalPayment > contractPayment) {
+                let data = {
+                    totalPayment: totalPayment,
+                    contractPayment: contractPayment,
+                    item: item,
+                }
+                listToShow.push(data);
             }
-        });
-        //console.log("total", total);
-        return total;
-    };
+
+        } else {
+            let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
+            let contractPayment = calculateContractAmount(item?.gifmisProcesseds[0]?.contracts);
+
+            if (totalPayment > contractPayment) {
+                let data = {
+                    totalPayment: totalPayment,
+                    contractPayment: contractPayment,
+                    item: item,
+                }
+                listToShow.push(data);
+            }
+        }
+
+    });
 
     const formatRemarks = (item) => {
         let remarksString = "";
@@ -140,6 +170,10 @@ const StoreManagement = () => {
                     }
                 }
 
+            } else if (item?.gifmisProcesseds[0]?.fundingtype == "IGF") {
+                remarksString = "IGF";
+            } else if (item?.gifmisProcesseds[0]?.fundingtype == "Donor") {
+                remarksString = "Donor";
             }
         }
         return remarksString;
@@ -277,40 +311,39 @@ const StoreManagement = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {soaList && soaList.length > 0 ? (
-                                soaList?.map((item, itemIndex) => (
+                            {listToShow && listToShow.length > 0 ? (
+                                listToShow?.map((item, itemIndex) => (
                                     <tr key={itemIndex}>
-                                        <td className="border-y text-left ">{item?.id}</td>
-                                        <td className="border-y text-left ">{item?.orgname}</td>
+                                        <td className="border-y text-left ">{item?.item?.id}</td>
+                                        <td className="border-y text-left truncate-25" title={item?.item?.orgname}>{item?.item?.orgname}</td>
                                         <td
                                             className="border-y text-left truncate-25"
-                                            title={item?.description}
+                                            title={item?.item?.description}
                                         >
-                                            {item?.description}
+                                            {item?.item?.description}
                                         </td>
-                                        <td className="border-y text-left ">{item?.vendorname}</td>
+                                        <td className="border-y text-left truncate-25" title={item?.item?.vendorname}>{item?.item?.vendorname}</td>
                                         <td className="border-y text-right ">
-                                            {item?.outstandingclaim?.toLocaleString(undefined, {
+                                            {item?.item?.outstandingclaim?.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
                                                 maximumFractionDigits: 2,
                                             })}
                                         </td>
                                         <td className="border-y text-right ">
-                                            {calculateContractAmount(item?.gifmisProcesseds[0]?.contracts)?.toLocaleString(undefined, {
+                                            {(item?.contractPayment)?.toLocaleString(undefined, {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2,
                                         })}
                                         </td>
                                         <td className="border-y text-right ">
-                                            {calculateTransactionAmount(
-                                                item?.gifmisProcesseds[0]?.transactions
-                                            )?.toLocaleString(undefined, {
+                                            {(
+                                                item?.totalPayment)?.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
                                                 maximumFractionDigits: 2,
                                             })}
                                         </td>
-                                        <td className="border-y text-left truncate-25" title={formatRemarks(item)}>
-                                            {formatRemarks(item)}
+                                        <td className="border-y text-left truncate-25" title={formatRemarks(item?.item)}>
+                                            {formatRemarks(item?.item)}
                                         </td>
                                     </tr>
                                 ))
