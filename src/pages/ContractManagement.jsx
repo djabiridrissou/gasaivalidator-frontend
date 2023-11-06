@@ -244,26 +244,26 @@ const ContractManagement = () => {
                 </div>
             </div>
             {/* Pagination */}
-        <div className="flex tex-xs justify-end mr-3 mt-1">
-        <ReactPaginate
-          previousLabel="Prev"
-          nextLabel="Next"
-          breakLabel="..."
-          breakClassName=""
-          pageCount={totalPages}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={handlePageChange}
-          containerClassName="pagination flex items-center gap-[4px]"
-          subContainerClassName="pages pagination"
-          activeClassName="active" // Ajoutez vos styles personnalisés ici
-          pageClassName="pagination-item"
-          style={{ overflowX: "hidden" }} // Ajoutez la classe CSS personnalisée ici
-          forcePage={page - 1}
-        />
+            <div className="flex tex-xs justify-end mr-3 mt-1">
+                <ReactPaginate
+                    previousLabel="Prev"
+                    nextLabel="Next"
+                    breakLabel="..."
+                    breakClassName=""
+                    pageCount={totalPages}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={handlePageChange}
+                    containerClassName="pagination flex items-center gap-[4px]"
+                    subContainerClassName="pages pagination"
+                    activeClassName="active" // Ajoutez vos styles personnalisés ici
+                    pageClassName="pagination-item"
+                    style={{ overflowX: "hidden" }} // Ajoutez la classe CSS personnalisée ici
+                    forcePage={page - 1}
+                />
 
-        {/* <img src="../images/login.jpg" alt="" /> */}
-      </div>
+                {/* <img src="../images/login.jpg" alt="" /> */}
+            </div>
         </div>
     );
 };
