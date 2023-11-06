@@ -137,7 +137,8 @@ const Goods = () => {
   };
 
   /*   const startIndex = (page - 1) * limit; */
-
+console.log('currentUser', currentUser);
+console.log(transactions)
   return (
     <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
       <div className="flex justify justify-between">
@@ -335,7 +336,7 @@ const Goods = () => {
                 transactions?.map((item, itemIndex) => (
 
                   <tr key={itemIndex} onClick={() => {
-                    if (!isAdmin && item?.status !== 'COMPLETED') {
+                    if ((!isAdmin) && (item?.status !== 'COMPLETED') && (item?.gifmisUser[0]?.user?.id == currentUser?.id)) {
                       // Exécutez l'action souhaitée lorsque la ligne est cliquée
                       handleTransactionDetail(item?.id);
                     }

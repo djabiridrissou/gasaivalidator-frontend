@@ -79,6 +79,7 @@ const GifmisprocessedPage = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
+  const isAdmin = currentUser.role?.roleName == "admin";
   useEffect(() => {
     const response = dispatch(getAllGifmisProcessed(page)).unwrap().then((res) => {
       console.log("gifprocessed", res);
@@ -388,7 +389,7 @@ const GifmisprocessedPage = () => {
                 (
 
                   <tr key={itemIndex} onClick={() => {
-                    if (item?.userId == currentUser?.id) {
+                    if (!isAdmin && item?.userId == currentUser?.id) {
                       // Exécutez l'action souhaitée lorsque la ligne est cliquée
                       handleTransactionEdit(item);
                     }

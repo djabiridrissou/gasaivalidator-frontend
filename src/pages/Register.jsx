@@ -244,7 +244,7 @@ console.log("addUserDto", addUserDto)
                   />
                 </div>
               </div>
-              <div>
+              {/* <div>
                 <label
                   htmlFor="otherNames"
                   className="block text-sm font-medium "
@@ -263,7 +263,7 @@ console.log("addUserDto", addUserDto)
                     className="appearance-none block w-full text-[0.9rem]  px-[0.9rem] py-[0.45rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
                   />
                 </div>
-              </div>
+              </div> */}
               <div>
                 <label
                   htmlFor="department"
