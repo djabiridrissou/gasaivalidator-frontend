@@ -211,27 +211,27 @@ soaList?.map((item) => {
   if (item?.gifmisProcesseds[0]?.expendituretype == "Works") {
       let contractPayment = item?.gifmisProcesseds[0]?.ipcdetails?.ipcAmount;
       let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
-      if (totalPayment > contractPayment) {
+      
           let data = {
               totalPayment: totalPayment,
               contractPayment: contractPayment,
               item: item,
           }
           listToShowSoa.push(data);
-      }
+     
 
   } else {
       let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
       let contractPayment = calculateContractAmount(item?.gifmisProcesseds[0]?.contracts);
 
-      if (totalPayment > contractPayment) {
+      
           let data = {
               totalPayment: totalPayment,
               contractPayment: contractPayment,
               item: item,
           }
           listToShowSoa.push(data);
-      }
+     
   }
 
 });
@@ -240,27 +240,27 @@ WithoutIssueList?.map((item) => {
   if (item?.gifmisProcesseds[0]?.expendituretype == "Works") {
       let contractPayment = item?.gifmisProcesseds[0]?.ipcdetails?.ipcAmount;
       let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
-      if (totalPayment > contractPayment) {
+      
           let data = {
               totalPayment: totalPayment,
               contractPayment: contractPayment,
               item: item,
           }
           listToShowWithout.push(data);
-      }
+      
 
   } else {
       let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
       let contractPayment = calculateContractAmount(item?.gifmisProcesseds[0]?.contracts);
 
-      if (totalPayment > contractPayment) {
+      
           let data = {
               totalPayment: totalPayment,
               contractPayment: contractPayment,
               item: item,
           }
           listToShowWithout.push(data);
-      }
+      
   }
 
 });
