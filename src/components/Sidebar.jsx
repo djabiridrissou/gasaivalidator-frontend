@@ -155,6 +155,8 @@ const Sidebar = ({ open, setOpen }) => {
   const btaIssuedList = useSelector((state) => state.gifmis.btaIssued);
   const btaNotIssuedList = useSelector((state) => state.gifmis.btaNotIssued);
   const listToShow = [];
+  const listToShowSoa = [];
+  const listToShowWithout = [];
   function customParse(str) {
     str = str?.replace(/,/g, "");
     str = str?.replace(".", ",");
@@ -204,6 +206,65 @@ overpaymentList?.map((item) => {
       listToShow.push(data);
   }
 });
+
+soaList?.map((item) => {
+  if (item?.gifmisProcesseds[0]?.expendituretype == "Works") {
+      let contractPayment = item?.gifmisProcesseds[0]?.ipcdetails?.ipcAmount;
+      let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
+      if (totalPayment > contractPayment) {
+          let data = {
+              totalPayment: totalPayment,
+              contractPayment: contractPayment,
+              item: item,
+          }
+          listToShowSoa.push(data);
+      }
+
+  } else {
+      let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
+      let contractPayment = calculateContractAmount(item?.gifmisProcesseds[0]?.contracts);
+
+      if (totalPayment > contractPayment) {
+          let data = {
+              totalPayment: totalPayment,
+              contractPayment: contractPayment,
+              item: item,
+          }
+          listToShowSoa.push(data);
+      }
+  }
+
+});
+
+WithoutIssueList?.map((item) => {
+  if (item?.gifmisProcesseds[0]?.expendituretype == "Works") {
+      let contractPayment = item?.gifmisProcesseds[0]?.ipcdetails?.ipcAmount;
+      let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
+      if (totalPayment > contractPayment) {
+          let data = {
+              totalPayment: totalPayment,
+              contractPayment: contractPayment,
+              item: item,
+          }
+          listToShowWithout.push(data);
+      }
+
+  } else {
+      let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
+      let contractPayment = calculateContractAmount(item?.gifmisProcesseds[0]?.contracts);
+
+      if (totalPayment > contractPayment) {
+          let data = {
+              totalPayment: totalPayment,
+              contractPayment: contractPayment,
+              item: item,
+          }
+          listToShowWithout.push(data);
+      }
+  }
+
+});
+
 
   useEffect(() => {
     const response = dispatch(getContractManagement()).unwrap().then((res) => {
@@ -390,7 +451,7 @@ overpaymentList?.map((item) => {
         {
           name: (
             <span>
-              SOA <sup className="text-red-500">{(soaList?.length)}</sup>
+              SOA <sup className="text-red-500">{(listToShowSoa?.length)}</sup>
             </span>
           ),
           route: "/dashboard/soa",
@@ -399,7 +460,7 @@ overpaymentList?.map((item) => {
         {
           name: (
             <span>
-              Without Issue <sup className="text-red-500">{(WithoutIssueList?.length)}</sup>
+              Without Issue <sup className="text-red-500">{(listToShowWithout?.length)}</sup>
             </span>
           ),
           route: "/dashboard/withoutissue",
