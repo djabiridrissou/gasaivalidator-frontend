@@ -169,7 +169,10 @@ const EditTransaction = () => {
     dispatch(updateGifmisProcessed({ updateGifmisProcessedDto, id: gifmisProcessed.id })).unwrap().then((res) => {
       if (res.status == 200) {
         console.log("Handle success");
-        toast.success("Update Done successfully!");
+       toast.success("Update Done successfully!");
+        navigate("/dashboard/gifmisprocessed");
+        window.location.reload();
+        
       } else {
         console.log("Handle error");
         console.log("error", res);
@@ -181,8 +184,7 @@ const EditTransaction = () => {
       toast.error("Something went wrong!");
     });
 
-    navigate("/dashboard/gifmisprocessed");
-    window.location.reload();
+    
   }
 
   const handleOnClose = (e) => {

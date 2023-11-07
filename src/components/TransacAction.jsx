@@ -188,19 +188,22 @@ let transactions = useSelector((state) => state.form2.transactions);
     dispatch(addGifmisProcessed(addGifmisProcessedDto)).unwrap().then((res) => {
       if (res.status == 200) {
         console.log("Handle success");
-        //return toast.success("Done!");
+        toast.success("Done!");
+        navigate("/dashboard/goods");
+        
+        window.location.reload();
+        
       } else {
         console.log("Handle error");
         console.log("error", res);
-        return toast.error("Oups! Something went wrong");
+        toast.error("Oups! Something went wrong");
       }
     }).catch(error => {
       console.log("Handle error");
       console.log("catcherror", error);
-      return toast.error("Oups! Something went wrong");
+      toast.error("Oups! Something went wrong");
     });
-    navigate("/dashboard/goods");
-    //window.location.reload();
+   
     //toast.success("Done!");
   };
 
