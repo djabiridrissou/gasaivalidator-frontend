@@ -1,15 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getUsers } from "../redux/features/users";
+import { FaArrowDown } from "react-icons/fa6";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { getCurentUser } from "../redux/features/auth";
+import axios from "axios";
+import { server } from "../server/server";
 
 const TeamMembers = () => {
     const dispatch = useDispatch();
     const users = useSelector((state) => state.users.users);
+    const [currentUser, setCurrentUser] = useState({});
     const navigate = useNavigate();
+
     useEffect(() => {
         const response = dispatch(getUsers()).unwrap().then((res) => {
             console.log("users", res.data);
+        });
+        dispatch(getCurentUser()).unwrap().then(res => {
+            console.log("res", res.user.id);
+            setCurrentUser(res.user);
+        }).catch(error => {
+            console.log(error);
         });
     }, []);
     const usersList = [];
@@ -18,6 +31,14 @@ const TeamMembers = () => {
             usersList.push(item);
         }
     })
+
+    const handleDeleteUser = (id) => {
+        console.log("dans delete", id);
+        const response = axios.delete(`${server}/users/${id}`);
+    }
+
+    const isAdmin = currentUser.role?.roleName == "admin";
+
 
     return (
         <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
@@ -55,7 +76,10 @@ const TeamMembers = () => {
                     /> */}
                                     </span>
                                 </th>
-                                
+                                <th className="border border-gray-200  ">
+                                    DELETE
+                                </th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -67,6 +91,16 @@ const TeamMembers = () => {
                                         </td>
                                         <td className="border-y text-left ">
                                             {(item?.lastname)}
+                                        </td>
+                                        <td className="border-y text-right ">
+                                            <FaArrowDown
+                                                style={{
+                                                    pointerEvents: !isAdmin ? 'not-allowed' : 'auto',
+                                                }}
+                                                onClick={() => handleDeleteUser(item?.id)}
+                                                className="cursor-pointer text-red-600"
+                                                size={20}
+                                            />
                                         </td>
                                     </tr>
                                 ))

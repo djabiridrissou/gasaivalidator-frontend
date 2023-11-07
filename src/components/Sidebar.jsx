@@ -532,6 +532,10 @@ overpaymentList?.map((item) => {
                 return null; // Ne pas afficher le menu Setup pour les non-administrateurs
               }
 
+              if ((currentUser?.role?.id == 3) && (menu.name === "Upload Data")) {
+                return null;
+              }
+
               return ((
 
                 <SidebarMenuItem
