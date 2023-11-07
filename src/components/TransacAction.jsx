@@ -200,7 +200,7 @@ let transactions = useSelector((state) => state.form2.transactions);
       return toast.error("Oups! Something went wrong");
     });
     navigate("/dashboard/goods");
-    window.location.reload();
+    //window.location.reload();
     //toast.success("Done!");
   };
 
