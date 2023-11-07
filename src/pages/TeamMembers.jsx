@@ -76,9 +76,9 @@ const TeamMembers = () => {
                     /> */}
                                     </span>
                                 </th>
-                                <th className="border border-gray-200  ">
+                                {/* <th className="border border-gray-200  ">
                                     DELETE
-                                </th>
+                                </th> */}
 
                             </tr>
                         </thead>
@@ -92,7 +92,7 @@ const TeamMembers = () => {
                                         <td className="border-y text-left ">
                                             {(item?.lastname)}
                                         </td>
-                                        <td className="border-y text-right ">
+                                        {/* <td className="border-y text-right ">
                                             <FaArrowDown
                                                 style={{
                                                     pointerEvents: !isAdmin ? 'not-allowed' : 'auto',
@@ -101,7 +101,7 @@ const TeamMembers = () => {
                                                 className="cursor-pointer text-red-600"
                                                 size={20}
                                             />
-                                        </td>
+                                        </td> */}
                                     </tr>
                                 ))
                             ) : (
