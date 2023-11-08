@@ -23,6 +23,7 @@ import {
   ServerIcon,
   KeyIcon,
   UserGroupIcon,
+  ShareIcon
 } from "@heroicons/react/24/outline";
 import { HomeIcon as SolidHomeIcon } from "@heroicons/react/20/solid";
 import { FaI, FaKaggle } from "react-icons/fa6";
@@ -44,6 +45,7 @@ import WithoutIssue from "../pages/WithoutIssue";
 import FailedVisit from "../pages/FailedVisit";
 import BtaIssued from "../pages/BtaIssued";
 import BtaNotIssued from "../pages/BtaNotIssued";
+import { BiAccessibility } from "react-icons/bi";
 
 const SidebarMenuItem = ({
   route,
@@ -340,6 +342,11 @@ WithoutIssueList?.map((item) => {
       route: "/dashboard/gifmisprocessed",
     },
     {
+      name: "Assign Payable",
+      icon: ShareIcon,
+      route: "/dashboard/affect",
+    },
+    {
       name: "Audit Issues",
       icon: Bars3Icon,
       subMenu: [
@@ -426,6 +433,7 @@ WithoutIssueList?.map((item) => {
         }, */
       ],
     },
+    
     {
       name: "Summary Report",
       icon: Bars3Icon,
@@ -589,11 +597,11 @@ WithoutIssueList?.map((item) => {
               </span>
             </div>
             {Menu.map((menu, index) => {
-              if ((menu.name === "Setup" || menu.name === "Team Leaders" || menu.name === "Team Members") && !isAdmin) {
+              if ((menu.name === "Setup" || menu.name === "Team Leaders" || menu.name === "Team Members" || menu.name === "Assign Payable") && !isAdmin) {
                 return null; // Ne pas afficher le menu Setup pour les non-administrateurs
               }
 
-              if ((currentUser?.role?.id == 3) && (menu.name === "Upload Data")) {
+              if ((currentUser?.role?.id == 3) && ((menu.name === "Upload Data") || (menu.name === "Assign Payable"))) {
                 return null;
               }
 

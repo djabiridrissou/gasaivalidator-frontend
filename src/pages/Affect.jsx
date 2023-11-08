@@ -1,33 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
-
 import ReactPaginate from "react-paginate";
 import { AiOutlineSearch } from "react-icons/ai";
-import { BiListMinus, BiSort } from "react-icons/bi";
-import { FaCheckToSlot } from "react-icons/fa6";
-import TransactionDetails from "../components/TransacAction";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { getAllGifmis } from "../redux/features/gifmis";
 import { getCurentUser } from "../redux/features/auth";
 import { ExptService } from "../services/expt-service";
+import { FaTimes } from "react-icons/fa";
+import { getUsers } from "../redux/features/users";
 
+import { AssignService } from "../services/assign-service";
 
-// const limit = 25;
-
-const Goods = () => {
-
-  const [currentUser, setCurrentUser] = useState({});
-  const dispatch = useDispatch();
-  const transactions = useSelector((state) => state.gifmis.transactions);
-  const navigate = useNavigate();
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [limitR, setLimit] = useState(25);
-  const [searchTerm, setSearchTerm] = useState("");
+function EditTransactionModal({ users, onConfirm, onClose }) {
+  const [id, setId] = useState("");
+  const [error, setError] = useState("");
   const [isHovered, setIsHovered] = useState(false);
+  let usersToShow = [];
+
+  users.map((user) => {
+    if (user.role.roleName != "admin" && user.role.roleName != "supervisor") {
+      usersToShow.push(user);
+    }
+  })
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -36,13 +30,116 @@ const Goods = () => {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
+  const handleConfirm = (id) => {
+    onConfirm(id);
+  };
+
+
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal">
+        <div className="modal-header">
+          <h2>Choose a user</h2>
+          <FaTimes className="close-icon" onClick={onClose} />
+        </div>
+        <div className="modal-content">
+          {/*  <div className="transaction-details">
+            <p>ID: {transaction.id}</p>
+            <p>Autres détails: {transaction.autresChamps}</p>
+          </div> */}
+          {/* <h2>Enter the transaction ID:</h2> */}
+          <div className="max-h-[80vh] overflow-y-scroll">
+            <table className="table-auto w-full bg-white text-[13px]">
+              <thead className="sticky -top-1 bg-gray-100">
+                <tr className="bg-gray-100">
+                  <th className="border border-gray-200 text-left ">LIST</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(usersToShow && usersToShow.length > 0) ? (
+                  usersToShow?.map((user) => (
+                    <tr
+                      key={user.id}
+                      className="border border-gray-200"
+                      onMouseEnter={handleMouseEnter}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <td
+                        className="border border-gray-200 p-2 cursor-pointer"
+                        onClick={() => {
+                          handleConfirm(user.id);
+                        }}
+                      >
+                        {user.lastname}
+                      </td>
+                    </tr>
+                  ))) : (
+                  <tr>
+                    <td className="border-y text-center py-2" colSpan="12">
+                      <span className="text-red-500 font-extrabold text-[12px]">
+                        No users found
+                      </span>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const Affect = () => {
+  const [checkedTransactions, setCheckedTransactions] = useState([]);
+
+  const [currentUser, setCurrentUser] = useState({});
+  const users = useSelector((state) => state.users.users);
+  const dispatch = useDispatch();
+  const transactions = useSelector((state) => state.gifmis.transactions);
+  const navigate = useNavigate();
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [limitR, setLimit] = useState(25);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isHovered, setIsHovered] = useState(false);
+  const [updatedTransactions, setUpdatedTransactions] = useState([]);
+  const [isModalOpen, setModalOpen] = useState(false);
+  let listToShow = [];
+  const assignService = AssignService.getInstance();
+
+  const handleConfirm = async (id) => {
+    setModalOpen(false);
+    let data = {
+      userId: id,
+      ids: checkedTransactions,
+    }
+
+    await assignService.assignGifmis(data).then((res) => {
+      console.log("resAssign", res);
+      window.location.reload();
+      setCheckedTransactions([]);
+    })
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
 
   const isAdmin = currentUser.role?.roleName == "admin";
   console.log('isAdmin', isAdmin);
   useEffect(() => {
-    console.log("page dans jsx", page, "search", searchTerm);
-    //setLimit(limit);
-    const response = dispatch(getAllGifmis({page, searchTerm})).unwrap().then((res) => {
+    const response0 = dispatch(getUsers()).unwrap().then((res) => {
+      console.log("users", res.data);
+    });
+    const response = dispatch(getAllGifmis({ page, searchTerm })).unwrap().then((res) => {
       console.log("transac", res.pages);
       setTotalPages(res.pages);
     });
@@ -53,13 +150,14 @@ const Goods = () => {
       console.log(error);
     });
   }, [page, searchTerm]);
+  transactions?.map((transaction) => {
+    if (transaction?.gifmisUser?.length === 0) {
+      listToShow.push(transaction);
+    }
+  })
 
-  const handleExportClick = async () => {
-    console.log("dans export");
-    const expt = new ExptService();
-    const response = await expt.exportData('gifmis/export');
-    window.open(response);
-    console.log("res", response);
+  const handleAssignClick = async () => {
+    setModalOpen(true);
   }
 
   const handleLimitChange = (limitToSet) => {
@@ -86,12 +184,12 @@ const Goods = () => {
 
 
   const handleSearchInputChange = (e) => {
-      const newSearchTerm = e.target.value;
-      setSearchTerm(e.target.value);
-      console.log("newSearchTerm", newSearchTerm);
-      setPage(1); // Réinitialise la page à 1 lorsque la recherche est modifiée
-      //console.log('dans search');
-    };
+    const newSearchTerm = e.target.value;
+    setSearchTerm(e.target.value);
+    console.log("newSearchTerm", newSearchTerm);
+    setPage(1); // Réinitialise la page à 1 lorsque la recherche est modifiée
+    //console.log('dans search');
+  };
 
   /*   if (loading) {
       return (
@@ -123,12 +221,12 @@ const Goods = () => {
     if (value) {
       return (
         <span
-        dangerouslySetInnerHTML={{
-          __html: value.replace(
-            new RegExp(searchTerm, "gi"),
-            (match) => `<span class="highlight">${match}</span>` 
-          ),
-        }}
+          dangerouslySetInnerHTML={{
+            __html: value.replace(
+              new RegExp(searchTerm, "gi"),
+              (match) => `<span class="highlight">${match}</span>`
+            ),
+          }}
         />
       );
     }
@@ -137,22 +235,45 @@ const Goods = () => {
     navigate(`/dashboard/transactiondetails/${id}`);
   };
 
+
+  /*  const handleCheckboxChange = (e, item) => {
+     const index = checkedTransactions.findIndex((idTransac) => idTransac === item?.id);
+     if (index !== -1) {
+       checkedTransactions.splice(index, 1);
+     } else {
+       checkedTransactions.push(item);
+     }
+     setCheckedTransactions([...checkedTransactions]);
+   }
+  */
   /*   const startIndex = (page - 1) * limit; */
-console.log('currentUser', currentUser);
-console.log(transactions)
+  const handleCheckboxChange = (e, item) => {
+    const isChecked = e.target.checked;
+    if (isChecked) {
+      setCheckedTransactions((prevChecked) => [...prevChecked, item.id]);
+    } else {
+      setCheckedTransactions((prevChecked) =>
+        prevChecked.filter((idTransac) => idTransac !== item.id)
+      );
+    }
+  };
+
+  console.log('currentUser', currentUser);
+  console.log("updatedTransac", checkedTransactions);
   return (
     <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
       <div className="flex justify justify-between">
-        <h1 className="text-[12px] font-bold">PAYABLE</h1>
+        <h1 className="text-[12px] font-bold">PAYABLE TO ASSIGN</h1>
         <div className="flex w-[18%] justify-end">
           <button
             className={`text-[12px] font-bold border border-green-400 bg-green-200 p-1 rounded mb-2 shadow-lg ${isHovered ? 'hovered' : ''
               }`}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            onClick={() => { handleExportClick() }}
+            onClick={() => { handleAssignClick() }}
+            disabled={checkedTransactions.length === 0}
           >
-            Export in excel File
+            Assign to:
           </button>
         </div>
       </div>
@@ -293,48 +414,14 @@ console.log(transactions)
                 </th>
                 <th className="border border-gray-200  ">
                   <span className="inline-flex items-center">
-                    ASSIGN TO{" "}
-                    {/* <BiSort
-                      size={15}
-                      className={`ml-2 cursor-pointer ${sortField === ""
-                          ? "text-blue-500"
-                          : "text-gray-500"
-                        }`}
-                      onClick={() => handleSort("", "desc")}
-                    /> */}
-                  </span>
-                </th>
-                {/* <th className="border border-gray-200  ">
-                  <span className="inline-flex items-center">
                     ACTION{" "}
-                    {/* <BiSort
-                      size={15}
-                      className={`ml-2 cursor-pointer ${sortField === "balancetobepaid"
-                          ? "text-blue-500"
-                          : "text-gray-500"
-                        }`}
-                      onClick={() => handleSort("balancetobepaid", "desc")}
-                    /> 
-                  </span>
-                </th> */}
-                <th className="border border-gray-200  ">
-                  <span className="inline-flex items-center">
-                    STATUS{" "}
-                    {/* <BiSort
-                      size={15}
-                      className={`ml-2 cursor-pointer ${sortField === "status"
-                          ? "text-blue-500"
-                          : "text-gray-500"
-                        }`}
-                      onClick={() => handleSort("status", "desc")}
-                    /> */}
                   </span>
                 </th>
               </tr>
             </thead>
             <tbody>
-              {transactions && transactions.length > 0 ? (
-                transactions?.map((item, itemIndex) => (
+              {listToShow && listToShow.length > 0 ? (
+                listToShow?.map((item, itemIndex) => (
 
                   <tr key={itemIndex} onClick={() => {
                     if ((!isAdmin) && (item?.status !== 'COMPLETED') && (item?.gifmisUser[0]?.user?.id == currentUser?.id)) {
@@ -391,26 +478,16 @@ console.log(transactions)
                         })
                         .replace(/\.?0+$/, "")}
                     </td>
-                    <td className="border-y text-left truncate-25">
-                      {`${item?.gifmisUser[0]?.user?.staffid || ''} - ${item?.gifmisUser[0]?.user?.lastname || ''}`}
+                    <td>
+                      <input
+                      type="checkbox"
+                      checked={checkedTransactions.some((id) => id === item.id)}
+                      onChange={(e) => handleCheckboxChange(e, item)}
+                      className="w-6 h-6"
+                    />
+
                     </td>
-                    {/* <td className={`border-y text-center ${item.status === 'COMPLETED' ? 'text-green-600' : 'text-red-600'}`} style={{ placeItems: 'center' }}>
-                      <FaCheckToSlot
-                        style={{
-                          cursor: item.status !== 'COMPLETED' ? 'pointer' : 'not-allowed',
-                          pointerEvents: isAdmin ? 'none' : item.status !== 'COMPLETED' ? 'auto' : 'none',
-                        }}
-                        onClick={() => handleTransactionDetail(item?.id)}
-                        size={20}
-                      />
-                    </td> */}
-                    <td
-                      className={`border-y text-left truncate-25 ${item?.status === 'COMPLETED' ? 'text-green-600' : 'text-red-600'
-                        }`}
-                      title=""
-                    >
-                      {item?.status === 'COMPLETED' ? 'COMPLETED' : 'INCOMPLETE'}
-                    </td>
+                    
                   </tr>
                 ))
               ) : (
@@ -426,6 +503,13 @@ console.log(transactions)
           </table>
         </div>
       </div>
+      {isModalOpen && (
+        (<EditTransactionModal
+          users={users}
+          onConfirm={handleConfirm}
+          onClose={closeModal}
+        />
+        ))}
       {/* Pagination */}
       <div className="flex tex-xs justify-end mr-3 mt-1">
         <ReactPaginate
@@ -451,4 +535,4 @@ console.log(transactions)
   );
 };
 
-export default Goods;
+export default Affect;
