@@ -39,6 +39,7 @@ import FailedVisit from "../pages/FailedVisit";
 import PerformanceIssue from "../pages/PerformanceIssue";
 import BtaIssued from "../pages/BtaIssued";
 import BtaNotIssued from "../pages/BtaNotIssued";
+import Affect from "../pages/Affect";
 export {
   Login,
   Register,
@@ -81,4 +82,5 @@ export {
   PerformanceIssue,
   BtaIssued,
   BtaNotIssued,
+  Affect,
 };

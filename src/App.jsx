@@ -40,6 +40,7 @@ import {
   BtaIssued,
   BtaNotIssued,
   WithoutIssue,
+  Affect,
 } from "./routes/routes";
 import OrgTransactions from "./pages/OrgTransactions";
 
@@ -49,7 +50,7 @@ const App = () => {
     <div>
       <Routes>
         <Route path="/" element={<Login />} />
-     
+
         <Route path="/dashboard" element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="/dashboard/goods" element={<Goods />} />
@@ -57,8 +58,8 @@ const App = () => {
           <Route path="/dashboard/view/:id" element={<ViewDetails />} />
           <Route path="/dashboard/create-department" element={<CreateDepartment />} />
           <Route path="/dashboard/create-branch" element={<CreateBranch />} />
-          <Route path="/dashboard/userfileupload" element={<UserFileUpload/>}/>
-          <Route path="/dashboard/orgtransactions" element={<OrgTransactions/>}/>
+          <Route path="/dashboard/userfileupload" element={<UserFileUpload />} />
+          <Route path="/dashboard/orgtransactions" element={<OrgTransactions />} />
           <Route path="/dashboard/register" element={<Register />} />
           <Route path="/dashboard/noworkdone" element={<NoWorkDone />} />
           <Route path="/dashboard/misclassified" element={<Misclassified />} />
@@ -78,7 +79,8 @@ const App = () => {
           <Route path="/dashboard/withoutissue" element={<WithoutIssue />} />
           <Route path="/dashboard/teamleaders" element={<TeamLeaders />} />
           <Route path="/dashboard/teammembers" element={<TeamMembers />} />
-          <Route path="/dashboard/transactiondetails/:id" element={<TransactionDetails />}>
+          <Route path="/dashboard/affect" element={<Affect />} />
+          <Route path="/dashboard/transactiondetails/:id" element={<TransactionDetails />} >
             <Route index element={<Form1 />} />
             <Route path="2" element={<Form3 />} />
             <Route path="3" element={<Form4 />} />
@@ -92,21 +94,18 @@ const App = () => {
           </Route>
         </Route>
         <Route
-          path="/dashboard/edittransaction/:id"
-          element={<EditTransaction />}
-        >
-         <Route index element={<Form1 />} />
-            <Route path="2" element={<Form3 />} />
-            <Route path="3" element={<Form4 />} />
-            <Route path="4" element={<Form5 />} />
-            <Route path="5" element={<Form6 />} />
-            <Route path="6" element={<Form7 />} />
-            <Route path="7" element={<Form8 />} />
-            <Route path="8" element={<Form9 />} />
-            <Route path="9" element={<Form10 />} />
-            <Route path="10" element={<Form11 />} />
+          path="/dashboard/edittransaction/:id" element={<EditTransaction />}>
+          <Route index element={<Form1 />} />
+          <Route path="2" element={<Form3 />} />
+          <Route path="3" element={<Form4 />} />
+          <Route path="4" element={<Form5 />} />
+          <Route path="5" element={<Form6 />} />
+          <Route path="6" element={<Form7 />} />
+          <Route path="7" element={<Form8 />} />
+          <Route path="8" element={<Form9 />} />
+          <Route path="9" element={<Form10 />} />
+          <Route path="10" element={<Form11 />} />
         </Route>
-      
       </Routes>
     </div>
   );

@@ -211,5 +211,16 @@ export class GoodsService extends HttpBaseService {
         });
     }
 
+    async assignGifmis(data) {
+        let apiResponse = new ApiResponse();
+        return this.instance.post(`/gifmis-user`, data).then(res => {
+            apiResponse = retriveAxiosSuccessResponse(res);
+            return apiResponse;
+        }).catch(err => {
+            apiResponse = retriveAxiosErrorResponse(err);
+            return apiResponse;
+        });
+    }
+
 
 }
