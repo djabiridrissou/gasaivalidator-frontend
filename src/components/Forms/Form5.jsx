@@ -164,7 +164,7 @@ const Form5 = () => {
           </button>
           {currentPath.startsWith("/dashboard/transactiondetails") && (
             <div>
-              {((expenditureType === "Works" && (workType != "Road" && workType != "Bridge")) || expenditureType === "Goods" || expenditureType === "Service") && (
+              {((expenditureType === "Works" && (workType != "Road" && workType != "Bridge" && workType != "Sea Defence & Drainage")) || expenditureType === "Goods" || expenditureType === "Service") && (
                 <button
                   onClick={() => {
                     if (transactionInGIFMIS) {
@@ -185,7 +185,7 @@ const Form5 = () => {
           )}
           {currentPath.startsWith("/dashboard/edittransaction") && (
             <div>
-              {((expenditureType === "Works" && (workType != "Road" && workType != "Bridge")) || expenditureType === "Goods" || expenditureType === "Service") && (
+              {((expenditureType === "Works" && (workType != "Road" && workType != "Bridge" && workType != "Sea Defence & Drainage")) || expenditureType === "Goods" || expenditureType === "Service") && (
                 <button
                   onClick={() => {
                     if (transactionInGIFMIS) {
