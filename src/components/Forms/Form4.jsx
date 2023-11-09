@@ -582,6 +582,7 @@ const Form4 = () => {
               <option value="default">-----------------</option>
               <option value="Road">Road</option>
               <option value="Bridge">Bridge</option>
+              <option value="Sea Defence & Drainage">Sea Defence & Drainage</option>
               <option value="Structure Improvement">
                 Structure Improvement
               </option>
@@ -668,7 +669,7 @@ const Form4 = () => {
             </div>
           )}
 
-          {workType === "Road" && workType === "Building" && (
+          {workType === "Road" && workType === "Building" && workType === "Sea Defence & Drainage" && (
             <div className="flex flex-col items-center mt-6">
               <label htmlFor="availableContracts" className="font-semibold">
                 Available Contracts ?
@@ -896,7 +897,7 @@ const Form4 = () => {
 
           {availableContracts &&
             expenditureType === "Works" &&
-            (workType === "Road" || workType === "Building") &&
+            (workType === "Road" || workType === "Building" || workType === "Sea Defence & Drainage") &&
             roadsContracts?.map((roadContract, index) => (
               <Fragment key={index}>
                 <div className="flex justify-center mt-1">
@@ -1232,7 +1233,7 @@ const Form4 = () => {
         </button>
         {currentPath.startsWith("/dashboard/transactiondetails") && (
           <div>
-            {(expenditureType == "Works" && (workType != "Road" && workType != "Bridge")) && (
+            {(expenditureType == "Works" && (workType != "Road" && workType != "Bridge" && workType != "Sea Defence & Drainage")) && (
               <button
                 onClick={() => {
                   if (workType === "default") {
@@ -1269,13 +1270,13 @@ const Form4 = () => {
                 Next
               </button>
             )}
-            {expenditureType == "Works" && (workType == "Road" || workType == "Bridge") && (
+            {expenditureType == "Works" && (workType == "Road" || workType == "Bridge" || workType == "Sea Defence & Drainage") && (
               <button
                 onClick={() => {
                   if (workType == "default") {
                     return;
                   }
-                  if (workType == "Road") {
+                  if (workType == "Road" || workType == "Sea Defence & Drainage") {
                     if (availableContracts) {
                       const contractDetailsAreMissing = roadsContracts.some(
                         (contract) =>
@@ -1354,7 +1355,7 @@ const Form4 = () => {
 
         {currentPath.startsWith("/dashboard/edittransaction") && (
           <div>
-            {(expenditureType == "Works" && (workType != "Road" && workType != "Bridge")) && (
+            {(expenditureType == "Works" && (workType != "Road" && workType != "Bridge" && workType != "Sea Defence & Drainage")) && (
               <button
                 onClick={() => {
                   if (workType === "default") {
@@ -1389,13 +1390,13 @@ const Form4 = () => {
                 Next
               </button>
             )}
-            {expenditureType == "Works" && (workType == "Road" || workType == "Bridge") && (
+            {expenditureType == "Works" && (workType == "Road" || workType == "Bridge" || workType == "Sea Defence & Drainage") && (
               <button
                 onClick={() => {
                   if (workType == "default") {
                     return;
                   }
-                  if (workType == "Road") {
+                  if (workType == "Road" || workType == "Sea Defence & Drainage") {
                     if (availableContracts) {
                       const contractDetailsAreMissing = roadsContracts.some(
                         (contract) =>
