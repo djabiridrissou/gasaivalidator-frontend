@@ -152,16 +152,16 @@ const WithoutIssue = () => {
                     }
                 }
                 if (item?.gifmisProcesseds[0]?.expendituretype == "Works") {
-                    if (item?.gifmisProcesseds[0]?.worktype == "Roads" || item?.gifmisProcesseds[0]?.worktype == "Bridge") {
+                    if (item?.gifmisProcesseds[0]?.worktype == "Road" || item?.gifmisProcesseds[0]?.worktype == "Bridge" || item?.gifmisProcesseds[0]?.worktype == "Sea Defence & Drainage") {
                         if (!(item?.gifmisProcesseds[0]?.ipcsupported)) {
                             remarksString += " No-IPC";
                         }
                     }
-                    if (item?.gifmisProcesseds[0]?.worktype != "Roads" && item?.gifmisProcesseds[0]?.worktype == "Bridge") {
+
                         if (!(item?.gifmisProcesseds[0]?.availablecontracts)) {
                             remarksString += " No-Contracts";
                         }
-                    }
+                    
                     if (!(item?.gifmisProcesseds[0]?.isworkcompleted)) {
                         remarksString += " Work-not-completed";
                     }
