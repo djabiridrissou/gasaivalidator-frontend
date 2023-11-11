@@ -2,7 +2,6 @@ export const retriveAxiosSuccessResponse = (res) => {
     return {
         status: res.status,
         message: res.data.message,
-        success: res.data.success,
         data: res.data.data,
         pages: res.data.pages,
         total: res.data.total,
@@ -16,9 +15,8 @@ export const retriveAxiosErrorResponse = (res) => {
         location.href = "/";
     }
     return {
-        status: res.response.status,
-        message: res.response.data.message,
-        success: res.response.data.success,
-        error: res.response.data.data,
+        status: res.status,
+        message: res.data.message,
+        error: res.data.data,
     }
 };
