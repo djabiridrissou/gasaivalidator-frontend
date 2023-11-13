@@ -46,11 +46,15 @@ const Form6 = () => {
       ","
     );
   
-    // Limit the decimal part to two decimal places
-    const formattedDecimalPart =
+    let formattedDecimalPart =
       decimalPart && decimalPart.length > 2
         ? decimalPart.slice(0, 2)
         : decimalPart || "00";
+  
+    // Handle backspace for the first '0' after the "."
+    if (formattedDecimalPart.length === 2 && formattedDecimalPart[0] === "0") {
+      formattedDecimalPart = formattedDecimalPart[1];
+    }
   
     // Combine the integer and decimal parts
     const formattedValue =
@@ -60,6 +64,10 @@ const Form6 = () => {
   
     return formattedValue;
   };
+  
+  // Test
+
+  
   /*  const certificationOfCompletionDate = useSelector((state) => state.form6.certificationOfCompletionDate);
  
    const percentageOfCompletion = useSelector((state) => state.form6.percentageOfCompletion);

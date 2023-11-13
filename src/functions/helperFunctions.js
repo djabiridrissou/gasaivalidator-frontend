@@ -25,11 +25,15 @@ const formatNumber = (value) => {
     ","
   );
 
-  // Limit the decimal part to two decimal places
-  const formattedDecimalPart =
+  let formattedDecimalPart =
     decimalPart && decimalPart.length > 2
       ? decimalPart.slice(0, 2)
       : decimalPart || "00";
+
+  // Handle backspace for the first '0' after the "."
+  if (formattedDecimalPart.length === 2 && formattedDecimalPart[0] === "0") {
+    formattedDecimalPart = formattedDecimalPart[1];
+  }
 
   // Combine the integer and decimal parts
   const formattedValue =
@@ -39,6 +43,10 @@ const formatNumber = (value) => {
 
   return formattedValue;
 };
+
+// Test
+
+
 
 function formatDate(dateString) {
   if (dateString) {
