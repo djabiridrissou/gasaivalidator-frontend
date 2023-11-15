@@ -145,6 +145,18 @@ export class GoodsService extends HttpBaseService {
         });
     }
 
+    
+    async getOverpaymentCount() {
+        let apiResponse = new ApiResponse();
+        return this.instance.get(`/overpayment-count`).then(res => {
+            apiResponse = retriveAxiosSuccessResponse(res);
+            return apiResponse;
+        }).catch(err => {
+            apiResponse = retriveAxiosErrorResponse(err);
+            return apiResponse;
+        });
+    }
+
     async getOverpayment(page) {
         let apiResponse = new ApiResponse();
         return this.instance.get(`/overpayment?page=${page}`).then(res => {

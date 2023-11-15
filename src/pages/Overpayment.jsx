@@ -56,12 +56,12 @@ const Overpayment = () => {
     const calculateTransactionAmount = (transactions) => {
         let total = 0;
         const totalTransactions = transactions.map((item) => {
-            const amount = customParse(item.amountPaid);
+            const amount = customParse(item.amountPaid) || 0;
             console.log("dans calc", item, amount);
             if (!isNaN(amount)) {
                 total += amount;
             } else {
-                total += 0;
+                
             }
         });
         console.log("total", total);
@@ -71,7 +71,7 @@ const Overpayment = () => {
     const calculateContractAmount = (contracts) => {
         let total = 0;
         const totalContracts = contracts.map((item) => {
-            const amount = customParse(item.unitPrice);
+            const amount = customParse(item?.unitPrice) || 0;
             console.log("dans contrat", item, amount);
             if (!isNaN(amount)) {
                 total += amount;
@@ -145,7 +145,7 @@ const Overpayment = () => {
 
     overpaymentList?.map((item) => {
         if (item?.gifmisProcesseds[0]?.expendituretype == "Works") {
-            let contractPayment = item?.gifmisProcesseds[0]?.ipcdetails?.ipcAmount;
+            let contractPayment = item?.gifmisProcesseds[0]?.ipcdetails?.ipcAmount ?? 0;
             let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
             if (totalPayment > contractPayment) {
                 let data = {
