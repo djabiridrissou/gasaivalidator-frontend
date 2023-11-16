@@ -40,29 +40,35 @@ const UserFileUpload = () => {
 
     const handleFileUpload = async () => {
         if (selectedFile) {
-            setIsLoading(true);
-            const formData = new FormData();
-            formData.append('file', selectedFile);
+            const reader = new FileReader();
 
-            try {
-                const response = dispatch(uploadGifmis(formData)).then((res) => {
-                    console.log('response', res);
-                    let toastMessage = ''; // Message du toast
-                        toastMessage = 'File uploaded successfully';
-                        console.log('File uploaded:', res.payload);
-                        if (parseInt(res.payload.data) > 0) {
-                            toastMessage += ` ${res.payload.data} transactions already affected`;
+            reader.onload = function (event) {
+                const base64String = event.target.result;
+
+                try {
+                    setIsLoading(true);
+                    dispatch(uploadGifmis({ data: base64String })).unwrap().then((res) => {
+                        console.log('response', res);
+                        if (res.status == 200) {
+                            let toastMessage = ''; // Message du toast
+                            toastMessage = `File uploaded successfully (${res.total})`;
+                            toast.success(toastMessage);
+                            navigate('/dashboard');
+                        } else {
+                            toast.error('An error occurred');
+                            console.error('Error during file upload:', res);
                         }
-                        toast.success(toastMessage);
-                        navigate('/dashboard');
-                    
-                });
-            } catch (error) {
-                toast.error('An error occurred');
-                console.error('Error during file upload:', error);
-            } finally {
-                setIsLoading(false);
-            }
+                    });
+                } catch (error) {
+                    toast.error('An error occurred');
+                    console.error('Error during file upload:', error);
+                } finally {
+                    setIsLoading(false);
+                }
+
+            };
+
+            reader.readAsDataURL(selectedFile);
         }
     };
 
@@ -88,7 +94,7 @@ const UserFileUpload = () => {
                         <p className="mb-4">Drag and drop a file here or click to select</p>
                         <input
                             type="file"
-                            accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.xlsx"
+                            accept=".xlsx"
                             onChange={handleFileChange}
                             className="hidden"
                             id="fileInput"
