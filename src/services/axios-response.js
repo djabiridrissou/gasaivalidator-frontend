@@ -15,8 +15,7 @@ export const retriveAxiosErrorResponse = (res) => {
         location.href = "/";
     }
     return {
-        status: res.status,
-        message: res.data.message,
-        error: res.data.data,
+        status: res.response.status,
+        // message: res.response.message,
     }
 };
