@@ -9,10 +9,10 @@ const NoJudgement = () => {
     const nojudgementList = useSelector((state) => state.gifmis.noJudgement);
     const navigate = useNavigate();
     useEffect(() => {
-        const response = dispatch(getNoJudgement()).unwrap().then((res) => {
+        const response = dispatch(getNoJudgement(page)).unwrap().then((res) => {
             console.log("nojudgement", res.data);
         });
-    }, []);
+    }, [page]);
     const [isHovered, setIsHovered] = useState(false);
 
     const handleMouseEnter = () => {
