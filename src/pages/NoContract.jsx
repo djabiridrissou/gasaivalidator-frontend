@@ -12,7 +12,7 @@ const NoContract = () => {
     const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();
     useEffect(() => {
-        const response = dispatch(getAllNoContract()).unwrap().then((res) => {
+        const response = dispatch(getAllNoContract(page)).unwrap().then((res) => {
             console.log("nocontract", res.data);
             setTotalPages(res.pages);
         });

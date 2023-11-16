@@ -23,10 +23,10 @@ const NotInGifmis = () => {
         });
     }, []);
     useEffect(() => {
-        const response = dispatch(getAllNotInGifmis()).unwrap().then((res) => {
+        const response = dispatch(getAllNotInGifmis(page)).unwrap().then((res) => {
             console.log("notInGifmis", res.data);
         });
-    }, []);
+    }, [page]);
     const [isHovered, setIsHovered] = useState(false);
 
     const handleMouseEnter = () => {

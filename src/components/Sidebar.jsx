@@ -41,6 +41,7 @@ import { getNoIpc } from "../redux/features/gifmis";
 import { getNoJudgement } from "../redux/features/gifmis";
 import { getSoa } from "../redux/features/gifmis";
 import { getFailedVisit } from "../redux/features/gifmis";
+import { getOverpaymentCount } from "../redux/features/gifmis";
 import WithoutIssue from "../pages/WithoutIssue";
 import FailedVisit from "../pages/FailedVisit";
 import BtaIssued from "../pages/BtaIssued";
@@ -140,25 +141,22 @@ const Sidebar = ({ open, setOpen }) => {
   const [summarySubmenuOpen, setSummarySubmenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const isAdmin = currentUser.role?.roleName == "admin";
-  const contractManagementList = useSelector((state) => state.gifmis.contractManagement);
-  const noWorkDoneList = useSelector((state) => state.noworkdone.noWorkDoneList);
-  const nowarrantList = useSelector((state) => state.gifmis.noWarrant);
-  const nocontractList = useSelector((state) => state.gifmis.noContract);
-  const misclassifiedList = useSelector((state) => state.misclassified.misclassifiedList);
-  const notInGifmis = useSelector((state) => state.gifmis.notInGifmis);
-  const storeManagementList = useSelector((state) => state.gifmis.storeManagement);
-  const noipcList = useSelector((state) => state.gifmis.noIpc);
-  const nojudgementList = useSelector((state) => state.gifmis.noJudgement);
-  const soaList = useSelector((state) => state.gifmis.soa);
-  const overpaymentList = useSelector((state) => state.gifmis.overpayment);
-  const WithoutIssueList = useSelector((state) => state.gifmis.withoutIssue);
-  const failedVisitList = useSelector((state) => state.gifmis.failedvisit);
-  const performanceIssueList = useSelector((state) => state.gifmis.performanceIssue);
-  const btaIssuedList = useSelector((state) => state.gifmis.btaIssued);
-  const btaNotIssuedList = useSelector((state) => state.gifmis.btaNotIssued);
-  const listToShow = [];
-  const listToShowSoa = [];
-  const listToShowWithout = [];
+
+const [overpaymentLength, setOverpaymentLength] = useState(0);
+  const [soaLength, setSoaLength] = useState(0);
+  const [noWorkLength, setNoWorkLength] = useState(0);
+  const [noWarrantLength, setNoWarrantLength] = useState(0);
+  const [noContractLength, setNoContractLength] = useState(0);
+  const [misclassifiedLength, setMisclassifiedLength] = useState(0);
+  const [notInGifmisLength, setNotInGifmisLength] = useState(0);
+  const [storemanagementLength, setStoremanagementLength] = useState(0);
+  const [contractManagementLength, setContractManagementLength] = useState(0);
+  const [noIpcLength, setNoIpcLength] = useState(0);
+  const [withoutLength, setWithoutLength] = useState(0);
+  const [fieldLength, setFieldLength] = useState(0);
+  const [performanceLength, setPerformanceLength] = useState(0);
+  const [btaIssuedLength, setBtaIssuedLength] = useState(0);
+  const [btaNotIssuedLength, setBtaNotIssuedLength] = useState(0);
   function customParse(str) {
     str = str?.replace(/,/g, "");
     str = str?.replace(".", ",");
@@ -169,14 +167,14 @@ const Sidebar = ({ open, setOpen }) => {
     let total = 0;
     const totalContracts = contracts.map((item) => {
         const amount = customParse(item.unitPrice);
-        console.log("dans contrat", item, amount);
+        //console.log("dans contrat", item, amount);
         if (!isNaN(amount)) {
             total += amount;
         } else {
             total += 0;
         }
     });
-    console.log("totalcontracts", total);
+    //console.log("totalcontracts", total);
     return total;
 };
 
@@ -195,128 +193,74 @@ const calculateTransactionAmount = (transactions) => {
     return total;
 };
 
-overpaymentList?.map((item) => {
-  let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
-  let contractPayment = calculateContractAmount(item?.gifmisProcesseds[0]?.contracts);
-  
-  if (totalPayment > contractPayment) {
-      let data = {
-          totalPayment: totalPayment,
-          contractPayment: contractPayment,
-          item: item,
-      }
-      listToShow.push(data);
-  }
-});
 
-soaList?.map((item) => {
-  if (item?.gifmisProcesseds[0]?.expendituretype == "Works") {
-      let contractPayment = item?.gifmisProcesseds[0]?.ipcdetails?.ipcAmount;
-      let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
-      
-          let data = {
-              totalPayment: totalPayment,
-              contractPayment: contractPayment,
-              item: item,
-          }
-          listToShowSoa.push(data);
-     
 
-  } else {
-      let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
-      let contractPayment = calculateContractAmount(item?.gifmisProcesseds[0]?.contracts);
 
-      
-          let data = {
-              totalPayment: totalPayment,
-              contractPayment: contractPayment,
-              item: item,
-          }
-          listToShowSoa.push(data);
-     
-  }
-
-});
-
-WithoutIssueList?.map((item) => {
-  if (item?.gifmisProcesseds[0]?.expendituretype == "Works") {
-      let contractPayment = item?.gifmisProcesseds[0]?.ipcdetails?.ipcAmount;
-      let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
-      
-          let data = {
-              totalPayment: totalPayment,
-              contractPayment: contractPayment,
-              item: item,
-          }
-          listToShowWithout.push(data);
-      
-
-  } else {
-      let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
-      let contractPayment = calculateContractAmount(item?.gifmisProcesseds[0]?.contracts);
-
-      
-          let data = {
-              totalPayment: totalPayment,
-              contractPayment: contractPayment,
-              item: item,
-          }
-          listToShowWithout.push(data);
-      
-  }
-
-});
 
 
   useEffect(() => {
     const response = dispatch(getContractManagement()).unwrap().then((res) => {
       //console.log("contractManagement", res.data);
+      setContractManagementLength(res.total);
     });
     const response2 = dispatch(getAllNoWorkDone()).unwrap().then((res) => {
-
+        setNoWorkLength(res.total);
     });
     const response3 = dispatch(getAllNoWarrant()).unwrap().then((res) => {
       //console.log("nowarrant", res.data);
+      setNoWarrantLength(res.total);
     });
     const response4 = dispatch(getAllNoContract()).unwrap().then((res) => {
       //console.log("nocontract", res.data);
+      setNoContractLength(res.total);
     });
     const response5 = dispatch(getAllMisclassified()).unwrap().then((res) => {
       //console.log("misclassifiedData", res.data);
+      setMisclassifiedLength(res.total);
     });
     const response6 = dispatch(getAllNotInGifmis()).unwrap().then((res) => {
       //console.log("notingifmis", res.data);
+      setNotInGifmisLength(res.total);
     });
 
     const response7 = dispatch(getStoreManagement()).unwrap().then((res) => {
       //console.log("storemanagement", res.data);
+      setStoremanagementLength(res.total);
     });
     const response8 = dispatch(getNoIpc()).unwrap().then((res) => {
       //console.log("noipc", res.data);
+      setNoIpcLength(res.total);
     });
     const response9 = dispatch(getNoJudgement()).unwrap().then((res) => {
       //console.log("nojudgement", res.data);
     });
     const response10 = dispatch(getSoa()).unwrap().then((res) => {
-      //console.log("soa", res.data);
+      console.log("soa", res);
+      setSoaLength(res.total);
     })
-    const response11 = dispatch(getOverpayment()).unwrap().then((res) => {
-      console.log("overpayment", res.data);
+    const response11 = dispatch(getOverpaymentCount()).unwrap().then((res) => {
+      //console.log("overpayment", res.data);
+      setOverpaymentLength(res?.data?.length);
     })
     const response12 = dispatch(getWithoutIssue()).unwrap().then((res) => {
-      console.log("withoutissue", res.data);
+      //console.log("withoutissue", res.data);
+      setWithoutLength(res.total);
     })
     const response13 = dispatch(getFailedVisit()).unwrap().then((res) => {
-      console.log("failedvisit", res.data);
+      //console.log("failedvisit", res.data);
+      setFieldLength(res.total);
     })
     const response14 = dispatch(getPerformanceIssue()).unwrap().then((res) => {
-      console.log("performanceissue", res.data);
+      //console.log("performanceissue", res.data);
+      setPerformanceLength(res.total);
     })
     const response15 = dispatch(getBtaIssued()).unwrap().then((res) => {
-      console.log("bta issued", res.data);
+      //console.log("bta issued", res.data);
+      setBtaIssuedLength(res.total);
     })
     const response16 = dispatch(getBtaNotIssued()).unwrap().then((res) => {
-      console.log("bta not issued", res.data);
+      //console.log("bta not issued", res.data);
+      setBtaNotIssuedLength(res.total);
     })
     dispatch(getCurentUser()).unwrap().then(res => {
       //console.log("res", res.user);
@@ -353,7 +297,7 @@ WithoutIssueList?.map((item) => {
         {
           name: (
             <span>
-              No-Work-Done <sup className="text-red-500">{(noWorkDoneList?.length)}</sup>
+              No-Work-Done <sup className="text-red-500">{noWorkLength}</sup>
             </span>
           ),
           route: "/dashboard/noworkdone",
@@ -362,14 +306,14 @@ WithoutIssueList?.map((item) => {
         {
           name: (
             <span>
-              No-Warrant <sup className="text-red-500">{(nowarrantList?.length)}</sup>
+              No-Warrant <sup className="text-red-500">{noWarrantLength}</sup>
             </span>
           ), route: "/dashboard/nowarrant", icon: DocumentTextIcon
         },
         {
           name: (
             <span>
-              No-Contract <sup className="text-red-500">{(nocontractList?.length)}</sup>
+              No-Contract <sup className="text-red-500">{noContractLength}</sup>
             </span>
           ), route: "/dashboard/nocontract", icon: DocumentTextIcon
         },
@@ -377,7 +321,7 @@ WithoutIssueList?.map((item) => {
         {
           name: (
             <span>
-              Misclassified <sup className="text-red-500">{(misclassifiedList?.length)}</sup>
+              Misclassified <sup className="text-red-500">{misclassifiedLength}</sup>
             </span>
           ),
           route: "/dashboard/misclassified",
@@ -386,7 +330,7 @@ WithoutIssueList?.map((item) => {
         {
           name: (
             <span>
-              Not in GIFMIS <sup className="text-red-500">{(notInGifmis?.length)}</sup>
+              Not in GIFMIS <sup className="text-red-500">{notInGifmisLength}</sup>
             </span>
           ),
           route: "/dashboard/notingifmis",
@@ -396,7 +340,7 @@ WithoutIssueList?.map((item) => {
         {
           name: (
             <span>
-              No-Ipc <sup className="text-red-500">{(noipcList?.length)}</sup>
+              No-Ipc <sup className="text-red-500">{noIpcLength}</sup>
             </span>
           ),
           route: "/dashboard/noipc",
@@ -405,32 +349,13 @@ WithoutIssueList?.map((item) => {
         {
           name: (
             <span>
-              Over-Payment <sup className="text-red-500">{(listToShow?.length)}</sup>
+              Over-Payment <sup className="text-red-500">{overpaymentLength}</sup>
             </span>
           ),
           route: "/dashboard/overpayment",
           icon: DocumentTextIcon,
         },
-        /* {
-          name: (
-            <span>
-              No-Judgement <sup className="text-red-500">{(nojudgementList?.length)}</sup>
-            </span>
-          ),
-          route: "/dashboard/nojudgement",
-          icon: DocumentTextIcon,
-        }, */
-
-        /* {
-          name: "Validated",
-          route: "#",
-          icon: DocumentTextIcon,
-        },
-        {
-          name: "Validated With Issues",
-          route: "#",
-          icon: DocumentTextIcon,
-        }, */
+        
       ],
     },
     
@@ -441,7 +366,7 @@ WithoutIssueList?.map((item) => {
         {
           name: (
             <span>
-              Store Management <sup className="text-red-500">{(storeManagementList?.length)}</sup>
+              Store Management <sup className="text-red-500">{storemanagementLength}</sup>
             </span>
           ),
           route: "/dashboard/storemanagement",
@@ -450,7 +375,7 @@ WithoutIssueList?.map((item) => {
         {
           name: (
             <span>
-              Contract management <sup className="text-red-500">{(contractManagementList?.length)}</sup>
+              Contract management <sup className="text-red-500">{contractManagementLength}</sup>
             </span>
           ),
           route: "/dashboard/contractmanagement",
@@ -459,7 +384,7 @@ WithoutIssueList?.map((item) => {
         {
           name: (
             <span>
-              SOA <sup className="text-red-500">{(listToShowSoa?.length)}</sup>
+              SOA <sup className="text-red-500">{soaLength}</sup>
             </span>
           ),
           route: "/dashboard/soa",
@@ -468,7 +393,7 @@ WithoutIssueList?.map((item) => {
         {
           name: (
             <span>
-              Without Issue <sup className="text-red-500">{(listToShowWithout?.length)}</sup>
+              Without Issue <sup className="text-red-500">{withoutLength}</sup>
             </span>
           ),
           route: "/dashboard/withoutissue",
@@ -477,7 +402,7 @@ WithoutIssueList?.map((item) => {
         {
           name: (
             <span>
-              Field Visit <sup className="text-red-500">{(failedVisitList?.length)}</sup>
+              Field Visit <sup className="text-red-500">{fieldLength}</sup>
             </span>
           ),
           route: "/dashboard/failedvisit",
@@ -486,7 +411,7 @@ WithoutIssueList?.map((item) => {
         {
           name: (
             <span>
-              Performance Issue <sup className="text-red-500">{(performanceIssueList?.length)}</sup>
+              Performance Issue <sup className="text-red-500">{performanceLength}</sup>
             </span>
           ),
           route: "/dashboard/performanceissue",
@@ -495,7 +420,7 @@ WithoutIssueList?.map((item) => {
         {
           name: (
             <span>
-              BTA Issued <sup className="text-red-500">{(btaIssuedList?.length)}</sup>
+              BTA Issued <sup className="text-red-500">{btaIssuedLength}</sup>
             </span>
           ),
           route: "/dashboard/btaissued",
@@ -504,7 +429,7 @@ WithoutIssueList?.map((item) => {
         {
           name: (
             <span>
-              BTA Not Issued <sup className="text-red-500">{(btaNotIssuedList?.length)}</sup>
+              BTA Not Issued <sup className="text-red-500">{btaNotIssuedLength}</sup>
             </span>
           ),
           route: "/dashboard/btanotissued",
