@@ -21,7 +21,7 @@ const NoWarrant = () => {
             console.log("nowarrant", res.data);
             setTotalPages(res.pages);
         });
-    }, []);
+    }, [page]);
     const [isHovered, setIsHovered] = useState(false);
 
     const handleMouseEnter = () => {

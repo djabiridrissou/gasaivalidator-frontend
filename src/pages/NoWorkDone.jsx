@@ -17,7 +17,7 @@ const NoWorkDone = () => {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     useEffect(() => {
-        const response = dispatch(getAllNoWorkDone()).unwrap().then((res) => {
+        const response = dispatch(getAllNoWorkDone(page)).unwrap().then((res) => {
             console.log("noWorkDoneData", res.data);
             setTotalPages(res.pages);
         });

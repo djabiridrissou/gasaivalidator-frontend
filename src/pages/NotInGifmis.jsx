@@ -21,7 +21,7 @@ const NotInGifmis = () => {
             console.log("notingifmis", res.data);
             setTotalPages(res.pages);
         });
-    }, []);
+    }, [page]);
     useEffect(() => {
         const response = dispatch(getAllNotInGifmis(page)).unwrap().then((res) => {
             console.log("notInGifmis", res.data);
