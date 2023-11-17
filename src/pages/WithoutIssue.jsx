@@ -85,7 +85,8 @@ const WithoutIssue = () => {
 
     withoutList?.map((item) => {
         if (item?.gifmisProcesseds[0]?.expendituretype == "Works") {
-            let contractPayment = item?.gifmisProcesseds[0]?.ipcdetails?.ipcAmount;
+            let contractPayment = item?.gifmisProcesseds[0]?.ipcdetails[0]?.ipcAmount;
+            contractPayment = customParse(contractPayment);
             let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
             
                 let data = {

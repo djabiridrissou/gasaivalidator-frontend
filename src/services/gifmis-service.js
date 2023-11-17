@@ -146,9 +146,9 @@ export class GoodsService extends HttpBaseService {
     }
 
     
-    async getOverpaymentCount() {
+    async getOverpaymentCount(page) {
         let apiResponse = new ApiResponse();
-        return this.instance.get(`/overpayment-count`).then(res => {
+        return this.instance.get(`/overpayment-count?page=${page}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
         }).catch(err => {
@@ -189,6 +189,8 @@ export class GoodsService extends HttpBaseService {
             return apiResponse;
         });
     }
+
+ 
 
     async getPerformanceIssue(page) {
         let apiResponse = new ApiResponse();
@@ -234,5 +236,14 @@ export class GoodsService extends HttpBaseService {
         });
     }
 
-
+    async deleteGifmisUser(data) {
+        let apiResponse = new ApiResponse();
+        return this.instance.delete(`/gifmis-user/user`, data).then(res => {
+            apiResponse = retriveAxiosSuccessResponse(res);
+            return apiResponse;
+        }).catch(err => {
+            apiResponse = retriveAxiosErrorResponse(err);
+            return apiResponse;
+        });
+    }
 }

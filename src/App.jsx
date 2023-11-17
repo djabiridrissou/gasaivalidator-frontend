@@ -41,6 +41,7 @@ import {
   BtaNotIssued,
   WithoutIssue,
   Affect,
+  DeleteUserTransactions,
 } from "./routes/routes";
 import OrgTransactions from "./pages/OrgTransactions";
 
@@ -80,6 +81,7 @@ const App = () => {
           <Route path="/dashboard/teamleaders" element={<TeamLeaders />} />
           <Route path="/dashboard/teammembers" element={<TeamMembers />} />
           <Route path="/dashboard/affect" element={<Affect />} />
+          <Route path="/dashboard/deleteusertransactions" element={<DeleteUserTransactions />} />
           <Route path="/dashboard/transactiondetails/:id" element={<TransactionDetails />} >
             <Route index element={<Form1 />} />
             <Route path="2" element={<Form3 />} />

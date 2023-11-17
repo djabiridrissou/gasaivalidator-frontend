@@ -40,6 +40,7 @@ import PerformanceIssue from "../pages/PerformanceIssue";
 import BtaIssued from "../pages/BtaIssued";
 import BtaNotIssued from "../pages/BtaNotIssued";
 import Affect from "../pages/Affect";
+import DeleteUserTransactions from "../pages/DeleteUserTransactions";
 export {
   Login,
   Register,
@@ -83,4 +84,5 @@ export {
   BtaIssued,
   BtaNotIssued,
   Affect,
+  DeleteUserTransactions,
 };
