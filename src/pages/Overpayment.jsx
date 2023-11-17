@@ -13,7 +13,7 @@ import { ExptService } from "../services/expt-service";
 const Overpayment = () => {
     const dispatch = useDispatch();
     const overpaymentList = useSelector((state) => state.gifmis.overpayment);
-    const listToShow = [];
+    const [listToShow, setListToShow] = useState([]);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
@@ -22,14 +22,19 @@ const Overpayment = () => {
         const response = dispatch(getOverpayment(page))
             .unwrap()
             .then((res) => {
-                console.log("overpayment", res.data);
+                console.log("overpaymentCount dans slice console log", res);
+                setListToShow(res.data);
                 setTotalPages(res.pages);
             });
     }, [page]);
     function customParse(str) {
-        str = str?.replace(/,/g, "");
-        str = str?.replace(".", ",");
-        return parseFloat(str);
+        if (str) {
+            str = str?.replace(/,/g, "");
+            str = str?.replace(".", ",");
+            return parseFloat(str);
+        }
+        return 0;
+
     }
 
     const [isHovered, setIsHovered] = useState(false);
@@ -50,36 +55,32 @@ const Overpayment = () => {
         const expt = new ExptService();
         const response = await expt.exportData("overpayment/export");
         window.open(response);
-        console.log("res", response);
+        //console.log("res", response);
     };
 
     const calculateTransactionAmount = (transactions) => {
         let total = 0;
         const totalTransactions = transactions.map((item) => {
-            const amount = customParse(item.amountPaid) || 0;
-            console.log("dans calc", item, amount);
+            const amount = customParse(item.amountPaid);
+            //console.log("dans calc", item, amount);
             if (!isNaN(amount)) {
                 total += amount;
-            } else {
-                
             }
         });
-        console.log("total", total);
+        //console.log("total", total);
         return total;
     };
 
     const calculateContractAmount = (contracts) => {
         let total = 0;
         const totalContracts = contracts.map((item) => {
-            const amount = customParse(item?.unitPrice) || 0;
-            console.log("dans contrat", item, amount);
+            const amount = customParse(item?.unitPrice);
+           // console.log("dans contrat", item, amount);
             if (!isNaN(amount)) {
                 total += amount;
-            } else {
-                total += 0;
             }
         });
-        console.log("totalcontracts", total);
+        //console.log("totalcontracts", total);
         return total;
     };
 
@@ -143,34 +144,34 @@ const Overpayment = () => {
         return remarksString;
     }
 
-    overpaymentList?.map((item) => {
+   const funcAmountValue = (item) => {
         if (item?.gifmisProcesseds[0]?.expendituretype == "Works") {
-            let contractPayment = item?.gifmisProcesseds[0]?.ipcdetails?.ipcAmount ?? 0;
+            let contractPayment = item?.gifmisProcesseds[0]?.ipcdetails[0]?.ipcAmount ?? 0;
+            contractPayment = customParse(contractPayment);
             let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
-            if (totalPayment > contractPayment) {
+           
                 let data = {
                     totalPayment: totalPayment,
                     contractPayment: contractPayment,
-                    item: item,
                 }
-                listToShow.push(data);
-            }
+                return data;
+           
 
         } else {
             let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
             let contractPayment = calculateContractAmount(item?.gifmisProcesseds[0]?.contracts);
 
-            if (totalPayment > contractPayment) {
+
                 let data = {
                     totalPayment: totalPayment,
                     contractPayment: contractPayment,
-                    item: item,
                 }
-                listToShow.push(data);
-            }
+                return data;
+                
+          
         }
 
-    });
+    };
     console.log("listToShow", listToShow);
 
     return (
@@ -308,29 +309,29 @@ const Overpayment = () => {
                             {listToShow && listToShow.length > 0 ? (
                                 listToShow?.map((item, itemIndex) => (
                                     <tr key={itemIndex}>
-                                        <td className="border-y text-left ">{item?.item?.id}</td>
-                                        <td className="border-y text-left truncate-25" title={item?.item?.orgname}>{item?.item?.orgname}</td>
+                                        <td className="border-y text-left ">{item?.id}</td>
+                                        <td className="border-y text-left truncate-25" title={item?.orgname}>{item?.orgname}</td>
                                         <td
                                             className="border-y text-left truncate-25"
-                                            title={item?.item?.description}
+                                            title={item?.description}
                                         >
-                                            {item?.item?.description}
+                                            {item?.description}
                                         </td>
-                                        <td className="border-y text-left truncate-25" title={item?.item?.vendorname}>{item?.item?.vendorname}</td>
+                                        <td className="border-y text-left truncate-25" title={item?.vendorname}>{item?.vendorname}</td>
                                         <td className="border-y text-right ">
-                                            {item?.item?.outstandingclaim?.toLocaleString(undefined, {
+                                            {item?.outstandingclaim?.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
                                                 maximumFractionDigits: 2,
                                             })}
                                         </td>
                                         <td className="border-y text-right ">
-                                            {(item?.contractPayment)?.toLocaleString(undefined, {
+                                            {((funcAmountValue(item)).contractPayment).toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
                                                 maximumFractionDigits: 2,
                                             })}
                                         </td>
                                         <td className="border-y text-right ">
-                                            {(item?.totalPayment)?.toLocaleString(undefined, {
+                                        {((funcAmountValue(item)).totalPayment).toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
                                                 maximumFractionDigits: 2,
                                             })}

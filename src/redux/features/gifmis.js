@@ -64,7 +64,7 @@ export const getOverpayment = createAsyncThunk(
 
 export const getOverpaymentCount = createAsyncThunk(
     "gifmis/overpaymentcount",
-    async () => await gifmis.getOverpaymentCount()
+    async (page) => await gifmis.getOverpaymentCount(page)
 );
 
 export const getWithoutIssue = createAsyncThunk(

@@ -23,7 +23,8 @@ import {
   ServerIcon,
   KeyIcon,
   UserGroupIcon,
-  ShareIcon
+  ShareIcon,
+  TrashIcon,
 } from "@heroicons/react/24/outline";
 import { HomeIcon as SolidHomeIcon } from "@heroicons/react/20/solid";
 import { FaI, FaKaggle } from "react-icons/fa6";
@@ -238,9 +239,9 @@ const calculateTransactionAmount = (transactions) => {
       console.log("soa", res);
       setSoaLength(res.total);
     })
-    const response11 = dispatch(getOverpaymentCount()).unwrap().then((res) => {
+    const response11 = dispatch(getOverpayment()).unwrap().then((res) => {
       //console.log("overpayment", res.data);
-      setOverpaymentLength(res?.data?.length);
+      setOverpaymentLength(res?.total);
     })
     const response12 = dispatch(getWithoutIssue()).unwrap().then((res) => {
       //console.log("withoutissue", res.data);
@@ -289,6 +290,11 @@ const calculateTransactionAmount = (transactions) => {
       name: "Assign Payable",
       icon: ShareIcon,
       route: "/dashboard/affect",
+    },
+    {
+      name: "Delete user transactions",
+      icon: TrashIcon,
+      route: "/dashboard/deleteusertransactions",
     },
     {
       name: "Audit Issues",
@@ -522,11 +528,11 @@ const calculateTransactionAmount = (transactions) => {
               </span>
             </div>
             {Menu.map((menu, index) => {
-              if ((menu.name === "Setup" || menu.name === "Team Leaders" || menu.name === "Team Members" || menu.name === "Assign Payable") && !isAdmin) {
+              if ((menu.name === "Setup" || menu.name === "Team Leaders" || menu.name === "Team Members" || menu.name === "Assign Payable" || menu.name === "Delete user transactions") && !isAdmin) {
                 return null; // Ne pas afficher le menu Setup pour les non-administrateurs
               }
 
-              if ((currentUser?.role?.id == 3) && ((menu.name === "Upload Data") || (menu.name === "Assign Payable"))) {
+              if ((currentUser?.role?.id == 3) && ((menu.name === "Upload Data") || (menu.name === "Assign Payable") || (menu.name === "Delete user transactions"))) {
                 return null;
               }
 
