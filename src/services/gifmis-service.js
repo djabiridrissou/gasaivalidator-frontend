@@ -33,6 +33,19 @@ export class GoodsService extends HttpBaseService {
             return apiResponse;
         });
     }
+    
+    async getGifmisUser(page, id) {
+        let apiResponse = new ApiResponse();
+        return this.instance.get(`/user/${id}?page=${page}`).then(res => {
+            console.log("id dans get gifmisuser", id);
+            apiResponse = retriveAxiosSuccessResponse(res);
+            console.log("all user transac", res);
+            return apiResponse;
+        }).catch(err => {
+            apiResponse = retriveAxiosErrorResponse(err);
+            return apiResponse;
+        });
+    }
 
     async countPerOrg() {
         let apiResponse = new ApiResponse();
@@ -246,4 +259,6 @@ export class GoodsService extends HttpBaseService {
             return apiResponse;
         });
     }
+
+   
 }

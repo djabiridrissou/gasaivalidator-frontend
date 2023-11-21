@@ -14,11 +14,11 @@ const EditTransaction = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const response = dispatch(getAllGifmisProcessed()).unwrap().then((res) => {
-        console.log("gifpro", res.data);
+      console.log("gifpro", res.data);
     });
-}, []);
+  }, []);
 
-   const gifmisProcessed =  (useSelector((state) => state.gifmisProcessed.gifmisProcessed?.find(e => e.id == id)));
+  const gifmisProcessed = (useSelector((state) => state.gifmisProcessed.gifmisProcessed?.find(e => e.id == id)));
   console.log("gifmisProcessed", gifmisProcessed);
   const dispatch = useDispatch();
   let advancedPayment = useSelector((state) => state.form2.advancedPayment);
@@ -59,9 +59,9 @@ const EditTransaction = () => {
   }
   if (expenditureType === "Works") {
     if (workType == "Road" || workType == "Building") {
-        contracts = roadsContracts;
+      contracts = roadsContracts;
     } else {
-        contracts = worksContracts;
+      contracts = worksContracts;
     }
   }
 
@@ -95,13 +95,14 @@ const EditTransaction = () => {
   let onPremise = useSelector((state) => state.form10.onPremise);
   let auditorSatisfy = useSelector((state) => state.form10.auditorSatisfy);
   let auditorDetails = useSelector((state) => state.form10.auditorDetails);
-/*   if (paymentStatus === "fully paid") {
-    transactions = transactions1;
-    advancedPayment = false;
-  } else if (paymentStatus === "partial payment" || paymentStatus === "unpaid") {
-    transactions = transactions2;
-  }
- */
+  let btaDetails = useSelector((state) => state.form11.btaDetails);
+  /*   if (paymentStatus === "fully paid") {
+      transactions = transactions1;
+      advancedPayment = false;
+    } else if (paymentStatus === "partial payment" || paymentStatus === "unpaid") {
+      transactions = transactions2;
+    }
+   */
   let transactions = useSelector((state) => state.form2.transactions);
   const handleEdit = () => {
     const data = {
@@ -153,9 +154,7 @@ const EditTransaction = () => {
       ipcsupported: ipcSupported,
       ipcdetails: ipcDetails,
       availablebta: availableBta,
-      btadate: btaDate,
-      btarefnumber: btaReferenceNumber,
-      btaamount: btaAmount,
+      btadetails: btaDetails,
       onpremise: onPremise,
       auditorsatisfy: auditorSatisfy,
       auditordetails: auditorDetails
@@ -163,16 +162,15 @@ const EditTransaction = () => {
 
     const updateGifmisProcessedDto = {
       data,
-
     };
 
     dispatch(updateGifmisProcessed({ updateGifmisProcessedDto, id: gifmisProcessed.id })).unwrap().then((res) => {
       if (res.status == 200) {
         console.log("Handle success");
-       toast.success("Update Done successfully!");
+        toast.success("Update Done successfully!");
         navigate("/dashboard/gifmisprocessed");
         window.location.reload();
-        
+
       } else {
         console.log("Handle error");
         console.log("error", res);
@@ -184,7 +182,7 @@ const EditTransaction = () => {
       toast.error("Something went wrong!");
     });
 
-    
+
   }
 
   const handleOnClose = (e) => {
@@ -210,10 +208,10 @@ const EditTransaction = () => {
         </h2>
         <div className="flex justify-center">
           <div className="flex flex-col space-y-4 mr-4">
-          <div className="">
+            <div className="">
               <p className="font-bold text-xs">
                 REVISED CONTRACT AMOUNT:
-              <span className="font-normal"> {(gifmisProcessed?.gifmis?.revisedcontractamount)?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                <span className="font-normal"> {(gifmisProcessed?.gifmis?.revisedcontractamount)?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
               </p>
             </div>
             <div className="">
@@ -222,7 +220,7 @@ const EditTransaction = () => {
                 <span className="font-normal"> {gifmisProcessed?.gifmis?.orgname}</span>
               </p>
             </div>
-           
+
 
             <div className="">
               <p className="font-bold text-xs">
@@ -233,7 +231,7 @@ const EditTransaction = () => {
                 </span>
               </p>
             </div>
-           {/*  <div className="">
+            {/*  <div className="">
               <p className="font-bold text-xs">
                 AMOUNT PAID:
                 <span className="font-normal">{(transaction?.amountpaid).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} </span>

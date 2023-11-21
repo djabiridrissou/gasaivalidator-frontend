@@ -133,6 +133,7 @@ const Goods = () => {
       );
     }
   }
+  
   const handleTransactionDetail = (id) => {
     navigate(`/dashboard/transactiondetails/${id}`);
   };

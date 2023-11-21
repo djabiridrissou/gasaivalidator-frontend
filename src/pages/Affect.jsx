@@ -94,7 +94,6 @@ function EditTransactionModal({ users, onConfirm, onClose }) {
 
 const Affect = () => {
   const [checkedTransactions, setCheckedTransactions] = useState([]);
-
   const [currentUser, setCurrentUser] = useState({});
   const users = useSelector((state) => state.users.users);
   const dispatch = useDispatch();

@@ -111,6 +111,7 @@ const TransactionDetails = () => {
   let onPremise = useSelector((state) => state.form10.onPremise);
   let auditorSatisfy = useSelector((state) => state.form10.auditorSatisfy);
   let auditorDetails = useSelector((state) => state.form10.auditorDetails);
+  let btaDetails = useSelector((state) => state.form11.btaDetails);
 /* 
   if (paymentStatus === "fully paid") {
     transactions = transactions1;
@@ -170,12 +171,11 @@ let transactions = useSelector((state) => state.form2.transactions);
       ipcsupported: ipcSupported,
       ipcdetails: ipcDetails,
       availablebta: availableBta,
-      btadate: btaDate,
-      btarefnumber: btaReferenceNumber,
-      btaamount: btaAmount,
+      btadetails: btaDetails,
       onpremise: onPremise,
       auditorsatisfy: auditorSatisfy,
       auditordetails: auditorDetails
+    
     };
 
     const addGifmisProcessedDto = {
@@ -203,7 +203,6 @@ let transactions = useSelector((state) => state.form2.transactions);
       console.log("catcherror", error);
       toast.error("Oups! Something went wrong");
     });
-   
     //toast.success("Done!");
   };
 

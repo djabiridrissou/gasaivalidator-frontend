@@ -6,8 +6,8 @@ const gifmisProcessed = GifmisProcessedService.getInstance();
 // Thunks
 export const getAllGifmisProcessed = createAsyncThunk(
     "gifmis-processed/getAllGifmisProcessed",
-    async (page) => {
-        return await gifmisProcessed.getAllGifmisProcessed(page);
+    async ({page, searchTerm}) => {
+        return await gifmisProcessed.getAllGifmisProcessed(page, searchTerm);
     }
 );
 export const addGifmisProcessed = createAsyncThunk(

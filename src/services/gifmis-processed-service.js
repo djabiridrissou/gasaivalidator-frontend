@@ -21,9 +21,10 @@ export class GifmisProcessedService extends HttpBaseService {
         return this.classInstance;
     }
 
-    async getAllGifmisProcessed(page) {
+    async getAllGifmisProcessed(page, searchTerm) {
         let apiResponse = new ApiResponse();
-        return this.instance.get(`?page=${page}`).then(res => {
+        console.log("dans service search", searchTerm);
+        return this.instance.get(`?page=${page}&search=${searchTerm}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
         }).catch(err => {
