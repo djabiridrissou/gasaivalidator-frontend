@@ -44,5 +44,14 @@ export class AssignService extends HttpBaseService {
         });
     }
 
-
+    async deleteSomeGifmisUser(data) {
+        let apiResponse = new ApiResponse();
+        return this.instance.post(`/ids`, data).then(res => {
+            apiResponse = retriveAxiosSuccessResponse(res);
+            return apiResponse;
+        }).catch(err => {
+            apiResponse = retriveAxiosErrorResponse(err);
+            return apiResponse;
+        });
+    }
 }

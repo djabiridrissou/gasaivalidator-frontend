@@ -81,7 +81,7 @@ const GifmisprocessedPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const isAdmin = currentUser.role?.roleName == "admin";
   useEffect(() => {
-    const response = dispatch(getAllGifmisProcessed(page)).unwrap().then((res) => {
+    const response = dispatch(getAllGifmisProcessed({page, searchTerm})).unwrap().then((res) => {
       console.log("gifprocessed", res);
       setTotalPages(res.pages);
     });
@@ -138,11 +138,11 @@ const GifmisprocessedPage = () => {
   
     */
 
-  const handleSearchInputChange = (e) => {
+    const handleSearchInputChange = (e) => {
       const newSearchTerm = e.target.value;
-      (setSearchTerm(e.target.value));
-      (setPage(1)); // Réinitialise la page à 1 lorsque la recherche est modifiée
-      //console.log('dans search');
+      setSearchTerm(newSearchTerm);
+      console.log("newSearchTerm", newSearchTerm);
+      setPage(1);
     };
 
   /*   if (loading) {
@@ -156,7 +156,7 @@ const GifmisprocessedPage = () => {
       );
     } */
 
-
+ 
 
   // function formatDate(dateString) {
   //   if (dateString) {
@@ -175,21 +175,23 @@ const GifmisprocessedPage = () => {
     if (value) {
       return (
         <span
-        /* dangerouslySetInnerHTML={{
+        dangerouslySetInnerHTML={{
           __html: value.replace(
-            /* new RegExp(searchTerm, "gi"),
+            new RegExp(searchTerm, "gi"),
             (match) => `<span class="highlight">${match}</span>` 
           ),
-        }} */
+        }}
         />
       );
     }
   }
   const handleTransactionEdit = (transaction) => {
     // Lorsque l'utilisateur clique sur l'icône "FaEdit", stockez les détails de la transaction
-    setCurrentTransaction(transaction);
-    // Affichez la fenêtre modale pour la saisie de l'ID
-    setModalOpen(true);
+    if (transaction) {
+      setCurrentTransaction(transaction);
+      navigate(`/dashboard/edittransaction/${transaction.id}`);
+    }
+    //setModalOpen(true);
   };
 
   const handleTransactionShow = (transaction) => {
@@ -210,6 +212,22 @@ const GifmisprocessedPage = () => {
   return (
     <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
       <div className="flex justify justify-between">
+      <div className="flex relative w-[30%]">
+            <input
+              type="text"
+              name="search"
+              id="search"
+              value={searchTerm}
+              onChange={handleSearchInputChange}
+              autoFocus
+              placeholder="Search ORGANISATION, VENDOR OR DESCRIPTION...."
+              className={`w-full text-[0.8rem] px-[0.75rem] py-[0.22rem] border border-gray-400 rounded-[0.25rem] shadow-lg placeholder-[#8391a2] placeholder-shown:sm focus:ring-[0.2px] focus:ring-gray-300 focus:border-gray-400`}
+            />
+            <AiOutlineSearch
+              size={18}
+              className="absolute right-2 top-[7px]  text-gray-400"
+            />
+          </div>
                 <h1 className="text-[12px] font-bold">Payable Processed</h1>
                 <div className="flex w-[18%] justify-end">
                     <button
@@ -405,16 +423,16 @@ const GifmisprocessedPage = () => {
                       className="border-y text-left truncate-25 "
                       title={item?.gifmis?.orgname}
                     >
-                      {(item?.gifmis?.orgname)}
+                      {renderHighlightedTableCell(item?.gifmis?.orgname)}
                     </td>
                     <td
                       className="border-y text-left truncate-25"
                       title={item?.gifmis?.description}
                     >
-                      {(item?.gifmis?.description)}
+                      {renderHighlightedTableCell(item?.gifmis?.description)}
                     </td>
                     <td className="border-y text-left truncate-25" title={item?.gifmis?.vendorname}>
-                      {(item?.gifmis?.vendorname)}
+                      {renderHighlightedTableCell(item?.gifmis?.vendorname)}
                     </td>
                     <td className="border-y text-right truncate-25">
                       {(item?.gifmis?.revisedcontractamount)?.toLocaleString(undefined, {

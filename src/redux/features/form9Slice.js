@@ -7,7 +7,7 @@ const initialState = {
     {
       ipcDate: "",
       ipcNumber: "",
-      ipcAmount: "0",
+      ipcAmount: "",
       fileLabelNumber: "",
     },
   ],

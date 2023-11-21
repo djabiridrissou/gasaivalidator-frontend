@@ -11,6 +11,14 @@ export const getAllGifmis = createAsyncThunk(
         return await gifmis.getAllTransactions(page, searchTerm);
     }
 );
+
+export const getGifmisUser = createAsyncThunk(
+    "gifmis/gifmisUser",
+    async ({page, id}) => {
+        return await gifmis.getGifmisUser(page, id);
+    }
+);
+
 export const countPerOrganisation = createAsyncThunk(
     "gifmis/countPerOrganisation",
     async () => await gifmis.countPerOrg()
@@ -110,6 +118,7 @@ const initialState = {
     performanceIssue: [],
     btaIssued: [],
     btaNotIssued: [],
+    gifmisUser: [],
 };
 
 const gifmisSlice = createSlice({
@@ -196,6 +205,11 @@ const gifmisSlice = createSlice({
         builder.addCase(getBtaNotIssued.fulfilled, (state, { payload }) => {
             if (payload.data) {
                 state.btaNotIssued = payload.data;
+            }
+        });
+        builder.addCase(getGifmisUser.fulfilled, (state, { payload }) => {
+            if (payload.data) {
+                state.gifmisUser = payload.data;
             }
         })
     },

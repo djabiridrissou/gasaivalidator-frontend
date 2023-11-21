@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleAvailableBta, setBtaAmount, setBtaDate, setBtaReferenceNumber } from "../../redux/features/form11Slice";
+import { toggleAvailableBta, setBtaAmount, setBtaDate, setBtaReferenceNumber, updateBta, addBta, removeBta } from "../../redux/features/form11Slice";
 import { formatNumber } from "../../functions/helperFunctions";
 
 const Form10 = () => {
@@ -13,12 +13,26 @@ const Form10 = () => {
     const btaDate = useSelector((state) => state.form11.btaDate);
     const btaAmount = useSelector((state) => state.form11.btaAmount);
     const btaReferenceNumber = useSelector((state) => state.form11.btaReferenceNumber);
+    const btaDetails = useSelector((state) => state.form11.btaDetails);
 
     const handleBtaAmountChange = (e) => {
         const formattedValue = formatNumber(e.target.value);
         dispatch(setBtaAmount(formattedValue));
     };
 
+
+    const handleBtaChange = (index, fieldName, value) => {
+        dispatch(updateBta({ index, fieldName, value }));
+    };
+
+    const addNewBta = () => {
+        dispatch(addBta());
+    };
+    const removeBta = (index) => {
+        const updatedBta = [...btaDetails];
+        updatedBta.splice(index, 1);
+        dispatch(removeBta(updatedBta));
+      };
 
     return (
         <>
@@ -64,53 +78,78 @@ const Form10 = () => {
                                 </div>
                             </div>
                             <div className="mt-4">
-                                {(availableBta) && (
-                                    <div className="flex justify justify-center gap-4">
-                                        <div className="">
-                                            <label
-                                                htmlFor="paymentDate"
-                                                className="text-[13.5px] text-gray-700"
-                                            >
-                                                BTA Date
-                                            </label>
-                                            <input
-                                                type="date"
-                                                id="btaDate"
-                                                value={btaDate}
-                                                onChange={(e) => dispatch(setBtaDate(e.target.value))}
-                                                className="appearance-none w-full block text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
-                                            />
-                                        </div>{" "}
-                                        <div>
-                                            <label htmlFor="pvNo" className="text-[13.5px] text-gray-700">
-                                                BTA Amount
-                                            </label>
-                                            <input
-                                                type="text"
-                                                id="btaAmount."
-                                                value={btaAmount}
-                                                onInput={handleBtaAmountChange}
-                                                placeholder="BTA Amount."
-                                                className="appearance-none block text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label htmlFor="pvNo" className="text-[13.5px] text-gray-700">
-                                                BTA Reference Number
-                                            </label>
-                                            <input
-                                                type="text"
-                                                id="btaReferenceNumber"
-                                                value={btaReferenceNumber}
+                                {(availableBta) &&
+                                    btaDetails?.map((bta, index) => (
+                                        <Fragment key={index}> (
+                                            <div className="flex justify justify-center gap-4">
+                                                <div className="">
+                                                    <label
+                                                        htmlFor="paymentDate"
+                                                        className="text-[13.5px] text-gray-700"
+                                                    >
+                                                        BTA Date
+                                                    </label>
+                                                    <input
+                                                        type="date"
+                                                        id="btaDate"
+                                                        value={bta.btaDate}
+                                                        onChange={(e) => {
+                                                            handleBtaChange(index, "btaDate", e.target.value);
+                                                        }}
+                                                        className="appearance-none w-full block text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
+                                                    />
+                                                </div>{" "}
+                                                <div>
+                                                    <label htmlFor="pvNo" className="text-[13.5px] text-gray-700">
+                                                        BTA Amount
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        id="btaAmount."
+                                                        value={bta.btaAmount}
+                                                        onChange={(e) => {
+                                                            const formattedValue = formatNumber(e.target.value);
+                                                            handleBtaChange(index, "btaAmount", formattedValue);
+                                                        }}
+                                                        placeholder="BTA Amount."
+                                                        className="appearance-none block text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label htmlFor="pvNo" className="text-[13.5px] text-gray-700">
+                                                        BTA Reference Number
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        id="btaReferenceNumber"
+                                                        value={bta.btaReferenceNumber}
 
-                                                onChange={(e) => dispatch(setBtaReferenceNumber(e.target.value))}
-                                                placeholder="BTA Ref. Number."
-                                                className="appearance-none block text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
-                                            />
-                                        </div>
-                                    </div>
+                                                        onChange={(e) => {
+                                                            handleBtaChange(index, "btaReferenceNumber", e.target.value);
+                                                        }}
+                                                        placeholder="BTA Ref. Number."
+                                                        className="appearance-none block text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
+                                                    />
+                                                </div>
+                                                <button
+                                                    className="font-medium bg-green-700 px-[0.8rem] py-[0.15rem] mt-6"
+                                                    onClick={addNewBta}
+                                                >
+                                                    <span>+</span>
+                                                </button>
+                                                {index > 0 && (
+                                                    <button
+                                                        className="font-medium bg-red-700 px-[0.8rem] py-[0.15rem] mt-6 ml-2"
+                                                        onClick={() => removeBta(index)}
+                                                    >
+                                                        <span>-</span>
+                                                    </button>
+                                                )}
 
-                                )}
+                                            </div>
+                                            )
+                                        </Fragment>)
+                                    )}
 
                             </div>
                         </div>
@@ -156,7 +195,7 @@ const Form10 = () => {
 
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     );
 }

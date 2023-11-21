@@ -291,11 +291,11 @@ const calculateTransactionAmount = (transactions) => {
       icon: ShareIcon,
       route: "/dashboard/affect",
     },
-    {
+    /* {
       name: "Delete user transactions",
       icon: TrashIcon,
       route: "/dashboard/deleteusertransactions",
-    },
+    }, */
     {
       name: "Audit Issues",
       icon: Bars3Icon,

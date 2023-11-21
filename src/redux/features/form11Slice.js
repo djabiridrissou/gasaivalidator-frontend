@@ -3,11 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     availableBta: false,
-    btaAmount: "",
-    btaDate: "",
-    btaReferenceNumber: "",
-
-
+    btaDetails: [
+        {
+            btaDate: "",
+            btaAmount: "",
+            btaReferenceNumber: "",
+        },
+    ],
 };
 
 const form11Slice = createSlice({
@@ -27,7 +29,22 @@ const form11Slice = createSlice({
 
         setBtaReferenceNumber: (state, action) => {
             state.btaReferenceNumber = action.payload;
-        }
+        },
+
+        updateBta: (state, action) => {
+            const { index, fieldName, value } = action.payload;
+            state.btaDetails[index][fieldName] = value;
+          },
+        addBta: (state) => {
+            state.btaDetails.push({
+                btaDate: "",
+                btaAmount: "",
+                btaReferenceNumber: "",
+            });
+        },
+        removeBta: (state, action) => {
+            state.btaDetails = action.payload;
+        },
     },
 });
 
@@ -36,6 +53,9 @@ export const {
     setBtaAmount,
     setBtaDate,
     setBtaReferenceNumber,
+    updateBta,
+    addBta,
+    removeBta,
 } = form11Slice.actions;
 
 export default form11Slice.reducer;
