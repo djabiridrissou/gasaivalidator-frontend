@@ -185,7 +185,11 @@ const Form10 = () => {
                         {currentPath.startsWith("/dashboard/edittransaction") && (
                             <button
                                 onClick={() => {
-                                    if (availableBta && (!btaAmount || !btaDate || !btaReferenceNumber)) {
+                                    const btaAreMissing = btaDetails.some(
+                                        (bta) =>
+                                            !bta.btaDate || !bta.btaAmount || !bta.btaReferenceNumber
+                                    );
+                                    if (btaAreMissing) {
                                         return;
                                     }
                                     navigate(`/dashboard/edittransaction/${id}/3`)
