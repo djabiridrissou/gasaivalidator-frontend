@@ -388,6 +388,19 @@ const GifmisprocessedPage = () => {
                 </th>
                 <th className="border border-gray-200  ">
                   <span className="inline-flex items-center">
+                    SOURCE{" "}
+                    {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === ""
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("", "desc")}
+                    /> */}
+                  </span>
+                </th>
+                <th className="border border-gray-200  ">
+                  <span className="inline-flex items-center">
                     ACTION{" "}
                     {/* <BiSort
                       size={15}
@@ -455,7 +468,9 @@ const GifmisprocessedPage = () => {
                     <td className="border-y text-left truncate-25" title={item?.user?.lastname}>
                       {`${item?.user?.lastname || ''} - ${item?.user?.staffid || ''}`}
                     </td>
-                    
+                    <td className="border-y text-left truncate-25">
+                      {(item?.gifmis?.source)}
+                    </td>
                     <td className={`border-y text-center text-yellow-500 inline-flex gap-2`} style={{ placeItems: 'center' }}>
                      {/*  {item.userId == currentUser.id ? (
                         <FaEdit

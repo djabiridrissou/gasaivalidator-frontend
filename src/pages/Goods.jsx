@@ -320,6 +320,19 @@ console.log(transactions)
                 </th> */}
                 <th className="border border-gray-200  ">
                   <span className="inline-flex items-center">
+                    SOURCE{" "}
+                    {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === "status"
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("status", "desc")}
+                    /> */}
+                  </span>
+                </th>
+                <th className="border border-gray-200  ">
+                  <span className="inline-flex items-center">
                     STATUS{" "}
                     {/* <BiSort
                       size={15}
@@ -405,6 +418,12 @@ console.log(transactions)
                         size={20}
                       />
                     </td> */}
+                     <td
+                      className="border-y text-left truncate-25"
+                      title={item?.source}
+                    >
+                      {renderHighlightedTableCell(item?.source)}
+                    </td>
                     <td
                       className={`border-y text-left truncate-25 ${item?.status === 'COMPLETED' ? 'text-green-600' : 'text-red-600'
                         }`}
