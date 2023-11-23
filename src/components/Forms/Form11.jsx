@@ -32,7 +32,7 @@ const Form10 = () => {
         const updatedBta = [...btaDetails];
         updatedBta.splice(index, 1);
         dispatch(removeBta(updatedBta));
-      };
+    };
 
     return (
         <>
@@ -167,7 +167,11 @@ const Form10 = () => {
                         {currentPath.startsWith("/dashboard/transactiondetails") && (
                             <button
                                 onClick={() => {
-                                    if (availableBta && (!btaAmount || !btaDate || !btaReferenceNumber)) {
+                                    const btaAreMissing = btaDetails.some(
+                                        (bta) =>
+                                            !bta.btaDate || !bta.btaAmount || !bta.btaReferenceNumber
+                                    );
+                                    if (btaAreMissing) {
                                         return;
                                     }
                                     navigate(`/dashboard/transactiondetails/${id}/3`)
