@@ -413,6 +413,19 @@ const Affect = () => {
                 </th>
                 <th className="border border-gray-200  ">
                   <span className="inline-flex items-center">
+                    SOURCE{" "}
+                    {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === "outstandingclaim"
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("outstandingclaim", "desc")}
+                    /> */}
+                  </span>
+                </th>
+                <th className="border border-gray-200  ">
+                  <span className="inline-flex items-center">
                     ACTION{" "}
                   </span>
                 </th>
@@ -476,6 +489,9 @@ const Affect = () => {
                           maximumFractionDigits: 2,
                         })
                         .replace(/\.?0+$/, "")}
+                    </td>
+                    <td className="border-y text-left truncate-25" title={item?.vendorname}>
+                      {renderHighlightedTableCell(item?.source)}
                     </td>
                     <td>
                       <input
