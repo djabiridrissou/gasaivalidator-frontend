@@ -28,7 +28,7 @@ const gifmisprocessedSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(getAllGifmisprocessed.fulfilled, (state, { payload }) => {
             if (payload.data) {
-                   state.gifmisprocessed = payload.data;
+                state.gifmisprocessed = payload.data;
             }
         });
     },

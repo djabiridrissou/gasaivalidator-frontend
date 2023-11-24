@@ -12,13 +12,15 @@ const EditTransaction = () => {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  useEffect(() => {
-    const response = dispatch(getAllGifmisProcessed()).unwrap().then((res) => {
-      console.log("gifpro", res.data);
-    });
-  }, []);
-
+  const transactionsCheck = useSelector((state) => state.gifmisProcessed.gifmisProcessed);
   const gifmisProcessed = (useSelector((state) => state.gifmisProcessed.gifmisProcessed?.find(e => e.id == id)));
+  useEffect(() => {
+    if (transactionsCheck.length === 0) {
+      navigate("/dashboard/gifmisprocessed");
+    }
+  }, [transactionsCheck]);
+
+ 
   console.log("gifmisProcessed", gifmisProcessed);
   const dispatch = useDispatch();
   let advancedPayment = useSelector((state) => state.form2.advancedPayment);
