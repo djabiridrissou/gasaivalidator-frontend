@@ -167,13 +167,16 @@ const Form10 = () => {
                         {currentPath.startsWith("/dashboard/transactiondetails") && (
                             <button
                                 onClick={() => {
-                                    const btaAreMissing = btaDetails.some(
-                                        (bta) =>
-                                            !bta.btaDate || !bta.btaAmount || !bta.btaReferenceNumber
-                                    );
-                                    if (btaAreMissing) {
-                                        return;
+                                    if (availableBta) {
+                                        const btaAreMissing = btaDetails.some(
+                                            (bta) =>
+                                                !bta.btaDate || !bta.btaAmount || !bta.btaReferenceNumber
+                                        );
+                                        if (btaAreMissing) {
+                                            return;
+                                        }
                                     }
+
                                     navigate(`/dashboard/transactiondetails/${id}/3`)
                                 }}
                                 className={`bg-blue-500 text-white px-4 py-2 border-full rounded`}
@@ -185,12 +188,14 @@ const Form10 = () => {
                         {currentPath.startsWith("/dashboard/edittransaction") && (
                             <button
                                 onClick={() => {
-                                    const btaAreMissing = btaDetails.some(
-                                        (bta) =>
-                                            !bta.btaDate || !bta.btaAmount || !bta.btaReferenceNumber
-                                    );
-                                    if (btaAreMissing) {
-                                        return;
+                                    if (availableBta) {
+                                        const btaAreMissing = btaDetails.some(
+                                            (bta) =>
+                                                !bta.btaDate || !bta.btaAmount || !bta.btaReferenceNumber
+                                        );
+                                        if (btaAreMissing) {
+                                            return;
+                                        }
                                     }
                                     navigate(`/dashboard/edittransaction/${id}/3`)
                                 }}
