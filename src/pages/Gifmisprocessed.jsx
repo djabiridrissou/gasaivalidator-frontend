@@ -79,6 +79,7 @@ const GifmisprocessedPage = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
+  const [eyeClicked, setEyeClicked] = useState(false);
   const isAdmin = currentUser.role?.roleName == "admin";
   useEffect(() => {
     const response = dispatch(getAllGifmisProcessed({page, searchTerm})).unwrap().then((res) => {
@@ -187,7 +188,7 @@ const GifmisprocessedPage = () => {
   }
   const handleTransactionEdit = (transaction) => {
     // Lorsque l'utilisateur clique sur l'icône "FaEdit", stockez les détails de la transaction
-    if (transaction) {
+    if (transaction ) {
       setCurrentTransaction(transaction);
       navigate(`/dashboard/edittransaction/${transaction.id}`);
     }
@@ -195,7 +196,9 @@ const GifmisprocessedPage = () => {
   };
 
   const handleTransactionShow = (transaction) => {
-    navigate(`/dashboard/view/${transaction.id}`);
+    console.log("id Transaction", transaction?.id)
+    setEyeClicked(true);
+    navigate(`/dashboard/view/${transaction?.id}`);
   }
   const handleConfirm = () => {
     // Cette fonction sera appelée lorsque l'ID est confirmé dans la fenêtre modale
@@ -420,15 +423,12 @@ const GifmisprocessedPage = () => {
                 (
 
                   <tr key={itemIndex} onClick={() => {
-                    if (!isAdmin && item?.userId == currentUser?.id) {
-                      // Exécutez l'action souhaitée lorsque la ligne est cliquée
+                    if (!isAdmin && item?.userId == currentUser?.id && !eyeClicked) {
                       handleTransactionEdit(item);
                     }
                   }}
                   >
-                    {/*  <td className="border-y text-left ">
-                      {item.id}
-                    </td> */}
+            
                     <td className="border-y text-left ">
                       {(item?.payment)}
                     </td>
@@ -471,30 +471,20 @@ const GifmisprocessedPage = () => {
                     <td className="border-y text-left truncate-25">
                       {(item?.gifmis?.source)}
                     </td>
-                    <td className={`border-y text-center text-yellow-500 inline-flex gap-2`} style={{ placeItems: 'center' }}>
-                     {/*  {item.userId == currentUser.id ? (
-                        <FaEdit
-                          onClick={() => handleTransactionEdit(item)}
-                          size={20}
-                          className="cursor-pointer"
-                        />
-                      ) : (
-                        <FaEdit
-                        style={{
-                          cursor: 'not-allowed',
-                          pointerEvents: 'none',
-                          color: 'gray',
-                        }}
-                          size={20}
-                          className="cursor-pointer"
-                        />
-                      )} */}
+                    <td className={`border-y text-center`} style={{ placeItems: 'center' }}>
                       <FaEye
                       size={18} 
                       className="text-blue-500 cursor-pointer text-center"
-                      onClick={() => handleTransactionShow(item)}
+                      onClick={(e) => {
+                        {
+                          e.stopPropagation();
+                          setEyeClicked(true);
+                          handleTransactionShow(item);
+                        }
+                         // Empêche la propagation de l'événement de clic vers le tr parent
+                        
+                      }}
                       />
-
                     </td>
                   </tr>
                 ))

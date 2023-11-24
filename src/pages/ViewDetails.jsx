@@ -8,23 +8,26 @@ import {
 } from "../functions/helperFunctions";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllGifmisProcessed } from "../redux/features/gifmis-processed";
+import { useNavigate } from "react-router-dom";
 
-const ViewDetails = () => {
+const ViewDetails = ({ transaction }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { id } = useParams();
-  console.log("id", id);
-
+  const transactions = useSelector((state) => state.gifmisProcessed.gifmisProcessed);
+  console.log("transactions", transactions.length);
+ 
   const [details, setDetails] = useState();
 
+  useEffect(() => {
+    if (transactions.length === 0) {
+      navigate("/dashboard/gifmisprocessed");
+    }
+    setDetails(transactions.find(e => e?.id == id));
+  }, [transactions]);
 
- useEffect(() => {
-  const response = dispatch(getAllGifmisProcessed()).unwrap().then((res) => {
-    console.log("gifprocessed", res);
-    setDetails(res.data.find(e => e.id == id));
-  });
-  }, []);
-
-  console.log("details", details)
+  /* 
+    console.log("details", details) */
 
   return (
     <>
@@ -49,7 +52,7 @@ const ViewDetails = () => {
             <span className="font-semibold">DESCRIPTION:</span>{" "}
             {details?.gifmis?.description}
           </p>
-   
+
           <p>
             <span className="font-semibold">REVISED CONTRACT AMOUNT:</span>{" "}
             {formatFinancialNumber(
@@ -176,7 +179,7 @@ const ViewDetails = () => {
 
           <p>
             <span className="font-semibold">WARRANT AMOUNT:</span>{" "}
-            {(details?.warrantamount)?.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}{" "}
+            {(details?.warrantamount)?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}{" "}
           </p>
 
           <p>
@@ -187,6 +190,14 @@ const ViewDetails = () => {
           <p>
             <span className="font-semibold">AVAIBLE CONTRACT:</span>{" "}
             {details?.transaction?.availablecontracts === true ? "Yes" : "No"}
+          </p>
+          <p>
+            <span className="font-semibold">AVAIBLE BTA:</span>{" "}
+            {details?.transaction?.availablebta === true ? "Yes" : "No"}
+          </p>
+          <p>
+            <span className="font-semibold">ON PREMISE:</span>{" "}
+            {details?.transaction?.onpremise === true ? "Yes" : "No"}
           </p>
         </section>
       </div>
@@ -206,9 +217,9 @@ const ViewDetails = () => {
             </tr>
           </thead>
           <tbody>
-           
+
             {details?.transactions &&
-            (details?.transactions).length > 0 ? (
+              (details?.transactions).length > 0 ? (
               details?.transactions?.map(
                 (item, itemIndex) => (
                   <tr key={itemIndex}>
@@ -223,7 +234,7 @@ const ViewDetails = () => {
                     <td className="border-y text-center truncate-25 ">
                       {formatDate(item?.paymentDate)}
                     </td>
-                   
+
                     <td
                       className="border-y text-right truncate-25"
                       title={item?.amountPaid}
@@ -262,7 +273,7 @@ const ViewDetails = () => {
           </thead>
           <tbody>
             {details?.suppliances &&
-            details?.suppliances.length > 0 ? (
+              details?.suppliances.length > 0 ? (
               details?.suppliances?.map(
                 (item, itemIndex) => (
                   <tr key={itemIndex}>
@@ -286,7 +297,7 @@ const ViewDetails = () => {
                       className="border-y text-left truncate-25"
                       title={item?.receiptBy}
                     >
-                      {item?.receiptBy || "-"} 
+                      {item?.receiptBy || "-"}
                     </td>
                   </tr>
                 )
@@ -324,7 +335,7 @@ const ViewDetails = () => {
           </thead>
           <tbody>
             {details?.services &&
-            details?.services?.length > 0 ? (
+              details?.services?.length > 0 ? (
               details?.services?.map((item, itemIndex) => (
                 <tr key={itemIndex}>
                   <td className="border-y text-left ">{itemIndex + 1}</td>
@@ -379,7 +390,7 @@ const ViewDetails = () => {
               <th className="border border-gray-200  ">CONTRACT NUMBER</th>
               <th className="border border-gray-200  ">ITEM TO BE SUPPLIED</th>
               <th className="border border-gray-200  ">
-              QUANTITY
+                QUANTITY
               </th>
               <th className="border border-gray-200 text-center ">
                 UNIT PRICE
@@ -391,13 +402,13 @@ const ViewDetails = () => {
           </thead>
           <tbody>
             {details?.contracts &&
-            details?.contracts?.length > 0 ? (
+              details?.contracts?.length > 0 ? (
               details?.contracts?.map((item, itemIndex) => (
                 <tr key={itemIndex}>
                   <td className="border-y text-left ">{itemIndex + 1}</td>
                   <td
                     className="border-y text-left truncate-25"
-               
+
                   >
                     {formatDate(item?.contractDate)}
                   </td>
@@ -442,7 +453,7 @@ const ViewDetails = () => {
                     title={item?.fileLabelNumber}
                   >
                     {item?.fileLabelNumber}
-                  </td>     
+                  </td>
                 </tr>
               ))
             ) : (
