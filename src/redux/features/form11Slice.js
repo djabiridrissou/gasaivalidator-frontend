@@ -43,6 +43,7 @@ const form11Slice = createSlice({
             });
         },
         removeBta: (state, action) => {
+            console.log("dans slice", action.payload);
             state.btaDetails = action.payload;
         },
     },

@@ -28,7 +28,7 @@ const Form10 = () => {
     const addNewBta = () => {
         dispatch(addBta());
     };
-    const removeBta = (index) => {
+    const handleRemoveBta = (index) => {
         const updatedBta = [...btaDetails];
         updatedBta.splice(index, 1);
         dispatch(removeBta(updatedBta));
@@ -140,7 +140,7 @@ const Form10 = () => {
                                                 {index > 0 && (
                                                     <button
                                                         className="font-medium bg-red-700 px-[0.8rem] py-[0.15rem] mt-6 ml-2"
-                                                        onClick={() => removeBta(index)}
+                                                        onClick={() => handleRemoveBta(index)}
                                                     >
                                                         <span>-</span>
                                                     </button>
