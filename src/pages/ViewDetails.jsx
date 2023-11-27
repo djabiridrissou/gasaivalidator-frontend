@@ -15,7 +15,7 @@ const ViewDetails = ({ transaction }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const transactions = useSelector((state) => state.gifmisProcessed.gifmisProcessed);
-  console.log("transactions", transactions.length);
+
  
   const [details, setDetails] = useState();
 
