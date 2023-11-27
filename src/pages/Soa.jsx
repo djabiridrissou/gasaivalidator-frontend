@@ -9,6 +9,7 @@ import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { getSoa } from "../redux/features/gifmis";
 import { ExptService } from "../services/expt-service";
+import { FaEye } from "react-icons/fa";
 
 const StoreManagement = () => {
     const dispatch = useDispatch();
@@ -49,14 +50,14 @@ const StoreManagement = () => {
     function customParse(str) {
         // Supprimer les virgules pour les milliers
         str = str?.replace(/,/g, "");
-      
+
         // Remplacer le point par la virgule pour le séparateur décimal
         str = str?.replace(".", ",");
-      
-        return parseFloat(str);
-      }
 
-      const calculateTransactionAmount = (transactions) => {
+        return parseFloat(str);
+    }
+
+    const calculateTransactionAmount = (transactions) => {
         let total = 0;
         const totalTransactions = transactions.map((item) => {
             const amount = customParse(item.amountPaid);
@@ -91,27 +92,27 @@ const StoreManagement = () => {
             let contractPayment = item?.gifmisProcesseds[0]?.ipcdetails[0]?.ipcAmount;
             contractPayment = customParse(contractPayment);
             let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
-      
-                let data = {
-                    totalPayment: totalPayment,
-                    contractPayment: contractPayment,
-                    item: item,
-                }
-                listToShow.push(data);
-          
+
+            let data = {
+                totalPayment: totalPayment,
+                contractPayment: contractPayment,
+                item: item,
+            }
+            listToShow.push(data);
+
 
         } else {
             let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
             let contractPayment = calculateContractAmount(item?.gifmisProcesseds[0]?.contracts);
 
-            
-                let data = {
-                    totalPayment: totalPayment,
-                    contractPayment: contractPayment,
-                    item: item,
-                }
-                listToShow.push(data);
-         
+
+            let data = {
+                totalPayment: totalPayment,
+                contractPayment: contractPayment,
+                item: item,
+            }
+            listToShow.push(data);
+
         }
 
     });
@@ -178,6 +179,11 @@ const StoreManagement = () => {
             }
         }
         return remarksString;
+    }
+
+    const handleTransactionShow = (transaction) => {
+        console.log("Transaction", transaction)
+        navigate(`/dashboard/view/${transaction?.id}`);
     }
 
     return (
@@ -309,6 +315,19 @@ const StoreManagement = () => {
                     /> */}
                                     </span>
                                 </th>
+                                <th className="border border-gray-200  ">
+                                    <span className="inline-flex items-center">
+                                        ACTION{" "}
+                                        {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === "balancetobepaid"
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("balancetobepaid", "desc")}
+                    /> */}
+                                    </span>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -332,19 +351,32 @@ const StoreManagement = () => {
                                         </td>
                                         <td className="border-y text-right ">
                                             {(item?.contractPayment)?.toLocaleString(undefined, {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                        })}
-                                        </td>
-                                        <td className="border-y text-right ">
-                                            {(
-                                                item?.totalPayment)?.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
                                                 maximumFractionDigits: 2,
                                             })}
                                         </td>
+                                        <td className="border-y text-right ">
+                                            {(
+                                                item?.totalPayment)?.toLocaleString(undefined, {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                })}
+                                        </td>
                                         <td className="border-y text-left truncate-25" title={formatRemarks(item?.item)}>
                                             {formatRemarks(item?.item)}
+                                        </td>
+                                        <td className={`border-y text-center`} style={{ placeItems: 'center' }}>
+                                            <FaEye
+                                                size={18}
+                                                className="text-blue-500 cursor-pointer text-center"
+                                                onClick={(e) => {
+                                                    {
+                                                        handleTransactionShow(item?.item?.gifmisProcesseds[0]);
+                                                    }
+                                                    // Empêche la propagation de l'événement de clic vers le tr parent
+
+                                                }}
+                                            />
                                         </td>
                                     </tr>
                                 ))
@@ -362,26 +394,26 @@ const StoreManagement = () => {
                 </div>
             </div>
             {/* Pagination */}
-        <div className="flex tex-xs justify-end mr-3 mt-1">
-        <ReactPaginate
-          previousLabel="Prev"
-          nextLabel="Next"
-          breakLabel="..."
-          breakClassName=""
-          pageCount={totalPages}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={handlePageChange}
-          containerClassName="pagination flex items-center gap-[4px]"
-          subContainerClassName="pages pagination"
-          activeClassName="active" // Ajoutez vos styles personnalisés ici
-          pageClassName="pagination-item"
-          style={{ overflowX: "hidden" }} // Ajoutez la classe CSS personnalisée ici
-          forcePage={page - 1}
-        />
+            <div className="flex tex-xs justify-end mr-3 mt-1">
+                <ReactPaginate
+                    previousLabel="Prev"
+                    nextLabel="Next"
+                    breakLabel="..."
+                    breakClassName=""
+                    pageCount={totalPages}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={handlePageChange}
+                    containerClassName="pagination flex items-center gap-[4px]"
+                    subContainerClassName="pages pagination"
+                    activeClassName="active" // Ajoutez vos styles personnalisés ici
+                    pageClassName="pagination-item"
+                    style={{ overflowX: "hidden" }} // Ajoutez la classe CSS personnalisée ici
+                    forcePage={page - 1}
+                />
 
-        {/* <img src="../images/login.jpg" alt="" /> */}
-      </div>
+                {/* <img src="../images/login.jpg" alt="" /> */}
+            </div>
         </div>
     );
 };
