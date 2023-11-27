@@ -9,23 +9,35 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { getAllGifmisProcessed } from "../redux/features/gifmis-processed";
 import { useNavigate } from "react-router-dom";
+import { getSoa } from "../redux/features/gifmis";
 
 const ViewDetails = ({ transaction }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
   const transactions = useSelector((state) => state.gifmisProcessed.gifmisProcessed);
+  const soa = useSelector((state) => state.gifmis.soa);
+  const [details, setDetails] = useState([]);
 
- 
-  const [details, setDetails] = useState();
-
+console.log("details", details);
+console.log("transactions", transactions);
+console.log("soa", soa);
   useEffect(() => {
-    if (transactions.length === 0) {
-      navigate("/dashboard/gifmisprocessed");
-    }
-    setDetails(transactions.find(e => e?.id == id));
-  }, [transactions]);
-
+    /* console.log("view length transactions", transactions?.length);
+    console.log("view length soa", soa);
+    console.log("view id", id); */
+    /* if (transactions) {
+      setDetails(transactions.find(e => e?.id == id));
+    } 
+    if (soa) {
+      
+    } */
+    //setDetails(soa.find(e => e?.id === id));
+    const toShow = (soa.find(e => e?.gifmisProcesseds[0]?.id == id));
+    setDetails(toShow?.gifmisProcesseds[0]);
+    
+  }, [transactions, soa]);
+  
   /* 
     console.log("details", details) */
 
