@@ -437,7 +437,7 @@ const Form3 = () => {
         {currentPath.startsWith("/dashboard/transactiondetails") && (
            <button
           onClick={() => {
-            if (fundingType === "default") {
+            if (fundingType == "") {
               return;
             }
             if (fundingType == "Central government" && warrantSupported && (!warrantNo || !warrantDate || !warrantAmount || !fileLabelNumber)) {
@@ -458,7 +458,7 @@ const Form3 = () => {
         {currentPath.startsWith("/dashboard/edittransaction") && (
            <button
            onClick={() => {
-            if (fundingType === "default") {
+            if (fundingType == "") {
               return;
             }
             if (fundingType == "Central government" && warrantSupported && (!warrantNo || !warrantDate || !warrantAmount || !fileLabelNumber)) {

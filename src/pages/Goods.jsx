@@ -185,7 +185,7 @@ console.log(transactions)
               value={searchTerm}
               onChange={handleSearchInputChange}
               autoFocus
-              placeholder="Search ORGANISATION, VENDOR OR DESCRIPTION...."
+              placeholder="Search...."
               className={`w-full text-[0.8rem] px-[0.75rem] py-[0.22rem] border border-gray-400 rounded-[0.25rem] shadow-lg placeholder-[#8391a2] placeholder-shown:sm focus:ring-[0.2px] focus:ring-gray-300 focus:border-gray-400`}
             />
             <AiOutlineSearch

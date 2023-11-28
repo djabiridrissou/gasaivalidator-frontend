@@ -196,13 +196,13 @@ const GifmisprocessedPage = () => {
   };
 
   const handleTransactionShow = (transaction) => {
-    console.log("id Transaction", transaction?.id)
+   
     setEyeClicked(true);
     navigate(`/dashboard/view/${transaction?.id}`);
   }
   const handleConfirm = () => {
     // Cette fonction sera appelée lorsque l'ID est confirmé dans la fenêtre modale
-    // Naviguez vers la page de "edittransaction" avec l'ID de la transaction actuelle
+    // Naviguez vers la page de "edittransaction" avec l'ID de la transaction actgiuelle
     navigate(`/dashboard/edittransaction/${currentTransaction.id}`);
   };
 
@@ -223,7 +223,7 @@ const GifmisprocessedPage = () => {
               value={searchTerm}
               onChange={handleSearchInputChange}
               autoFocus
-              placeholder="Search ORGANISATION, VENDOR OR DESCRIPTION...."
+              placeholder="Search...."
               className={`w-full text-[0.8rem] px-[0.75rem] py-[0.22rem] border border-gray-400 rounded-[0.25rem] shadow-lg placeholder-[#8391a2] placeholder-shown:sm focus:ring-[0.2px] focus:ring-gray-300 focus:border-gray-400`}
             />
             <AiOutlineSearch
@@ -284,6 +284,7 @@ const GifmisprocessedPage = () => {
           <table className="table-auto w-full bg-white text-[13px]">
             <thead className="sticky -top-1 bg-gray-100">
             <tr className="bg-gray-100">
+            <th className="border border-gray-200 text-left ">ID TRANSACTION</th>
                 <th className="border border-gray-200 text-left ">PAYMENT STATUS</th>
                 {/* <th className="border border-gray-200  ">
                   <span className="inline-flex items-center">
@@ -428,6 +429,9 @@ const GifmisprocessedPage = () => {
                     }
                   }}
                   >
+                    <td className="border-y text-left ">
+                      {(item?.idgifmis)}
+                    </td>
             
                     <td className="border-y text-left ">
                       {(item?.payment)}

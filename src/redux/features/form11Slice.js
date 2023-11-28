@@ -17,7 +17,9 @@ const form11Slice = createSlice({
     initialState,
     reducers: {
         toggleAvailableBta: (state) => {
+           
             state.availableBta = !state.availableBta;
+            console.log("dans toggle", state.availableBta);
         },
 
         setBtaAmount: (state, action) => {

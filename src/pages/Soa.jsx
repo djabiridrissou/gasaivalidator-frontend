@@ -182,10 +182,9 @@ const StoreManagement = () => {
     }
 
     const handleTransactionShow = (transaction) => {
-        console.log("Transaction", transaction)
-        navigate(`/dashboard/view/${transaction?.id}`);
+        navigate(`/dashboard/gifmisprocessed`);
     }
-
+    console.log("listtoshow", listToShow);
     return (
         <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
             <div className="flex justify justify-between">
