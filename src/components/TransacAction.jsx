@@ -190,7 +190,6 @@ let transactions = useSelector((state) => state.form2.transactions);
         console.log("Handle success");
         toast.success("Done!");
         navigate("/dashboard/goods");
-        
         window.location.reload();
         
       } else {

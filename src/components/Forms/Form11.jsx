@@ -33,6 +33,8 @@ const Form10 = () => {
         updatedBta.splice(index, 1);
         dispatch(removeBta(updatedBta));
     };
+    console.log("btadetails", btaDetails);
+    console.log("availableBta", availableBta);
 
     return (
         <>
@@ -80,7 +82,7 @@ const Form10 = () => {
                             <div className="mt-4">
                                 {(availableBta) &&
                                     btaDetails?.map((bta, index) => (
-                                        <Fragment key={index}> (
+                                        <Fragment key={index}> 
                                             <div className="flex justify justify-center gap-4">
                                                 <div className="">
                                                     <label
@@ -147,7 +149,6 @@ const Form10 = () => {
                                                 )}
 
                                             </div>
-                                            )
                                         </Fragment>)
                                     )}
 
