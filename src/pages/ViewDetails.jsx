@@ -393,7 +393,7 @@ const ViewDetails = ({ transaction }) => {
             </tbody>
           </table>
         </div>
-        
+
         {(details?.availablecontracts && details?.expendituretype === "Goods") && (
           <div className="max-h-[40vh] overflow-y-scroll w-[80%] mx-auto mt-8 card1 p-1">
             <label htmlFor="" className="font-semibold text-[13px] mb-2">
@@ -564,7 +564,7 @@ const ViewDetails = ({ transaction }) => {
           </div>
         )}
 
-        {(details?.availablecontracts && details?.expendituretype === "Works" && (details?.worktype == "Road" || details?.worktype == "Building")) && (
+        {(details?.availablecontracts && details?.expendituretype === "Works" && (details?.worktype == "Road" || details?.worktype == "Building" || details?.worktype == "Sea Defence & Drainage")) && (
           <div className="max-h-[40vh] overflow-y-scroll w-[80%] mx-auto mt-8 card1 p-1">
             <label htmlFor="" className="font-semibold text-[13px] mb-2">
               CONTRACT(S)
@@ -624,11 +624,11 @@ const ViewDetails = ({ transaction }) => {
           </div>
         )}
 
-        {(details?.availablecontracts && details?.expendituretype === "Works" && details?.worktype != "Road" && details?.worktype != "Building") && (
+        {(details?.availablecontracts && details?.expendituretype === "Works" && details?.worktype != "Road" && details?.worktype != "Building" && details?.worktype != "Sea Defence & Drainage") && (
           <div className="max-h-[40vh] overflow-y-scroll w-[80%] mx-auto mt-8 card1 p-1">
             <label htmlFor="" className="font-semibold text-[13px] mb-2">
               CONTRACT(S)
-            </label>
+            </label> 
             <table className="table-auto w-full bg-white text-[13px]">
               <thead className="sticky -top-1 bg-gray-100">
                 <tr className="bg-gray-100">
@@ -768,7 +768,7 @@ const ViewDetails = ({ transaction }) => {
           </>
         )}
 
-        {details?.expendituretype == "Works" && (
+        {(details?.expendituretype == "Works" && details?.ipcsupported) &&(
           <>
             <div className="max-h-[40vh] overflow-y-scroll w-[80%] mx-auto mt-4 card1 p-1">
               <label htmlFor="" className="font-semibold text-[13px] mb-2">

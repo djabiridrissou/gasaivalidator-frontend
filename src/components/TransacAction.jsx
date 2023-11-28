@@ -65,7 +65,7 @@ const TransactionDetails = () => {
     contracts = servicesContracts;
   }
   if (expenditureType === "Works") {
-    if (workType == "Road" || workType == "Building") {
+    if (workType == "Road" || workType == "Building" || workType == "Sea Defence & Drainage") {
         contracts = roadsContracts;
     } else {
         contracts = worksContracts;
