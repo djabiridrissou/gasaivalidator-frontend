@@ -338,8 +338,8 @@ const ViewDetails = ({ transaction }) => {
 
           </section>
         </div>
-
-        <div className="max-h-[40vh] overflow-y-scroll w-[80%] mx-auto mt-4 card1 p-1">
+        {details?.payment != "unpaid" && (
+           <div className="max-h-[40vh] overflow-y-scroll w-[80%] mx-auto mt-4 card1 p-1">
           <label htmlFor="" className="font-semibold text-[13px] mb-2">
             TRANSACTION(S)
           </label>
@@ -393,6 +393,7 @@ const ViewDetails = ({ transaction }) => {
             </tbody>
           </table>
         </div>
+        )}
 
         {(details?.availablecontracts && details?.expendituretype === "Goods") && (
           <div className="max-h-[40vh] overflow-y-scroll w-[80%] mx-auto mt-8 card1 p-1">
