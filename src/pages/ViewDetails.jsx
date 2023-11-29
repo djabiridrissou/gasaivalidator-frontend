@@ -798,7 +798,7 @@ const ViewDetails = ({ transaction }) => {
                           {formatDate(item?.ipcDate)}
                         </td>
                         <td className="border-y text-left">
-                          {formatDate(item?.fileLabelNumber)}
+                          {item?.fileLabelNumber}
                         </td>
                       </tr>
                     ))
