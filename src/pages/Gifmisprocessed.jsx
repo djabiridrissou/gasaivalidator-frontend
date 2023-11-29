@@ -433,7 +433,7 @@ const GifmisprocessedPage = () => {
                       {(item?.idgifmis)}
                     </td>
             
-                    <td className="border-y text-left ">
+                    <td className="border-y text-left truncate-25" title={item?.payment}>
                       {(item?.payment)}
                     </td>
                     <td

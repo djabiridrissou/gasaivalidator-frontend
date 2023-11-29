@@ -661,7 +661,7 @@ const ViewDetails = ({ transaction }) => {
                         {item?.contractNo}
                       </td>
                       <td
-                        className="border-y text-left"
+                        className="border-y text-left truncate-25" title={item?.workDescription}
                       >
                         {item?.workDescription}
                       </td>
@@ -717,12 +717,12 @@ const ViewDetails = ({ transaction }) => {
                     details?.btadetails?.map((item, itemIndex) => (
                       <tr key={itemIndex}>
                         <td className="border-y text-left ">{itemIndex + 1}</td>
-                        <td className="border-y text-left ">{(item?.btaAmount)?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                        <td className="border-y text-left truncate-25" title={item?.btaReferenceNumber}>
-                          {item?.btaReferenceNumber}
+                        <td className="border-y text-left ">{(item?.btaamount)?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                        <td className="border-y text-left truncate-25" title={item?.btarefnumber}>
+                          {item?.btarefnumber}
                         </td>
                         <td className="border-y text-left truncate-25 ">
-                          {formatDate(item?.btaDate)}
+                          {formatDate(item?.btadate)}
                         </td>
                       </tr>
                     ))
