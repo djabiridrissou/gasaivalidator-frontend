@@ -236,7 +236,7 @@ const calculateTransactionAmount = (transactions) => {
       //console.log("nojudgement", res.data);
     });
     const response10 = dispatch(getSoa()).unwrap().then((res) => {
-      console.log("soa", res);
+      
       setSoaLength(res.total);
     })
     const response11 = dispatch(getOverpayment()).unwrap().then((res) => {

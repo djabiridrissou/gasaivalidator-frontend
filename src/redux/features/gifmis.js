@@ -7,7 +7,7 @@ const gifmis = GoodsService.getInstance();
 export const getAllGifmis = createAsyncThunk(
     "gifmis/getAllGifmis",
     async ({page, searchTerm}) => {
-        console.log("page", page, "search dans service", searchTerm);
+        
         return await gifmis.getAllTransactions(page, searchTerm);
     }
 );

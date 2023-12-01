@@ -12,6 +12,57 @@ import { FaEdit, FaTimes } from "react-icons/fa";
 import { getCurentUser } from "../redux/features/auth";
 import { ExptService } from "../services/expt-service";
 import ViewDetails from "./ViewDetails";
+import { setPaymentStatus } from "../redux/features/form1Slice";
+import { setAdvancedPayment } from "../redux/features/form2Slice";
+import { setTransactions2 } from "../redux/features/form2Slice";
+import { setFundingType } from "../redux/features/Form3Slice";
+import { setFinancialYear } from "../redux/features/Form3Slice";
+import { setWarrantSupported } from "../redux/features/Form3Slice";
+import { setAvailableBudget } from "../redux/features/Form3Slice";
+import { setWarrantDate } from "../redux/features/Form3Slice";
+import { setWarrantNo } from "../redux/features/Form3Slice";
+import { setWarrantAmount } from "../redux/features/Form3Slice";
+import { setFileLabelNumber } from "../redux/features/Form3Slice";
+import { setBudgetFileLabelNumber } from "../redux/features/Form3Slice";
+import { setDonors } from "../redux/features/Form3Slice";
+import { setExpenditureType } from "../redux/features/form4Slice";
+import { setWorkType } from "../redux/features/form4Slice";
+import { setBuildingType } from "../redux/features/form4Slice";
+import { setNumberOfRooms } from "../redux/features/form4Slice";
+import { setDescription } from "../redux/features/form4Slice";
+import { setAvailableContracts } from "../redux/features/form4Slice";
+import { setGoodsContracts } from "../redux/features/form4Slice";
+import { setServicesContracts } from "../redux/features/form4Slice";
+import { setWorksContracts } from "../redux/features/form4Slice";
+import { setRoadsContracts } from "../redux/features/form4Slice";
+import { setTransactionInGifmis } from "../redux/features/form5Slice";
+import { setPurchaseOrderNo } from "../redux/features/form5Slice";
+import { setInvoiceNo } from "../redux/features/form5Slice";
+import { setFileLabelNumberGifmis } from "../redux/features/form5Slice";
+import { setIsItemSupplied } from "../redux/features/form6Slice";
+import { setIsServiceCompleted } from "../redux/features/form6Slice";
+import { setIsWorkCompleted } from "../redux/features/form6Slice";
+import { setRegionalLocation } from "../redux/features/form6Slice";
+import { setDistrictLocation } from "../redux/features/form6Slice";
+import { setSuppliances } from "../redux/features/form6Slice";
+import { setServices } from "../redux/features/form6Slice";
+import { setWorks } from "../redux/features/form6Slice";
+import { setIsItemDistributed } from "../redux/features/form7Slice";
+import { setFileLabelNumberDistributed } from "../redux/features/form7Slice";
+import { setQuantityDistributed } from "../redux/features/form7Slice";
+import { setAvailableInStore } from "../redux/features/form8Slice";
+import { setAnyAvailableInStore } from "../redux/features/form8Slice";
+import { setFileLabelNumberInStore } from "../redux/features/form8Slice";
+import { setQuantityInStore } from "../redux/features/form8Slice";
+import { setQuantitySendToStore } from "../redux/features/form8Slice";
+import { setFileLabelNumberSendToStore } from "../redux/features/form8Slice";
+import { setIpcSupported } from "../redux/features/form9Slice";
+import { setIpcDetails } from "../redux/features/form9Slice";
+import { setOnPremise } from "../redux/features/form10Slice";
+import { setAuditorSatisfy } from "../redux/features/form10Slice";
+import { setAuditorDetails } from "../redux/features/form10Slice";
+import { setBtaDetails } from "../redux/features/form11Slice";
+import { setAvailableBta } from "../redux/features/form11Slice";
 
 function EditTransactionModal({ transaction, onConfirm, onClose }) {
   const [id, setId] = useState("");
@@ -83,12 +134,11 @@ const GifmisprocessedPage = () => {
   const isAdmin = currentUser.role?.roleName == "admin";
   useEffect(() => {
     const response = dispatch(getAllGifmisProcessed({page, searchTerm})).unwrap().then((res) => {
-      console.log("gifprocessed", res);
       setTotalPages(res.pages);
     });
 
     dispatch(getCurentUser()).unwrap().then(res => {
-      console.log("res", res.user);
+      
       setCurrentUser(res.user);
     }).catch(error => {
       console.log(error);
@@ -188,15 +238,75 @@ const GifmisprocessedPage = () => {
   }
   const handleTransactionEdit = (transaction) => {
     // Lorsque l'utilisateur clique sur l'icône "FaEdit", stockez les détails de la transaction
-    if (transaction ) {
+    if (transaction) {
       setCurrentTransaction(transaction);
+      console.log("currentTransaction", transaction);
+      dispatch(setPaymentStatus(transaction?.payment));
+      dispatch(setAdvancedPayment(transaction?.advancedpayment));
+      dispatch(setTransactions2(transaction?.transactions));
+      dispatch(setFundingType(transaction?.fundingtype));
+      dispatch(setFinancialYear(transaction?.financialyear));
+      dispatch(setWarrantSupported(transaction?.warrantsupported));
+      dispatch(setAvailableBudget(transaction?.availablebudget));
+      dispatch(setWarrantDate(transaction?.warrantdate));
+      dispatch(setWarrantNo(transaction?.warrantno));
+      dispatch(setWarrantAmount(transaction?.warrantamount));
+      dispatch(setFileLabelNumber(transaction?.warrantfilelabelnumber));
+      dispatch(setBudgetFileLabelNumber(transaction?.budgetfilelabelnumber));
+      dispatch(setDonors(transaction?.donors));
+      dispatch(setExpenditureType(transaction?.expendituretype));
+      dispatch(setWorkType(transaction?.worktype));
+      dispatch(setBuildingType(transaction?.buildingtype));
+      dispatch(setNumberOfRooms(transaction?.numberofrooms));
+      dispatch(setDescription(transaction?.description));
+      dispatch(setAvailableContracts(transaction?.availablecontracts));
+      if (transaction?.availablecontracts && transaction?.contracts?.length > 0 && transaction?.expendituretype === "Goods") {
+        dispatch(setGoodsContracts(transaction?.contracts));
+      }
+      if (transaction?.availablecontracts && transaction?.contracts?.length > 0 && transaction?.expendituretype === "Service") {
+        dispatch(setServicesContracts(transaction?.contracts));
+      }
+      if (transaction?.availablecontracts && transaction?.contracts?.length > 0 && transaction?.expendituretype === "Works" && (transaction.worktype === "Road" || transaction.worktype === "Building" || transaction.worktype === "Sea Defence & Drainage")) {
+        dispatch(setRoadsContracts(transaction?.contracts));
+      }
+      if (transaction?.availablecontracts && transaction?.contracts?.length > 0 && transaction?.expendituretype === "Works" && (transaction.worktype != "Road" && transaction.worktype != "Building" && transaction.worktype != "Sea Defence & Drainage")) {
+        dispatch(setWorksContracts(transaction?.contracts));
+      }
+      dispatch(setTransactionInGifmis(transaction?.transactioningifmis));
+      dispatch(setPurchaseOrderNo(transaction?.purchaseorderno));
+      dispatch(setInvoiceNo(transaction?.invoiceno));
+      dispatch(setFileLabelNumberGifmis(transaction?.gifmisfilelabelnumber));
+      dispatch(setIsItemSupplied(transaction?.isitemsupplied));
+      dispatch(setIsServiceCompleted(transaction?.isservicecompleted));
+      dispatch(setIsWorkCompleted(transaction?.isworkcompleted));
+      dispatch(setRegionalLocation(transaction?.regionallocation));
+      dispatch(setDistrictLocation(transaction?.districtlocation));
+      dispatch(setSuppliances(transaction?.suppliances));
+      dispatch(setServices(transaction?.services));
+      dispatch(setWorks(transaction?.works));
+      dispatch(setIsItemDistributed(transaction?.isitemdistributed));
+      dispatch(setFileLabelNumberDistributed(transaction?.distributedfilelabelnumber));
+      dispatch(setQuantityDistributed(transaction?.quantitydistributed));
+      dispatch(setAvailableInStore(transaction?.availableinstore));
+      dispatch(setAnyAvailableInStore(transaction?.anyavailableinstore));
+      dispatch(setFileLabelNumberInStore(transaction?.storefilelabelnumber));
+      dispatch(setQuantityInStore(transaction?.actualquantityinstore));
+      dispatch(setQuantitySendToStore(transaction?.quantitysendtostore));
+      dispatch(setFileLabelNumberSendToStore(transaction?.qtysendfilelabelnumber));
+      dispatch(setIpcSupported(transaction?.ipcsupported));
+      dispatch(setIpcDetails(transaction?.ipcdetails));
+      dispatch(setOnPremise(transaction?.onpremise));
+      dispatch(setAuditorSatisfy(transaction?.auditorsatisfy));
+      dispatch(setAuditorDetails(transaction?.auditordetails));
+      dispatch(setBtaDetails(transaction?.btadetails));
+      dispatch(setAvailableBta(transaction?.availablebta));
+
       navigate(`/dashboard/edittransaction/${transaction.id}`);
     }
     //setModalOpen(true);
   };
 
   const handleTransactionShow = (transaction) => {
-   
     setEyeClicked(true);
     navigate(`/dashboard/view/${transaction?.id}`);
   }

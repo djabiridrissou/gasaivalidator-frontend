@@ -20,7 +20,7 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const [currentUser, setCurrentUser] = useState({});
   const isAdmin = currentUser.role?.roleName == "admin";
-  console.log('isAdmin', isAdmin);
+ 
   function formatDate(dateString) {
     if (dateString) {
       const options = { day: "2-digit", month: "2-digit", year: "2-digit" };
@@ -35,7 +35,7 @@ const Dashboard = () => {
   }
   useEffect(() => {
     dispatch(getCurentUser()).unwrap().then(res => {
-      console.log("res", res.user);
+      
       setCurrentUser(res.user);
     }).catch(error => {
       console.log(error);
@@ -47,7 +47,7 @@ const Dashboard = () => {
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
   };
-  console.log("currentUser", currentUser);
+  
   return (
     <>
       <div className="cube-container -ml-4 - z-40 flex -mt-2 h-10  items-center gap-x-1 px-4  sm:gap-x-2 sm:px-6 lg:px-4">

@@ -21,6 +21,14 @@ const form10Slice = createSlice({
 
     setAuditorDetails: (state, action) => {
         state.auditorDetails = action.payload;
+    },
+
+    setOnPremise: (state, action) => {
+        state.onPremise = action.payload;
+    },
+
+    setAuditorSatisfy: (state, action) => {
+        state.auditorSatisfy = action.payload;
     }
   },
 });
@@ -29,6 +37,8 @@ export const {
   toggleOnPremise,
   toggleAuditorSatisfy,
   setAuditorDetails,
+  setOnPremise,
+  setAuditorSatisfy,
 } = form10Slice.actions;
 
 export default form10Slice.reducer;
