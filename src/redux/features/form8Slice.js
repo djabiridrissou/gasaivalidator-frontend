@@ -8,7 +8,6 @@ const initialState = {
   quantityInStore: "",
   itemDistributedInStore: false,
   itemDistributedNotInStore: false,
-  setFileLabelNumberSendToStore: "",
   quantitySendToStore: "",
   fileLabelNumberSendToStore: "",
 };

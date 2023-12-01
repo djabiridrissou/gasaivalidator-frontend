@@ -38,16 +38,16 @@ const Goods = () => {
   };
 
   const isAdmin = currentUser.role?.roleName == "admin";
-  console.log('isAdmin', isAdmin);
+
   useEffect(() => {
-    console.log("page dans jsx", page, "search", searchTerm);
+    
     //setLimit(limit);
     const response = dispatch(getAllGifmis({page, searchTerm})).unwrap().then((res) => {
-      console.log("transac", res.pages);
+      
       setTotalPages(res.pages);
     });
     dispatch(getCurentUser()).unwrap().then(res => {
-      console.log("res", res.user.id);
+      
       setCurrentUser(res.user);
     }).catch(error => {
       console.log(error);
@@ -139,8 +139,8 @@ const Goods = () => {
   };
 
   /*   const startIndex = (page - 1) * limit; */
-console.log('currentUser', currentUser);
-console.log(transactions)
+
+
   return (
     <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
       <div className="flex justify justify-between">

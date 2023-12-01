@@ -48,6 +48,13 @@ const form11Slice = createSlice({
             console.log("dans slice", action.payload);
             state.btaDetails = action.payload;
         },
+
+        setAvailableBta: (state, action) => {
+            state.availableBta = action.payload;
+        },
+        setBtaDetails: (state, action) => {
+            state.btaDetails = action.payload;
+        },
     },
 });
 
@@ -59,6 +66,8 @@ export const {
     updateBta,
     addBta,
     removeBta,
+    setAvailableBta,
+    setBtaDetails,
 } = form11Slice.actions;
 
 export default form11Slice.reducer;

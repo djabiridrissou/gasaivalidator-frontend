@@ -8,12 +8,14 @@ import { updateGifmisProcessed } from "../redux/features/gifmis-processed";
 import { getAllGifmisProcessed } from "../redux/features/gifmis-processed";
 import { toast } from 'react-toastify';
 
+
 const EditTransaction = () => {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
   const transactionsCheck = useSelector((state) => state.gifmisProcessed.gifmisProcessed);
   const gifmisProcessed = (useSelector((state) => state.gifmisProcessed.gifmisProcessed?.find(e => e.id == id)));
+  //console.log("gifmisProcessed", gifmisProcessed);
   useEffect(() => {
     if (transactionsCheck.length === 0) {
       navigate("/dashboard/gifmisprocessed");
@@ -21,8 +23,12 @@ const EditTransaction = () => {
   }, [transactionsCheck]);
 
  
-  console.log("gifmisProcessed", gifmisProcessed);
+
+
   const dispatch = useDispatch();
+  //console.log("gifmisProcessed payment", gifmisProcessed?.payment);
+
+
   let advancedPayment = useSelector((state) => state.form2.advancedPayment);
   let paymentStatus = useSelector((state) => state.form1.paymentStatus);
   let transactions1 = useSelector((state) => state.form1.transactions);
@@ -56,7 +62,7 @@ const EditTransaction = () => {
   if (expenditureType === "Goods") {
     contracts = goodsContracts;
   }
-  if (expenditureType === "Services") {
+  if (expenditureType === "Service") {
     contracts = servicesContracts;
   }
   if (expenditureType === "Works") {

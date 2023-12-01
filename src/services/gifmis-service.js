@@ -23,10 +23,9 @@ export class GoodsService extends HttpBaseService {
 
     async getAllTransactions(page, searchTerm) {
         let apiResponse = new ApiResponse();
-        console.log("page", page, "search", (searchTerm));
+       
         return this.instance.get(`/user?page=${page}&search=${searchTerm}`).then(res => {
             apiResponse = retriveAxiosSuccessResponse(res);
-            console.log("all", res["pages"]);
             return apiResponse;
         }).catch(err => {
             apiResponse = retriveAxiosErrorResponse(err);

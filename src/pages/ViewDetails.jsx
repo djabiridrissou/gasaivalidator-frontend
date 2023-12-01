@@ -18,9 +18,6 @@ const ViewDetails = ({ transaction }) => {
   const transactions = useSelector((state) => state.gifmisProcessed.gifmisProcessed);
   const soa = useSelector((state) => state.gifmis.soa);
 
-  console.log("transactions", transactions);
-  //const [details, setDetails] = useState([]);
-  console.log("id", parseInt(id));
   const details = (transactions?.find(e => e?.id == parseInt(id)));
   if (!details) {
     navigate("/dashboard/gifmisprocessed");
@@ -206,13 +203,13 @@ const ViewDetails = ({ transaction }) => {
                             <span className="font-semibold">ON PREMISE ?</span>{" "}
                             {details?.onpremise === true ? "Yes" : "No"}
                           </p>
-                          {onpremise === true && (
+                          {details?.onpremise === true && (
                             <>
                               <p>
                                 <span className="font-semibold">IS AUDITOR SATISFY ?</span>{" "}
                                 {details?.auditorsatisfy === true ? "Yes" : "No"}
                               </p>
-                              {auditorsatisfy === false && (
+                              {details?.auditorsatisfy === false && (
                                 <p>
                                   <span className="font-semibold">AUDITOR DETAILS:</span>{" "}
                                   {details?.auditordetails}
@@ -338,7 +335,7 @@ const ViewDetails = ({ transaction }) => {
 
           </section>
         </div>
-        {details?.payment != "unpaid" && (
+        {details?.payment && (
            <div className="max-h-[40vh] overflow-y-scroll w-[80%] mx-auto mt-4 card1 p-1">
           <label htmlFor="" className="font-semibold text-[13px] mb-2">
             TRANSACTION(S)
@@ -717,12 +714,12 @@ const ViewDetails = ({ transaction }) => {
                     details?.btadetails?.map((item, itemIndex) => (
                       <tr key={itemIndex}>
                         <td className="border-y text-left ">{itemIndex + 1}</td>
-                        <td className="border-y text-left ">{(item?.btaamount)?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                        <td className="border-y text-left truncate-25" title={item?.btarefnumber}>
-                          {item?.btarefnumber}
+                        <td className="border-y text-left ">{(item?.btaAmount)?.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                        <td className="border-y text-left truncate-25" title={item?.btaReferenceNumber}>
+                          {item?.btaReferenceNumber}
                         </td>
                         <td className="border-y text-left truncate-25 ">
-                          {formatDate(item?.btadate)}
+                          {formatDate(item?.btaDate)}
                         </td>
                       </tr>
                     ))
