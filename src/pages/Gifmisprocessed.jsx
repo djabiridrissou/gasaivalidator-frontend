@@ -38,6 +38,7 @@ import { setRoadsContracts } from "../redux/features/form4Slice";
 import { setTransactionInGifmis } from "../redux/features/form5Slice";
 import { setPurchaseOrderNo } from "../redux/features/form5Slice";
 import { setInvoiceNo } from "../redux/features/form5Slice";
+import { setInvoiceDate } from "../redux/features/form5Slice";
 import { setFileLabelNumberGifmis } from "../redux/features/form5Slice";
 import { setIsItemSupplied } from "../redux/features/form6Slice";
 import { setIsServiceCompleted } from "../redux/features/form6Slice";
@@ -275,6 +276,7 @@ const GifmisprocessedPage = () => {
       dispatch(setTransactionInGifmis(transaction?.transactioningifmis));
       dispatch(setPurchaseOrderNo(transaction?.purchaseorderno));
       dispatch(setInvoiceNo(transaction?.invoiceno));
+      dispatch(setInvoiceDate(transaction?.invoicedate));
       dispatch(setFileLabelNumberGifmis(transaction?.gifmisfilelabelnumber));
       dispatch(setIsItemSupplied(transaction?.isitemsupplied));
       dispatch(setIsServiceCompleted(transaction?.isservicecompleted));
