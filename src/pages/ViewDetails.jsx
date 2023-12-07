@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getAllGifmisProcessed } from "../redux/features/gifmis-processed";
 import { useNavigate } from "react-router-dom";
 import { getSoa } from "../redux/features/gifmis";
+import { truncateString } from "../functions/helperFunctions";
 
 const ViewDetails = ({ transaction }) => {
   const dispatch = useDispatch();
@@ -18,10 +19,11 @@ const ViewDetails = ({ transaction }) => {
   const transactions = useSelector((state) => state.gifmisProcessed.gifmisProcessed);
   const soa = useSelector((state) => state.gifmis.soa);
 
+
+
   const details = (transactions?.find(e => e?.id == parseInt(id)));
-  if (!details) {
-    navigate("/dashboard/gifmisprocessed");
-  }
+  console.log("details", details);
+
   /* console.log("toShow", toShow);
       const details = toShow?.gifmisProcesseds[0];
     console.log("details", details); */
@@ -36,13 +38,15 @@ const ViewDetails = ({ transaction }) => {
       
     } */
     //setDetails(soa.find(e => e?.id === id));
-
+    if (!details) {
+      navigate("/dashboard/gifmisprocessed");
+    }
 
   }, [transactions, soa]);
 
   /* 
     console.log("details", details) */
-
+ 
   return (
     <>
       <div className="overflow-auto">
@@ -237,10 +241,7 @@ const ViewDetails = ({ transaction }) => {
                             <span className="font-semibold">NUMBER OF ROOMS:</span>{" "}
                             {details?.numberofrooms}
                           </p>
-                          <p>
-                            <span className="font-semibold">DESCRIPTION:</span>{" "}
-                            {details?.description}
-                          </p>
+
                         </>
                       )}
                       <p>
@@ -325,7 +326,12 @@ const ViewDetails = ({ transaction }) => {
             </p>
             <p>
               <span className="font-semibold">DESCRIPTION:</span>{" "}
-              {details?.gifmis?.description}
+              <span
+                className="truncate-text cursor-pointer"
+                title={details?.gifmis?.description}
+              >
+                {truncateString(details?.gifmis?.description, 55)}
+              </span>
             </p>
 
             <p>
@@ -340,60 +346,60 @@ const ViewDetails = ({ transaction }) => {
           </section>
         </div>
         {(details?.transactions)?.length > 0 && details?.payment && (
-           <div className="max-h-[40vh] overflow-y-scroll w-[80%] mx-auto mt-4 card1 p-1">
-          <label htmlFor="" className="font-semibold text-[13px] mb-2">
-            TRANSACTION(S)
-          </label>
-          <table className="table-auto w-full bg-white text-[13px]">
-            <thead className="sticky -top-1 bg-gray-100">
-              <tr className="bg-gray-100">
-                <th className="border border-gray-200 text-left ">ID</th>
-                <th className="border border-gray-200 text-left ">PV NO</th>
-                <th className="border border-gray-200 text-left">FLN</th>
-                <th className="border border-gray-200 text-left">PAYMENT DATE</th>
-                <th className="border border-gray-200 text-left">AMOUNT PAID</th>
-              </tr>
-            </thead>
-            <tbody>
-
-              {details?.transactions &&
-                (details?.transactions).length > 0 ? (
-                details?.transactions?.map(
-                  (item, itemIndex) => (
-                    <tr key={itemIndex}>
-                      <td className="border-y text-left ">{itemIndex + 1}</td>
-                      <td className="border-y text-left ">{item?.pvNo}</td>
-                      <td
-                        className="border-y text-left truncate-25"
-                        title={item?.fileLabelNumber}
-                      >
-                        {item?.fileLabelNumber}
-                      </td>
-                      <td className="border-y text-left truncate-25 ">
-                        {formatDate(item?.paymentDate)}
-                      </td>
-
-                      <td
-                        className="border-y text-left truncate-25"
-                        title={item?.amountPaid}
-                      >
-                        {item?.amountPaid}
-                      </td>
-                    </tr>
-                  )
-                )
-              ) : (
-                <tr>
-                  <td className="border-y text-center py-2" colSpan="12">
-                    <span className="text-red-500 font-extrabold text-[12px]">
-                      No data found
-                    </span>
-                  </td>
+          <div className="max-h-[40vh] overflow-y-scroll w-[80%] mx-auto mt-4 card1 p-1">
+            <label htmlFor="" className="font-semibold text-[13px] mb-2">
+              TRANSACTION(S)
+            </label>
+            <table className="table-auto w-full bg-white text-[13px]">
+              <thead className="sticky -top-1 bg-gray-100">
+                <tr className="bg-gray-100">
+                  <th className="border border-gray-200 text-left ">ID</th>
+                  <th className="border border-gray-200 text-left ">PV NO</th>
+                  <th className="border border-gray-200 text-left">FLN</th>
+                  <th className="border border-gray-200 text-left">PAYMENT DATE</th>
+                  <th className="border border-gray-200 text-left">AMOUNT PAID</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+
+                {details?.transactions &&
+                  (details?.transactions).length > 0 ? (
+                  details?.transactions?.map(
+                    (item, itemIndex) => (
+                      <tr key={itemIndex}>
+                        <td className="border-y text-left ">{itemIndex + 1}</td>
+                        <td className="border-y text-left ">{item?.pvNo}</td>
+                        <td
+                          className="border-y text-left truncate-25"
+                          title={item?.fileLabelNumber}
+                        >
+                          {item?.fileLabelNumber}
+                        </td>
+                        <td className="border-y text-left truncate-25 ">
+                          {formatDate(item?.paymentDate)}
+                        </td>
+
+                        <td
+                          className="border-y text-left truncate-25"
+                          title={item?.amountPaid}
+                        >
+                          {item?.amountPaid}
+                        </td>
+                      </tr>
+                    )
+                  )
+                ) : (
+                  <tr>
+                    <td className="border-y text-center py-2" colSpan="12">
+                      <span className="text-red-500 font-extrabold text-[12px]">
+                        No data found
+                      </span>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         )}
 
         {(details?.availablecontracts && details?.expendituretype === "Goods") && (
@@ -630,7 +636,7 @@ const ViewDetails = ({ transaction }) => {
           <div className="max-h-[40vh] overflow-y-scroll w-[80%] mx-auto mt-8 card1 p-1">
             <label htmlFor="" className="font-semibold text-[13px] mb-2">
               CONTRACT(S)
-            </label> 
+            </label>
             <table className="table-auto w-full bg-white text-[13px]">
               <thead className="sticky -top-1 bg-gray-100">
                 <tr className="bg-gray-100">
@@ -770,7 +776,7 @@ const ViewDetails = ({ transaction }) => {
           </>
         )}
 
-        {(details?.expendituretype == "Works" && details?.ipcsupported) &&(
+        {(details?.expendituretype == "Works" && details?.ipcsupported) && (
           <>
             <div className="max-h-[40vh] overflow-y-scroll w-[80%] mx-auto mt-4 card1 p-1">
               <label htmlFor="" className="font-semibold text-[13px] mb-2">
