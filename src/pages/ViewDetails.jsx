@@ -113,6 +113,10 @@ const ViewDetails = ({ transaction }) => {
                         {details?.invoiceno}
                       </p>
                       <p>
+                        <span className="font-semibold">INVOICE DATE:</span>{" "}
+                        {details?.invoicedate}
+                      </p>
+                      <p>
                         <span className="font-semibold">GIFMIS FILE LABEL NUMBER:</span>{" "}
                         {details?.gifmisfilelabelnumber}
                       </p>
@@ -335,7 +339,7 @@ const ViewDetails = ({ transaction }) => {
 
           </section>
         </div>
-        {details?.payment && (
+        {(details?.transactions)?.length > 0 && details?.payment && (
            <div className="max-h-[40vh] overflow-y-scroll w-[80%] mx-auto mt-4 card1 p-1">
           <label htmlFor="" className="font-semibold text-[13px] mb-2">
             TRANSACTION(S)
@@ -866,7 +870,7 @@ const ViewDetails = ({ transaction }) => {
           </div>
         )}
 
-        {details?.expendituretype == "Service" && (
+        {details?.isservicecompleted && details?.expendituretype == "Service" && (
           <div className="max-h-[40vh] overflow-y-scroll w-[80%] mx-auto mt-8 card1 p-1">
             <label htmlFor="" className="font-semibold text-[13px] mb-2">
               SERVICE(S)

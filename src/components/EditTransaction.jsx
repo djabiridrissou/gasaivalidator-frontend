@@ -76,6 +76,7 @@ const EditTransaction = () => {
   let transactionInGIFMIS = useSelector((state) => state.form5.transactionInGIFMIS);
   let purchaseOrderNo = useSelector((state) => state.form5.purchaseOrderNo);
   let invoiceNo = useSelector((state) => state.form5.invoiceNo);
+  let invoiceDate = useSelector((state) => state.form5.invoiceDate);
   let gifmisFileLabelNumber = useSelector((state) => state.form5.fileLabelNumber);
   let isItemSupplied = useSelector((state) => state.form6.isItemSupplied);
   let suppliances = useSelector((state) => state.form6.suppliances);
@@ -141,6 +142,7 @@ const EditTransaction = () => {
       transactioningifmis: transactionInGIFMIS,
       purchaseorderno: purchaseOrderNo,
       invoiceno: invoiceNo,
+      invoicedate: invoiceDate,
       gifmisfilelabelnumber: gifmisFileLabelNumber,
       isitemsupplied: isItemSupplied,
       suppliances: suppliances,
