@@ -259,10 +259,10 @@ const IpcRepo = () => {
                                                     maximumFractionDigits: 2,
                                                 })}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(ipc?.ipcNumber)}>
                                                 {(ipc?.ipcNumber)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(ipc?.fileLabelNumber)}>
                                                 {(ipc?.fileLabelNumber)}
                                             </td>
                                         </tr>

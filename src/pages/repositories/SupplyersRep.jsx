@@ -250,16 +250,16 @@ const SupplyersRepo = () => {
                                             <td className="border-y text-left truncate-25" title={item?.user?.lastname}>
                                                 {`${item?.gifmisProcesseds[0]?.user?.lastname || ''} - ${item?.gifmisProcesseds[0]?.user?.staffid || ''}`}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left">
                                                 {(suppliance?.quantity)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(suppliance?.receiptBy)}>
                                                 {(suppliance?.receiptBy)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left">
                                                 {formatDate(suppliance?.sraDate)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(suppliance?.fileLabelNumber)}>
                                                 {(suppliance?.fileLabelNumber)}
                                             </td>
                                         </tr>

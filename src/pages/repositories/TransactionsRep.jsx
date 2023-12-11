@@ -256,13 +256,13 @@ const TransactionsRepo = () => {
                                                     maximumFractionDigits: 2,
                                                 })}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(transaction?.pvNo)}>
                                                 {(transaction?.pvNo)}
                                             </td>
                                             <td className="border-y text-left ">
                                                 {formatDate(transaction?.paymentDate)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(transaction?.fileLabelNumber)}>
                                                 {(transaction?.fileLabelNumber)}
                                             </td>
                                         </tr>

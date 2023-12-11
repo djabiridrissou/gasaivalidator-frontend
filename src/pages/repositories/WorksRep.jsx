@@ -263,19 +263,19 @@ const WorksRepo = () => {
                                             <td className="border-y text-left truncate-25" title={item?.user?.lastname}>
                                                 {`${item?.gifmisProcesseds[0]?.user?.lastname || ''} - ${item?.gifmisProcesseds[0]?.user?.staffid || ''}`}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(work?.certificationIssuedBy)}>
                                                 {(work?.certificationIssuedBy)}
                                             </td>
                                             <td className="border-y text-left ">
                                                 {formatDate(work?.certificationOfCompletionDate)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(work?.designation)}>
                                                 {(work?.designation)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(work?.fileLabelNumber)}>
                                                 {(work?.fileLabelNumber)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left">
                                                 {(work?.percentageOfCompletion)}
                                             </td>
                                         </tr>

@@ -237,16 +237,16 @@ const DonorsRepo = () => {
                                             <td className="border-y text-left truncate-25" title={item?.user?.lastname}>
                                                 {`${item?.gifmisProcesseds[0]?.user?.lastname || ''} - ${item?.gifmisProcesseds[0]?.user?.staffid || ''}`}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(donor?.donorName)}>
                                                 {renderHighlightedTableCell(donor?.donorName)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left">
                                                 {(donor?.pledgeAmount)?.toLocaleString(undefined, {
                                                     minimumFractionDigits: 2,
                                                     maximumFractionDigits: 2,
                                                 })}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(donor?.fileLabelNumber)}>
                                                 {(donor?.fileLabelNumber)}
                                             </td>
                                         </tr>
