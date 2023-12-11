@@ -158,19 +158,6 @@ const ServicesContractsRepo = () => {
                                     </span>
                                 </th>
                                 <th className="border border-gray-200  ">
-                                    <span className="inline-flex items-center truncate-25" title="IPC DATE">
-                                        CONTRACT DATE{" "}
-                                        {/* <BiSort
-                      size={15}
-                      className={`ml-2 cursor-pointer ${sortField === "description"
-                          ? "text-blue-500"
-                          : "text-gray-500"
-                        }`}
-                      onClick={() => handleSort("description", "desc")}
-                    /> */}
-                                    </span>
-                                </th>
-                                <th className="border border-gray-200  ">
                                     <span className="inline-flex items-center">
                                         ASSIGN TO{" "}
                                         {/* <BiSort
@@ -183,6 +170,20 @@ const ServicesContractsRepo = () => {
                     /> */}
                                     </span>
                                 </th>
+                                <th className="border border-gray-200  ">
+                                    <span className="inline-flex items-center truncate-25" title="IPC DATE">
+                                        CONTRACT DATE{" "}
+                                        {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === "description"
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("description", "desc")}
+                    /> */}
+                                    </span>
+                                </th>
+                                
                                 <th className="border border-gray-200  ">
                                     <span className="inline-flex items-center truncate-25" title="IPC DATE">
                                         CONTRACT NUMBER{" "}
