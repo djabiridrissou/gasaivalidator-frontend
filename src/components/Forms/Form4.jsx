@@ -454,6 +454,30 @@ const Form4 = () => {
                   </div>
                   <div>
                     <label
+                      htmlFor="contractNo"
+                      className="text-[13.5px] text-gray-700"
+                    >
+                      Contract Amount
+                    </label>
+                    <input
+                      type="text"
+                      id="contractAmount"
+                      name="contractAmount"
+                      value={servicesContract.contractAmount}
+                      onChange={(e) => {
+                        const newValue = formatNumber(e.target.value);
+                        handleServiceContractChange(
+                          index,
+                          "contractAmount",
+                          newValue
+                        );
+                      }}
+                      placeholder="Contract Amount"
+                      className="appearance-none block w-[90%] text-[0.9rem]  px-[0.9rem] py-[0.25rem] border border-[#4a525d] rounded-[0.25rem] shadow-sm placeholder-[#8391a2] focus:ring-[0.3px] focus:ring-[#464f5b] focus:border-[#464f5b]"
+                    />
+                  </div>
+                  <div>
+                    <label
                       htmlFor="serviceDescription"
                       className="text-[13.5px] text-gray-700"
                     >

@@ -198,6 +198,19 @@ const ServicesContractsRepo = () => {
                                     </span>
                                 </th>
                                 <th className="border border-gray-200  ">
+                                    <span className="inline-flex items-center truncate-25" title="IPC DATE">
+                                        CONTRACT AMOUNT{" "}
+                                        {/* <BiSort
+                      size={15}
+                      className={`ml-2 cursor-pointer ${sortField === "description"
+                          ? "text-blue-500"
+                          : "text-gray-500"
+                        }`}
+                      onClick={() => handleSort("description", "desc")}
+                    /> */}
+                                    </span>
+                                </th>
+                                <th className="border border-gray-200  ">
                                     <span className="inline-flex items-center truncate-25" title="IPC AMOUNT">
                                         SIGNED BY{" "}
                                         {/* <BiSort
@@ -284,6 +297,12 @@ const ServicesContractsRepo = () => {
                                             </td>
                                             <td className="border-y text-left truncate-25" title={(contract?.contractNo)}>
                                                 {(contract?.contractNo)}
+                                            </td>
+                                            <td className="border-y text-left truncate-25" title={(contract?.contractNo)}>
+                                                {(contract?.contractAmount)?.toLocaleString(undefined, {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                })}
                                             </td>
                                             <td className="border-y text-left truncate-25" title={(contract?.contractSign)}>
                                                 {(contract?.contractSign)}

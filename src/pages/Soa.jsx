@@ -87,6 +87,21 @@ const StoreManagement = () => {
         return total;
     };
 
+    const calculateServiceContractAmount = (contracts) => {
+        let total = 0;
+        const totalContracts = contracts.map((item) => {
+            const amount = customParse(item.contractAmount);
+            console.log("dans contrat", item, amount);
+            if (!isNaN(amount)) {
+                total += amount;
+            } else {
+                total += 0;
+            }
+        });
+        console.log("totalcontracts", total);
+        return total;
+    };
+
     soaList?.map((item) => {
         if (item?.gifmisProcesseds[0]?.expendituretype == "Works") {
             let contractPayment = item?.gifmisProcesseds[0]?.ipcdetails[0]?.ipcAmount;
@@ -101,6 +116,17 @@ const StoreManagement = () => {
             listToShow.push(data);
 
 
+        } else if (item?.gifmisProcesseds[0]?.expendituretype == "Service") {
+            let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
+            let contractPayment = calculateServiceContractAmount(item?.gifmisProcesseds[0]?.contracts);
+
+
+            let data = {
+                totalPayment: totalPayment,
+                contractPayment: contractPayment,
+                item: item,
+            }
+            listToShow.push(data);
         } else {
             let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
             let contractPayment = calculateContractAmount(item?.gifmisProcesseds[0]?.contracts);
@@ -131,7 +157,7 @@ const StoreManagement = () => {
                 if (!(item?.gifmisProcesseds[0]?.transactioningifmis)) {
                     remarksString += " Not-In-GIFMIS";
                 }
-                if (!(item?.gifmisProcesseds[0]?.auditorsatisfy)) {
+                if (item?.gifmisProcesseds[0]?.expendituretype == "Works" && !(item?.gifmisProcesseds[0]?.auditorsatisfy)) {
                     remarksString += " Auditor-not-satisfied";
                 }
                 if (item?.gifmisProcesseds[0]?.expendituretype == "Goods") {
