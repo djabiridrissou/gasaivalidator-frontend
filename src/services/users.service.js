@@ -43,4 +43,16 @@ export class UserService extends HttpBaseService {
             return apiResponse;
         });
     }
+
+    async updateUser(id, userData) {
+        let apiResponse = new ApiResponse();
+        try {
+            const res = await this.instance.post(`/${id}`, userData);
+            apiResponse = retriveAxiosSuccessResponse(res);
+            return apiResponse;
+        } catch (err) {
+            apiResponse = retriveAxiosErrorResponse(err);
+            return apiResponse;
+        }
+    }
 }
