@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getCurentUser } from "../redux/features/auth";
 import { current } from '@reduxjs/toolkit';
+import Snowfall from 'react-snowfall';
 
 const navigation = [
  /*  { name: 'Dashboard', href: '#', current: true },
@@ -16,8 +17,7 @@ const navigation = [
   { name: 'Directory', href: '#', current: false } */,
 ]
 const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
+  { name: 'Profile', href: '/dashboard/profile' },
   { name: 'Sign out', href: '/' },
 ]
 
@@ -30,6 +30,24 @@ function classNames(...classes) {
 export default function NavB() {
   const dispatch = useDispatch();
   const [currentUser, setCurrentUser] = useState({});
+  const [isHovered, setIsHovered] = useState(false);
+  const [isSnowing, setIsSnowing] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+
+  const handleSnowing = () => {
+    const newState = !isSnowing;
+    setIsSnowing(newState);
+    localStorage.setItem('snowState', JSON.stringify(newState));
+  };
+
   useEffect(() => {
     dispatch(getCurentUser()).unwrap().then(res => {
       //console.log("res", res.user);
@@ -37,6 +55,10 @@ export default function NavB() {
     }).catch(error => {
       console.log(error);
     });
+    const snowState = localStorage.getItem('snowState');
+    if (snowState) {
+      setIsSnowing(JSON.parse(snowState));
+    }
   }, []);
   return (
     <>
@@ -54,6 +76,7 @@ export default function NavB() {
           <>
             <div className="mx-auto w-full py-3 mb-3 px-6 sm:px-6 lg:px-8 shadow-md ml-1">
               <div className="relative flex justify-between lg:gap-8 xl:grid xl:grid-cols-12">
+
                 <div className="flex md:absolute md:inset-y-0 md:left-0 lg:static xl:col-span-2">
                   <div className="flex flex-shrink-0 items-center">
                     {/* <a href="#">
@@ -65,25 +88,54 @@ export default function NavB() {
                     </a> */}
                   </div>
                 </div>
-                <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6">
-                  <div className="flex items-center px-6 py-4 md:mx-auto md:max-w-3xl lg:mx-0 lg:max-w-none xl:px-0">
-                    <div className="w-full">
+                <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6 items-center justify-center">
+                  <div className="flex items-center justify-center px-6 py-4 md:mx-auto md:max-w-3xl lg:mx-0 lg:max-w-none xl:px-0">
+                    <div style={{ width: '35px', height: '35px', border: '1px solid #ccc', borderRadius: '50%', overflow: 'hidden' }}
+                      onMouseEnter={handleMouseEnter}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      {isHovered ? (
+                        <button
+                          onClick={() => handleSnowing()}
+                          style={{
+                            position: 'absolute',
+                            transform: 'translate(-50%, -50%)',
+                            height: '30px',
+                            top: '50%',
+                            borderRadius: '4px',
+                            color: '#fff',
+                            cursor: 'pointer',
+                            zIndex: '1',
+                            background: isSnowing ? 'red' : 'green',
+                          }}
+                        >
+                          {isSnowing ? 'Stop Snow' : 'is Snowing'}
+                        </button>
+                      ) : (
+                        <img
+                          src="/images/neige.jpg"
+                          alt="Description de l'image"
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                      )}
+                    </div>
+                    {/* <div className="w-full">
                       <label htmlFor="search" className="sr-only">
                         Search
                       </label>
                       <div className="relative">
                         {/* <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                           <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                        </div> */}
+                        </div> 
                         {/* <input
                           id="search"
                           name="search"
                           className="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                           placeholder="Search"
                           type="search"
-                        /> */}
+                        />
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className="flex items-center md:absolute md:inset-y-0 md:right-0 lg:hidden">
@@ -118,7 +170,7 @@ export default function NavB() {
                           className="h-8 w-8 rounded-full"
                           aria-hidden="true"
                         />
-                        
+
                       </Menu.Button>
                       <span className=''>{currentUser.lastname}</span>
                     </div>
@@ -211,6 +263,18 @@ export default function NavB() {
           </>
         )}
       </Popover>
+      {isSnowing && (
+        <Snowfall
+        snowflakeCount={250} // Augmenter le nombre de flocons
+        snowflakeZIndex={2}
+        color="#808080b3" // Utiliser une couleur contrastante
+        snowflakePosition="absolute"
+        snowflakeBottom="-50px"
+        snowflakeSizeMin={10} // Augmenter la taille minimale des flocons
+        snowflakeSizeMax={20} // Augmenter la taille maximale des flocons
+        windSpeed={1} // Diminuer la vitesse des flocons
+      />
+      )}
     </>
   )
 }

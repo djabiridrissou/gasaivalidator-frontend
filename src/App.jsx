@@ -42,6 +42,18 @@ import {
   WithoutIssue,
   Affect,
   DeleteUserTransactions,
+  BtaRepo,
+  DonorsRepo,
+  GoodsContractsRepo,
+  IpcRepo,
+  ServicesContractsRepo,
+  ServicesRepo,
+  RoadContractsRepo,
+  SupplyersRepo,
+  TransactionsRepo,
+  WorksContractsRepo,
+  WorksRepo,
+  Profile,
 } from "./routes/routes";
 import OrgTransactions from "./pages/OrgTransactions";
 
@@ -51,7 +63,6 @@ const App = () => {
     <div>
       <Routes>
         <Route path="/" element={<Login />} />
-
         <Route path="/dashboard" element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="/dashboard/goods" element={<Goods />} />
@@ -82,6 +93,19 @@ const App = () => {
           <Route path="/dashboard/teammembers" element={<TeamMembers />} />
           <Route path="/dashboard/affect" element={<Affect />} />
           <Route path="/dashboard/deleteusertransactions" element={<DeleteUserTransactions />} />
+          <Route path="/dashboard/bta-rep" element={<BtaRepo />} />
+          <Route path="/dashboard/donors-rep" element={<DonorsRepo />} />
+          <Route path="/dashboard/contracts-goods-rep" element={<GoodsContractsRepo />} />
+          <Route path="/dashboard/bta-rep" element={<BtaRepo />} />
+          <Route path="/dashboard/ipc-rep" element={<IpcRepo />} />
+          <Route path="/dashboard/contracts-services-rep" element={<ServicesContractsRepo />} />
+          <Route path="/dashboard/services-rep" element={<ServicesRepo />} />
+          <Route path="/dashboard/contracts-road-rep" element={<RoadContractsRepo />} />
+          <Route path="/dashboard/supplyers-rep" element={<SupplyersRepo />} />
+          <Route path="/dashboard/transactions-rep" element={<TransactionsRepo />} />
+          <Route path="/dashboard/contracts-works-not-road-rep" element={<WorksContractsRepo />} />
+          <Route path="/dashboard/works-rep" element={<WorksRepo />} />
+          <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/transactiondetails/:id" element={<TransactionDetails />} >
             <Route index element={<Form1 />} />
             <Route path="2" element={<Form3 />} />
@@ -94,19 +118,19 @@ const App = () => {
             <Route path="9" element={<Form10 />} />
             <Route path="10" element={<Form11 />} />
           </Route>
-        </Route>
-        <Route
-          path="/dashboard/edittransaction/:id" element={<EditTransaction />}>
-          <Route index element={<Form1 />} />
-          <Route path="2" element={<Form3 />} />
-          <Route path="3" element={<Form4 />} />
-          <Route path="4" element={<Form5 />} />
-          <Route path="5" element={<Form6 />} />
-          <Route path="6" element={<Form7 />} />
-          <Route path="7" element={<Form8 />} />
-          <Route path="8" element={<Form9 />} />
-          <Route path="9" element={<Form10 />} />
-          <Route path="10" element={<Form11 />} />
+          <Route
+            path="/dashboard/edittransaction/:id" element={<EditTransaction />}>
+            <Route index element={<Form1 />} />
+            <Route path="2" element={<Form3 />} />
+            <Route path="3" element={<Form4 />} />
+            <Route path="4" element={<Form5 />} />
+            <Route path="5" element={<Form6 />} />
+            <Route path="6" element={<Form7 />} />
+            <Route path="7" element={<Form8 />} />
+            <Route path="8" element={<Form9 />} />
+            <Route path="9" element={<Form10 />} />
+            <Route path="10" element={<Form11 />} />
+          </Route>
         </Route>
       </Routes>
     </div>

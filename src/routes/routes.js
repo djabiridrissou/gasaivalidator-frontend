@@ -41,6 +41,19 @@ import BtaIssued from "../pages/BtaIssued";
 import BtaNotIssued from "../pages/BtaNotIssued";
 import Affect from "../pages/Affect";
 import DeleteUserTransactions from "../pages/DeleteUserTransactions";
+import BtaRepo from "../pages/repositories/BtaRep";
+import DonorsRepo from "../pages/repositories/DonorsRep";
+import GoodsContractsRepo from "../pages/repositories/GoodsContractsRep";
+import IpcRepo from "../pages/repositories/IpcRep";
+import ServicesContractsRepo from "../pages/repositories/ServicesContractsRep";
+import ServicesRepo from "../pages/repositories/ServicesRep";
+import RoadContractsRepo from "../pages/repositories/RoadContractsRep";
+import SupplyersRepo from "../pages/repositories/SupplyersRep";
+import TransactionsRepo from "../pages/repositories/TransactionsRep";
+import WorksContractsRepo from "../pages/repositories/WorksContractsRep";
+import WorksRepo from "../pages/repositories/WorksRep";
+import Profile from "../components/Profile";
+
 export {
   Login,
   Register,
@@ -85,4 +98,16 @@ export {
   BtaNotIssued,
   Affect,
   DeleteUserTransactions,
+  BtaRepo,
+  DonorsRepo,
+  GoodsContractsRepo,
+  IpcRepo,
+  ServicesContractsRepo,
+  ServicesRepo,
+  RoadContractsRepo,
+  SupplyersRepo,
+  TransactionsRepo,
+  WorksContractsRepo,
+  WorksRepo,
+  Profile,
 };
