@@ -506,6 +506,7 @@ const ViewDetails = ({ transaction }) => {
                   <th className="border border-gray-200 text-left ">ID</th>
                   <th className="border border-gray-200 text-left">CONTRACT DATE</th>
                   <th className="border border-gray-200 text-left">CONTRACT NUMBER</th>
+                  <th className="border border-gray-200 text-left">CONTRACT AMOUNT</th>
                   <th className="border border-gray-200 text-left">SERVICE DESCRIPTION</th>
                   <th className="border border-gray-200 text-left">
                     DATE OF DELIVERY
@@ -531,6 +532,15 @@ const ViewDetails = ({ transaction }) => {
                         title={item?.contractNo}
                       >
                         {item?.contractNo}
+                      </td>
+                      <td
+                        className="border-y text-left "
+                        
+                      >
+                        {(item?.contractAmount)?.toLocaleString(undefined, {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
                       </td>
                       <td
                         className="border-y text-left truncate-25"

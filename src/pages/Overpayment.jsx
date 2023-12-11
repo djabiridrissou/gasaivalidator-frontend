@@ -84,6 +84,19 @@ const Overpayment = () => {
         return total;
     };
 
+    const calculateServiceContractAmount = (contracts) => {
+        let total = 0;
+        const totalContracts = contracts.map((item) => {
+            const amount = customParse(item?.contractAmount);
+           // console.log("dans contrat", item, amount);
+            if (!isNaN(amount)) {
+                total += amount;
+            }
+        });
+        //console.log("totalcontracts", total);
+        return total;
+    };
+
     const formatRemarks = (item) => {
         let remarksString = "";
         if (item) {
@@ -157,7 +170,18 @@ const Overpayment = () => {
                 return data;
            
 
-        } else {
+        } else if (item?.gifmisProcesseds[0]?.expendituretype == "Service") {
+            let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
+            let contractPayment = calculateServiceContractAmount(item?.gifmisProcesseds[0]?.contracts);
+
+
+                let data = {
+                    totalPayment: totalPayment,
+                    contractPayment: contractPayment,
+                }
+                return data;
+        } 
+        else {
             let totalPayment = calculateTransactionAmount(item?.gifmisProcesseds[0]?.transactions);
             let contractPayment = calculateContractAmount(item?.gifmisProcesseds[0]?.contracts);
 

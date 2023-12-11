@@ -39,6 +39,7 @@ const initialState = {
       serviceToBeDeliveredBeforeDate: "",
       fileLabelNumber: "",
       contractSign: "",
+      contractAmount: "",
     },
   ],
   worksContracts: [
