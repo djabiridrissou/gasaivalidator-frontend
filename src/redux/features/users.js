@@ -15,6 +15,11 @@ export const getUsers = createAsyncThunk(
     async () => await users.getUsers()
 );
 
+export const updateUserInformation = createAsyncThunk(
+    "users/updateUser",
+    async ({id, userData}) => await users.updateUser(id, userData)
+);
+
 const initialState = {
     users: [],
 };
@@ -35,6 +40,11 @@ const usersSlice = createSlice({
                 state.users.push(payload.data);
             }
         });
+        builder.addCase(updateUserInformation.fulfilled, (state, { payload }) => {
+            if (payload.data) {
+                state.users.push(payload.data);
+            }
+        })
     }
 });
 

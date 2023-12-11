@@ -2,6 +2,7 @@ import { PiUserListLight } from "react-icons/pi";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getCurentUser } from "../redux/features/auth";
+import { updateUserInformation } from "../redux/features/users";
 import PasswordModal from "../sections/PasswordModal";
 
 const Profile = () => {
@@ -21,8 +22,17 @@ const Profile = () => {
     const handlePasswordChange = (oldPassword, newPassword) => {
         console.log('Old Password:', oldPassword);
         console.log('New Password:', newPassword);
+        const data = {
+            password: newPassword
+        }
+        dispatch(updateUserInformation({ id: currentUser?.id, data })).unwrap().then((res) => {
+            if (res.status == 200) {
+                //setModalOpen(false);
+            }
+        })
     }
 
+    console.log("currentUser", currentUser);
     return (
         <>
             <div className="profile-banner">
@@ -38,7 +48,9 @@ const Profile = () => {
                     </div>
                     <div className="flex justify-end w-[90%] mr-4">
                         <button className="w-[150px] border border-black rounded-full mt-2 font-extralight shadow-md hover:bg-gray-200"
-                            onClick={() => { setModalOpen(true) }}>
+                            onClick={() => { setModalOpen(true) }}
+                            disabled={currentUser?.role?.roleName === 'admin'}
+                            >
                             Change password
                         </button>
                     </div>
