@@ -17,7 +17,7 @@ export const getUsers = createAsyncThunk(
 
 export const updateUserInformation = createAsyncThunk(
     "users/updateUser",
-    async ({id, userData}) => await users.updateUser(id, userData)
+    async ({id, data}) => await users.updateUser(id, data)
 );
 
 const initialState = {

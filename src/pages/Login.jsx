@@ -6,9 +6,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { login, setConnectedUserToLocalStorage, signOut } from "../redux/features/auth";
 import axios from "axios";
 import { server } from "../server/server";
-
+import { HiMiniInformationCircle } from "react-icons/hi2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import { CiWarning } from "react-icons/ci";
 
 const Login = () => {
   const [staffID, setStaffID] = useState("");
@@ -219,6 +220,10 @@ const Login = () => {
         </div>
 
         <div className="mt-6 mx-[10px]  sm:w-full sm:max-w-md">
+          <div className="tooltip ml-8">
+            <CiWarning className="info-icon w-6 h-6 text-yellow-600" />
+            <span className="tooltiptext">When you log in use the "Profile" section under your username to change your password</span>
+          </div>
           <div className=" py-5 px-4 shadow sm:rounded-lg sm:px-10">
             <form className="space-y-5" onSubmit={submit}>
               <div>

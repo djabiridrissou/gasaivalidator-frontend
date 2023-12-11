@@ -282,16 +282,16 @@ const ServicesContractsRepo = () => {
                                             <td className="border-y text-left ">
                                                 {formatDate(contract?.contractDate)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(contract?.contractNo)}>
                                                 {(contract?.contractNo)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(contract?.contractSign)}>
                                                 {(contract?.contractSign)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(contract?.fileLabelNumber)}>
                                                 {(contract?.fileLabelNumber)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(contract?.serviceDescription)}>
                                                 {(contract?.serviceDescription)}
                                             </td>
                                             <td className="border-y text-left ">

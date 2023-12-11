@@ -263,19 +263,19 @@ console.log("services", servicesRepository);
                                             <td className="border-y text-left truncate-25" title={item?.user?.lastname}>
                                                 {`${item?.gifmisProcesseds[0]?.user?.lastname || ''} - ${item?.gifmisProcesseds[0]?.user?.staffid || ''}`}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(service?.certificationIssuedBy)}>
                                                 {(service?.certificationIssuedBy)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left">
                                                 {formatDate(service?.certificationOfCompletionDate)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(service?.designation)}>
                                                 {(service?.designation)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(service?.fileLabelNumber)}>
                                                 {(service?.fileLabelNumber)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(service?.percentageOfCompletion)}>
                                                 {(service?.percentageOfCompletion)}
                                             </td>
                                         </tr>

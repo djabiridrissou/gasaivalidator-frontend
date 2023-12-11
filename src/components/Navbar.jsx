@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getCurentUser } from "../redux/features/auth";
 import { current } from '@reduxjs/toolkit';
 import Snowfall from 'react-snowfall';
+import { HiMiniInformationCircle } from "react-icons/hi2";
 
 const navigation = [
  /*  { name: 'Dashboard', href: '#', current: true },
@@ -89,7 +90,12 @@ export default function NavB() {
                   </div>
                 </div>
                 <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6 items-center justify-center">
-                  <div className="flex items-center justify-center px-6 py-4 md:mx-auto md:max-w-3xl lg:mx-0 lg:max-w-none xl:px-0">
+
+                  <div className="flex items-center justify-between px-6 py-4 md:mx-auto md:max-w-3xl lg:mx-0 lg:max-w-none xl:px-0">
+                    <div className="tooltip">
+                      <HiMiniInformationCircle className="info-icon w-6 h-6" />
+                      <span className="tooltiptext">Use the "Profile" section under your username to change your password</span>
+                    </div>
                     <div style={{ width: '35px', height: '35px', border: '1px solid #ccc', borderRadius: '50%', overflow: 'hidden' }}
                       onMouseEnter={handleMouseEnter}
                       onMouseLeave={handleMouseLeave}
@@ -265,15 +271,15 @@ export default function NavB() {
       </Popover>
       {isSnowing && (
         <Snowfall
-        snowflakeCount={250} // Augmenter le nombre de flocons
-        snowflakeZIndex={2}
-        color="#808080b3" // Utiliser une couleur contrastante
-        snowflakePosition="absolute"
-        snowflakeBottom="-50px"
-        snowflakeSizeMin={10} // Augmenter la taille minimale des flocons
-        snowflakeSizeMax={20} // Augmenter la taille maximale des flocons
-        windSpeed={1} // Diminuer la vitesse des flocons
-      />
+          snowflakeCount={250} // Augmenter le nombre de flocons
+          snowflakeZIndex={2}
+          color="#808080b3" // Utiliser une couleur contrastante
+          snowflakePosition="absolute"
+          snowflakeBottom="-50px"
+          snowflakeSizeMin={10} // Augmenter la taille minimale des flocons
+          snowflakeSizeMax={20} // Augmenter la taille maximale des flocons
+          windSpeed={1} // Diminuer la vitesse des flocons
+        />
       )}
     </>
   )

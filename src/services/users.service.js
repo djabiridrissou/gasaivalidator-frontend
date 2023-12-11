@@ -44,10 +44,10 @@ export class UserService extends HttpBaseService {
         });
     }
 
-    async updateUser(id, userData) {
+    async updateUser(id, data) {
         let apiResponse = new ApiResponse();
         try {
-            const res = await this.instance.post(`/${id}`, userData);
+            const res = await this.instance.post(`/${id}`, data);
             apiResponse = retriveAxiosSuccessResponse(res);
             return apiResponse;
         } catch (err) {

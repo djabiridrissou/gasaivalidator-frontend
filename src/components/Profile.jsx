@@ -4,10 +4,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { getCurentUser } from "../redux/features/auth";
 import { updateUserInformation } from "../redux/features/users";
 import PasswordModal from "../sections/PasswordModal";
+import { toast } from 'react-toastify';
+import { useNavigate, } from "react-router-dom";
 
 const Profile = () => {
     const [currentUser, setCurrentUser] = useState({});
     const [modalOpen, setModalOpen] = useState(false);
+    const navigate = useNavigate();
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -22,12 +25,18 @@ const Profile = () => {
     const handlePasswordChange = (oldPassword, newPassword) => {
         console.log('Old Password:', oldPassword);
         console.log('New Password:', newPassword);
+        const id = currentUser?.id;
         const data = {
-            password: newPassword
+            data: {
+                password: newPassword
+            }
         }
-        dispatch(updateUserInformation({ id: currentUser?.id, data })).unwrap().then((res) => {
+        dispatch(updateUserInformation({id, data})).unwrap().then((res) => {
             if (res.status == 200) {
-                //setModalOpen(false);
+                toast.success('User information updated successfully');
+                navigate('/');
+            } else {
+                toast.error('An error occurred');
             }
         })
     }

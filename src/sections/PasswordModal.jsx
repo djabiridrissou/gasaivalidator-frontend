@@ -1,21 +1,39 @@
 import React from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
+import { getCurentUser } from "../redux/features/auth";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 const PasswordModal = ({ isOpen, onClose, onSubmit }) => {
   const [oldPassword, setOldPassword] = React.useState('');
   const [newPassword, setNewPassword] = React.useState('');
   const [confirmPassword, setConfirmPassword] = React.useState('');
   const [error, setError] = React.useState('');
+  const [currentUser, setCurrentUser] = useState({});
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCurentUser()).unwrap().then(res => {
+      //console.log("res", res.user);
+      setCurrentUser(res.user);
+    }).catch(error => {
+      console.log(error);
+    });
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (newPassword !== confirmPassword) {
-      setError("Passwords don't match!");
-    } else {
+      setError("New passwords don't match!");
+    } else if (currentUser?.password !== oldPassword) {
+      setError("Old password doesn't match!");
+    }
+    else {
       onSubmit(oldPassword, newPassword);
       setOldPassword('');
       setNewPassword('');
       setConfirmPassword('');
+      setError('');
       onClose();
     }
   };
@@ -25,15 +43,17 @@ const PasswordModal = ({ isOpen, onClose, onSubmit }) => {
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-center justify-center min-h-screen">
-        
+
         <div className="bg-white p-6 rounded-lg shadow-md w-[400px]">
-        <AiOutlineClose
+          <AiOutlineClose
             className="mt-[-10px] cursor-pointer text-red-500 float-right"
             onClick={() => {
               setOldPassword('');
               setNewPassword('');
               setConfirmPassword('');
-              onClose()}
+              setError('');
+              onClose()
+            }
             }
             size={24}
           />

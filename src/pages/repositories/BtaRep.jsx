@@ -238,7 +238,7 @@ const BtaRepo = () => {
                                             <td className="border-y text-left truncate-25" title={item?.user?.lastname}>
                                                 {`${item?.gifmisProcesseds[0]?.user?.lastname || ''} - ${item?.gifmisProcesseds[0]?.user?.staffid || ''}`}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left">
                                                 {formatDate(btaDetail?.btaDate)}
                                             </td>
                                             <td className="border-y text-left ">
@@ -247,7 +247,7 @@ const BtaRepo = () => {
                                                     maximumFractionDigits: 2,
                                                 })}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(btaDetail?.btaReferenceNumber)}>
                                                 {(btaDetail?.btaReferenceNumber)}
                                             </td>
                                         </tr>

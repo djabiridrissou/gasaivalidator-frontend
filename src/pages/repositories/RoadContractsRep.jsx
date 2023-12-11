@@ -281,19 +281,19 @@ const RoadContractsRepo = () => {
                                             <td className="border-y text-left truncate-25" title={(item?.gifmisProcesseds[0]?.worktype)}>
                                                 {(item?.gifmisProcesseds[0]?.worktype)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left">
                                                 {formatDate(contract?.contractDate)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(contract?.contractNo)}>
                                                 {(contract?.contractNo)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(contract?.contractSign)}>
                                                 {renderHighlightedTableCell(contract?.contractSign)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left">
                                                 {(contract?.totalKilometers)}
                                             </td>
-                                            <td className="border-y text-left ">
+                                            <td className="border-y text-left truncate-25" title={(contract?.fileLabelNumber)}>
                                                 {(contract?.fileLabelNumber)}
                                             </td>
                                             
