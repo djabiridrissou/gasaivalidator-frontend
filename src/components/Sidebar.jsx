@@ -140,6 +140,7 @@ const Sidebar = ({ open, setOpen }) => {
   const [importSubmenuOpen, setImportSubmenuOpen] = useState(false);
   const [setupSubmenuOpen, setSetupSubmenuOpen] = useState(false);
   const [summarySubmenuOpen, setSummarySubmenuOpen] = useState(false);
+  const [repositorySubmenuOpen, setRepositorySubmenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const isAdmin = currentUser.role?.roleName == "admin";
 
@@ -193,10 +194,6 @@ const calculateTransactionAmount = (transactions) => {
     //console.log("total", total);
     return total;
 };
-
-
-
-
 
 
   useEffect(() => {
@@ -445,6 +442,111 @@ const calculateTransactionAmount = (transactions) => {
       ]
     },
     {
+      name: "Repositories",
+      icon: Bars3Icon,
+      subMenu: [
+        {
+          name: (
+            <span>
+             BTA 
+            </span>
+          ),
+          route: "/dashboard/bta-rep",
+          icon: DocumentTextIcon
+        },
+        {
+          name: (
+            <span>
+             Donors 
+            </span>
+          ),
+          route: "/dashboard/donors-rep",
+          icon: DocumentTextIcon
+        },
+        {
+          name: (
+            <span>
+             IPC 
+            </span>
+          ),
+          route: "/dashboard/ipc-rep",
+          icon: DocumentTextIcon
+        },
+        {
+          name: (
+            <span>
+             Services 
+            </span>
+          ),
+          route: "/dashboard/services-rep",
+          icon: DocumentTextIcon
+        },
+        {
+          name: (
+            <span>
+             Supplyers 
+            </span>
+          ),
+          route: "/dashboard/supplyers-rep",
+          icon: DocumentTextIcon
+        },
+        {
+          name: (
+            <span>
+             Transactions 
+            </span>
+          ),
+          route: "/dashboard/transactions-rep",
+          icon: DocumentTextIcon
+        },
+        {
+          name: (
+            <span>
+             Works Completed
+            </span>
+          ),
+          route: "/dashboard/works-rep",
+          icon: DocumentTextIcon
+        },
+        {
+          name: (
+            <span>
+            Contracts: Goods 
+            </span>
+          ),
+          route: "/dashboard/contracts-goods-rep",
+          icon: DocumentTextIcon
+        },
+        {
+          name: (
+            <span>
+             Contracts: Services
+            </span>
+          ),
+          route: "/dashboard/contracts-services-rep",
+          icon: DocumentTextIcon
+        },
+        {
+          name: (
+            <span>
+             Contracts: Road & Sea
+            </span>
+          ),
+          route: "/dashboard/contracts-road-rep",
+          icon: DocumentTextIcon
+        },
+        {
+          name: (
+            <span>
+             Contracts: Other Works
+            </span>
+          ),
+          route: "/dashboard/contracts-works-not-road-rep",
+          icon: DocumentTextIcon
+        },
+      ],
+    },
+    {
       name: "Team Leaders",
       icon: BsListColumns,
       route: "/dashboard/teamleaders",
@@ -550,7 +652,8 @@ const calculateTransactionAmount = (transactions) => {
                     menu.name === "Cargo" ||
                     menu.name === "Imports" ||
                     menu.name === "Setup" ||
-                    menu.name === "Summary Report"
+                    menu.name === "Summary Report" ||
+                    menu.name === "Repositories"
                   }
                   subMenuOpen={
                     menu.name === "Audit Issues"
@@ -563,6 +666,8 @@ const calculateTransactionAmount = (transactions) => {
                             ? setupSubmenuOpen
                             : menu.name === "Summary Report"
                               ? summarySubmenuOpen
+                              : menu.name === "Repositories"
+                                ? repositorySubmenuOpen
                               : false
                   }
                   setSubMenuOpen={
@@ -576,6 +681,8 @@ const calculateTransactionAmount = (transactions) => {
                             ? setSetupSubmenuOpen
                             : menu.name === "Summary Report"
                               ? setSummarySubmenuOpen
+                              : menu.name === "Repositories"
+                                ? setRepositorySubmenuOpen
                               : null
                   }
                   open={open} // Prop open
@@ -587,36 +694,49 @@ const calculateTransactionAmount = (transactions) => {
                       setImportSubmenuOpen(false);
                       setSetupSubmenuOpen(false);
                       setSummarySubmenuOpen(false);
+                      setRepositorySubmenuOpen(false);
                     } else if (menu.name === "Cargo") {
                       setCargoSubmenuOpen(!cargoSubmenuOpen);
                       setConditionsubmenuOpen(false);
                       setImportSubmenuOpen(false);
                       setSetupSubmenuOpen(false);
                       setSummarySubmenuOpen(false);
+                      setRepositorySubmenuOpen(false);
                     } else if (menu.name === "Imports") {
                       setImportSubmenuOpen(!importSubmenuOpen);
                       setCargoSubmenuOpen(false);
                       setConditionsubmenuOpen(false);
                       setSetupSubmenuOpen(false);
                       setSummarySubmenuOpen(false);
+                      setRepositorySubmenuOpen(false);
                     } else if (menu.name === "Setup") {
                       setSetupSubmenuOpen(!setupSubmenuOpen);
                       setConditionsubmenuOpen(false);
                       setCargoSubmenuOpen(false);
                       setImportSubmenuOpen(false);
                       setSummarySubmenuOpen(false);
+                      setRepositorySubmenuOpen(false);
                     } else if (menu.name === "Summary Report") {
                       setSummarySubmenuOpen(!summarySubmenuOpen);
                       setConditionsubmenuOpen(false);
                       setCargoSubmenuOpen(false);
                       setImportSubmenuOpen(false);
                       setSetupSubmenuOpen(false);
+                      setRepositorySubmenuOpen(false);
+                    } else if (menu.name === "Repositories") {
+                      setRepositorySubmenuOpen(!repositorySubmenuOpen);
+                      setConditionsubmenuOpen(false);
+                      setCargoSubmenuOpen(false);
+                      setImportSubmenuOpen(false);
+                      setSetupSubmenuOpen(false);
+                      setSummarySubmenuOpen(false);
                     } else {
                       setConditionsubmenuOpen(false);
                       setCargoSubmenuOpen(false);
                       setImportSubmenuOpen(false);
                       setSetupSubmenuOpen(false);
                       setSummarySubmenuOpen(false);
+                      setRepositorySubmenuOpen(false);
                     }
                   }}
                 />

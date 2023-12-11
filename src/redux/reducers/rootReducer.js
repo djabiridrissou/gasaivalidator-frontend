@@ -28,8 +28,18 @@ import gifmisReducer from "../features/gifmis";
 import gifmisProcessedReducer from "../features/gifmis-processed";
 import noWorkDoneReducer from "../features/noworkdoneSlice";
 import misclassifiedReducer from "../features/misclassifiedSlice";
-
-
+import btaRepoReducer from "../features/repositories/bta-repSlice";
+import ipcRepoReducer from "../features/repositories/ipc-repSlice";
+import donorsRepoReducer from "../features/repositories/donors-repSlice";
+import goodscontractsRepSlice from "../features/repositories/goodscontracts-repSlice";
+import ipcRepSlice from "../features/repositories/ipc-repSlice";
+import roadcontractsRepSlice from "../features/repositories/roadcontracts-repSlice";
+import servicescontractsRepSlice from "../features/repositories/servicescontracts-repSlice";
+import servicesRepSlice from "../features/repositories/services-repSlice";
+import supplyersRepSlice from "../features/repositories/supplyers-repSlice";
+import transactionsRepSlice from "../features/repositories/transactions-repSlice";
+import workscontractsRepSlice from "../features/repositories/workscontracts-repSlice";
+import worksRepSlice from "../features/repositories/works-repSlice";
 
 const rootReducer = combineReducers({
   register: registerReducer,
@@ -60,6 +70,18 @@ const rootReducer = combineReducers({
   form7Edit: form7EditReducer,
   noworkdone: noWorkDoneReducer,
   misclassified: misclassifiedReducer,
+  btaRepo: btaRepoReducer,
+  ipcRepo: ipcRepoReducer,
+  donorsRepo: donorsRepoReducer,
+  goodscontractsRepo: goodscontractsRepSlice,
+  roadcontractsRepo: roadcontractsRepSlice,
+  servicescontractsRepo: servicescontractsRepSlice,
+  servicesRepo: servicesRepSlice,
+  supplyersRepo: supplyersRepSlice,
+  transactionsRepo: transactionsRepSlice,
+  workscontractsRepo: workscontractsRepSlice,
+  worksRepo: worksRepSlice,
+
 
 });
 

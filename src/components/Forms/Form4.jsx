@@ -197,7 +197,7 @@ const Form4 = () => {
                       htmlFor="contractNo"
                       className="text-[13.5px] text-gray-700"
                     >
-                      Contract Number/PO Number
+                      PO Number
                     </label>
                     <input
                       type="text"

@@ -71,11 +71,11 @@ function EditTransactionModal({ transaction, onConfirm, onClose }) {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
-      setIsHovered(true);
+    setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
-      setIsHovered(false);
+    setIsHovered(false);
   };
   const handleConfirm = () => {
     console.log("la transac", transaction);
@@ -134,12 +134,12 @@ const GifmisprocessedPage = () => {
   const [eyeClicked, setEyeClicked] = useState(false);
   const isAdmin = currentUser.role?.roleName == "admin";
   useEffect(() => {
-    const response = dispatch(getAllGifmisProcessed({page, searchTerm})).unwrap().then((res) => {
+    const response = dispatch(getAllGifmisProcessed({ page, searchTerm })).unwrap().then((res) => {
       setTotalPages(res.pages);
     });
 
     dispatch(getCurentUser()).unwrap().then(res => {
-      
+
       setCurrentUser(res.user);
     }).catch(error => {
       console.log(error);
@@ -149,7 +149,7 @@ const GifmisprocessedPage = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
-      setIsHovered(true);
+    setIsHovered(true);
   };
 
   const handlePageChange = ({ selected }) => {
@@ -157,7 +157,7 @@ const GifmisprocessedPage = () => {
   };
 
   const handleMouseLeave = () => {
-      setIsHovered(false);
+    setIsHovered(false);
   };
 
   const handleExportClick = async () => {
@@ -166,9 +166,9 @@ const GifmisprocessedPage = () => {
     const response = await expt.exportData('gifmis-processed/export');
     window.open(response);
     console.log("res", response);
-}
+  }
 
-  
+
 
   /* 
     const handleLimitChange = (e) => {
@@ -190,12 +190,12 @@ const GifmisprocessedPage = () => {
   
     */
 
-    const handleSearchInputChange = (e) => {
-      const newSearchTerm = e.target.value;
-      setSearchTerm(newSearchTerm);
-      console.log("newSearchTerm", newSearchTerm);
-      setPage(1);
-    };
+  const handleSearchInputChange = (e) => {
+    const newSearchTerm = e.target.value;
+    setSearchTerm(newSearchTerm);
+    console.log("newSearchTerm", newSearchTerm);
+    setPage(1);
+  };
 
   /*   if (loading) {
       return (
@@ -208,7 +208,7 @@ const GifmisprocessedPage = () => {
       );
     } */
 
- 
+
 
   // function formatDate(dateString) {
   //   if (dateString) {
@@ -227,12 +227,12 @@ const GifmisprocessedPage = () => {
     if (value) {
       return (
         <span
-        dangerouslySetInnerHTML={{
-          __html: value.replace(
-            new RegExp(searchTerm, "gi"),
-            (match) => `<span class="highlight">${match}</span>` 
-          ),
-        }}
+          dangerouslySetInnerHTML={{
+            __html: value.replace(
+              new RegExp(searchTerm, "gi"),
+              (match) => `<span class="highlight">${match}</span>`
+            ),
+          }}
         />
       );
     }
@@ -327,35 +327,35 @@ const GifmisprocessedPage = () => {
   return (
     <div className="container h-screen flex justify justify-start flex-col mt-1 mx-auto px-1 overflow-auto ">
       <div className="flex justify justify-between">
-      <div className="flex relative w-[30%]">
-            <input
-              type="text"
-              name="search"
-              id="search"
-              value={searchTerm}
-              onChange={handleSearchInputChange}
-              autoFocus
-              placeholder="Search...."
-              className={`w-full text-[0.8rem] px-[0.75rem] py-[0.22rem] border border-gray-400 rounded-[0.25rem] shadow-lg placeholder-[#8391a2] placeholder-shown:sm focus:ring-[0.2px] focus:ring-gray-300 focus:border-gray-400`}
-            />
-            <AiOutlineSearch
-              size={18}
-              className="absolute right-2 top-[7px]  text-gray-400"
-            />
-          </div>
-                <h1 className="text-[12px] font-bold">Payable Processed</h1>
-                <div className="flex w-[18%] justify-end">
-                    <button
-                        className={`text-[12px] font-bold border border-green-400 bg-green-200 p-1 rounded mb-2 shadow-lg ${isHovered ? 'hovered' : ''
-                            }`}
-                        onMouseEnter={handleMouseEnter}
-                        onMouseLeave={handleMouseLeave}
-                        onClick={() => { handleExportClick() }}
-                    >
-                        Export in excel File
-                    </button>
-                </div>
-            </div>
+        <div className="flex relative w-[30%]">
+          <input
+            type="text"
+            name="search"
+            id="search"
+            value={searchTerm}
+            onChange={handleSearchInputChange}
+            autoFocus
+            placeholder="Search...."
+            className={`w-full text-[0.8rem] px-[0.75rem] py-[0.22rem] border border-gray-400 rounded-[0.25rem] shadow-lg placeholder-[#8391a2] placeholder-shown:sm focus:ring-[0.2px] focus:ring-gray-300 focus:border-gray-400`}
+          />
+          <AiOutlineSearch
+            size={18}
+            className="absolute right-2 top-[7px]  text-gray-400"
+          />
+        </div>
+        <h1 className="text-[12px] font-bold">Payable Processed</h1>
+        <div className="flex w-[18%] justify-end">
+          <button
+            className={`text-[12px] font-bold border border-green-400 bg-green-200 p-1 rounded mb-2 shadow-lg ${isHovered ? 'hovered' : ''
+              }`}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onClick={() => { handleExportClick() }}
+          >
+            Export in excel File
+          </button>
+        </div>
+      </div>
       {/* Tableau */}
       <div className="bg-white rounded-lg p-2 border shadow-md">
         <div className="flex justify-between mb-2">
@@ -375,7 +375,7 @@ const GifmisprocessedPage = () => {
             <span>entries</span>
           </div> */}
 
-         {/*  <div className="flex relative w-[30%]">
+          {/*  <div className="flex relative w-[30%]">
             <input
               type="text"
               name="search"
@@ -395,8 +395,8 @@ const GifmisprocessedPage = () => {
         <div className="max-h-[80vh] overflow-y-scroll">
           <table className="table-auto w-full bg-white text-[13px]">
             <thead className="sticky -top-1 bg-gray-100">
-            <tr className="bg-gray-100">
-            <th className="border border-gray-200 text-left ">ID TRANSACTION</th>
+              <tr className="bg-gray-100">
+                <th className="border border-gray-200 text-left ">ID TRANSACTION</th>
                 <th className="border border-gray-200 text-left ">PAYMENT STATUS</th>
                 {/* <th className="border border-gray-200  ">
                   <span className="inline-flex items-center">
@@ -544,7 +544,7 @@ const GifmisprocessedPage = () => {
                     <td className="border-y text-left ">
                       {(item?.idgifmis)}
                     </td>
-            
+
                     <td className="border-y text-left truncate-25" title={item?.payment}>
                       {(item?.payment)}
                     </td>
@@ -589,17 +589,17 @@ const GifmisprocessedPage = () => {
                     </td>
                     <td className={`border-y text-center`} style={{ placeItems: 'center' }}>
                       <FaEye
-                      size={18} 
-                      className="text-blue-500 cursor-pointer text-center"
-                      onClick={(e) => {
-                        {
-                          e.stopPropagation();
-                          setEyeClicked(true);
-                          handleTransactionShow(item);
-                        }
-                         // Empêche la propagation de l'événement de clic vers le tr parent
-                        
-                      }}
+                        size={18}
+                        className="text-blue-500 cursor-pointer text-center"
+                        onClick={(e) => {
+                          {
+                            e.stopPropagation();
+                            setEyeClicked(true);
+                            handleTransactionShow(item);
+                          }
+                          // Empêche la propagation de l'événement de clic vers le tr parent
+
+                        }}
                       />
                     </td>
                   </tr>
