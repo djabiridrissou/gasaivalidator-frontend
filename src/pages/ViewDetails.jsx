@@ -616,8 +616,7 @@ const ViewDetails = ({ transaction }) => {
                         {item?.contractNo}
                       </td>
                       <td
-                        className="border-y text-left"
-                      >
+                        className="border-y text-left truncate-25" title={item?.totalKilometers}>
                         {item?.totalKilometers}
                       </td>
                       <td

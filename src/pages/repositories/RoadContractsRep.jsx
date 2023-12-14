@@ -290,7 +290,7 @@ const RoadContractsRepo = () => {
                                             <td className="border-y text-left truncate-25" title={(contract?.contractSign)}>
                                                 {renderHighlightedTableCell(contract?.contractSign)}
                                             </td>
-                                            <td className="border-y text-left">
+                                            <td className="border-y text-left truncate-25" title={(contract?.totalKilometers)}>
                                                 {(contract?.totalKilometers)}
                                             </td>
                                             <td className="border-y text-left truncate-25" title={(contract?.fileLabelNumber)}>
