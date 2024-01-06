@@ -220,10 +220,10 @@ const Login = () => {
         </div>
 
         <div className="mt-6 mx-[10px]  sm:w-full sm:max-w-md">
-          <div className="tooltip ml-8">
+         {/*  <div className="tooltip ml-8">
             <CiWarning className="info-icon w-6 h-6 text-yellow-600" />
             <span className="tooltiptext">When you log in use the "Profile" section under your username to change your password</span>
-          </div>
+          </div> */}
           <div className=" py-5 px-4 shadow sm:rounded-lg sm:px-10">
             <form className="space-y-5" onSubmit={submit}>
               <div>
@@ -288,7 +288,7 @@ const Login = () => {
                 </div>
               </Transition>
 
-              <div className="flex items-center justify-between">
+             {/* Remember me <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <input
                     type="checkbox"
@@ -310,7 +310,7 @@ const Login = () => {
                     Forgot your password
                   </a>
                 </div>
-              </div>
+              </div> */}
               <div>
                 <button
                   className="bg-gray-800 hover:bg-gray-700 transition duration-300 relative w-full  py-2 border border-transparent rounded-md font-medium text-white focus:ring-2"

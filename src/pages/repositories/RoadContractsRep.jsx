@@ -224,7 +224,7 @@ const RoadContractsRepo = () => {
                                     </span>
                                 </th>
                                 <th className="border border-gray-200  ">
-                                    <span className="inline-flex items-center truncate-25" title="SIGN BY">
+                                    <span className="inline-flex items-center truncate-25">
                                     TOTAL KILOMETERS{" "}
                                         {/* <BiSort
                       size={15}
